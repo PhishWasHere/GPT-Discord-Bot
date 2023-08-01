@@ -9,7 +9,17 @@ const nextApp = next({ dev })
 const handle = nextApp.getRequestHandler()
 const port = process.env.PORT || 3000
 
-const apiRoute = require('./routes/index'); 
+const apiRoute = require('./server/routes/index'); 
+
+const client = require('./server/config/index');
+
+const clientStart = () => {
+  client.login(process.env.DISCORD_SK);
+  client.once('ready', c => {
+    console.log(`Ready! Logged in as ${c.user.tag}`);
+  }, 1000);
+
+};
 
 const start = async () => {
   try {
@@ -24,13 +34,13 @@ const start = async () => {
       return handle(req, res)
     })
 
-    app.listen(port, (err) => {
-      if (err) throw err
+    app.listen(port, () => {
       console.log(`> Ready on http://localhost:${port}`)
     })
  
+    clientStart();
   } catch (err) {
-    console.error(ex.stack)
+    console.error(err.stack)
     process.exit(1)
   }
 }
