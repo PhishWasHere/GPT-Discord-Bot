@@ -25,13 +25,15 @@ client.on('message', async (msg) => { // this doesnt fucking work, but messageCr
 
 client.on('messageCreate', async (msg) => {
   if (!msg?.author.bot && msg?.content.startsWith('!!') ) {
-      // Send the message content to all connected WebSocket clients
-      await wssInstance.clients.forEach((client) => {
-          if (client.readyState === WebSocket.OPEN) {
-              client.send(JSON.stringify({ message: msg }));
-          }
-      });
-    }
+    const msgClipped = msg.content.slice(2).trim();
+    console.log(msgClipped);
+
+    await wssInstance.clients.forEach((client) => {
+        if (client.readyState === WebSocket.OPEN) {
+            client.send(JSON.stringify({ message: msg }));
+        }
+    });
+  }
 
   if (msg?.content === '!ping') {
       await msg.reply('Pong!');
