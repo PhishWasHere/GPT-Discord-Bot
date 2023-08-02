@@ -4,10 +4,10 @@ const express = require('express')
 const next = require('next')
 const bodyParser  = require('body-parser')
 
-const dev = process.env.NODE_ENV !== 'production'
-const nextApp = next({ dev })
-const handle = nextApp.getRequestHandler()
 const port = process.env.PORT || 3000
+const dev = process.env.NODE_ENV !== 'production' // boolian for dev mode
+const nextApp = next({ dev }) // nextjs app
+const handle = nextApp.getRequestHandler()
 
 const apiRoute = require('./server/routes/index'); 
 
@@ -23,8 +23,8 @@ const clientStart = () => {
 
 const start = async () => {
   try {
-    await nextApp.prepare()
-    const app = express()
+    await nextApp.prepare() // wait for next to be prepared
+    const app = express() //then starts server
 
     app.use(bodyParser.json())
     app.use(bodyParser.urlencoded({ extended: true }))
