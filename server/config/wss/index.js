@@ -4,12 +4,7 @@ const wssStart = () => {
     const wss = new WebSocket.Server({ port: 8080 });
     wss.on('connection', (ws) => {
       console.log('\x1b[33m> Client connected \x1b[0m');
-
-      setInterval(() => {
-        const data = {message: 'Hello from server'};
-        ws.send(JSON.stringify(data));
-      }, 5000);
-
+      
       ws.on('message', (message) => {
         console.log(`\x1b[33m> Received message => ${message} \x1b[0m`);
       });
