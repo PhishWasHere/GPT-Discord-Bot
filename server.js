@@ -8,8 +8,7 @@ const bodyParser  = require('body-parser')
 const port = process.env.PORT || 3000
 const dev = process.env.NODE_ENV !== 'production' // boolian for dev mode
 const nextApp = next({ dev }) // nextjs app
-const handle = nextApp.getRequestHandler()
-
+const handle = nextApp.getRequestHandler() // handler for nextjs app
 
 const apiRoute = require('./server/routes/index'); 
 
@@ -23,44 +22,6 @@ const clientStart = () => {
   }, 1000);
 
 };
-
-const initServer = (app) => {
-  db.once('open', () => {
-    console.log(`\x1b[34m> Starting server... \x1b[0m`);
-    app.listen(port, () => {
-      console.log(`\x1b[35m> Ready\x1b[0m on http://localhost:${port}`);
-    })
-  });
-}
-
-// db.once('open', () => {
-//   nextApp.prepare()
-//     .then(() => {
-//       const app = express(); // then starts server
-
-//       app.use(bodyParser.json());
-//       app.use(bodyParser.urlencoded({ extended: true }));
-//       app.use('/api', apiRoute);
-    
-//       app.get('*', (req, res) => {
-//         return handle(req, res);
-//       });
-        
-//       app.listen(port, () => {
-//         console.log(`\x1b[35m> Ready\x1b[0m on http://localhost:${port}`);
-//       })
-      
-//       const wss = wssStart();
-//       setWssInstance(wss);
-    
-//       clientStart();
-//     })
-//     .catch((ex) => {
-//       console.error(ex.stack);
-//       process.exit(1);
-//     });
-// });
-
 
 const start = async () => {
   try {
@@ -76,7 +37,7 @@ const start = async () => {
     })
 
    app.listen(port, () => {
-     console.log(`\x1b[35m> Ready\x1b[0m on http://localhost:${port}`);
+     console.log(`\x1b[35m> Ready!\x1b[0m on http://localhost:${port}`);
    })
 
     const wss = wssStart();
