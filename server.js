@@ -2,7 +2,7 @@ require('dotenv').config();
 
 const express = require('express')
 const next = require('next')
-const WebSocket = require('ws')
+const wssStart = require('./server/config/wss/index');
 const bodyParser  = require('body-parser')
 
 const port = process.env.PORT || 3000
@@ -12,7 +12,7 @@ const handle = nextApp.getRequestHandler()
 
 const apiRoute = require('./server/routes/index'); 
 
-const client = require('./server/config/index');
+const {client, setWssInstance} = require('./server/config/discord/index');
 
 const clientStart = () => {
   client.login(process.env.DISCORD_SK);
@@ -39,24 +39,9 @@ const start = async () => {
       console.log(`\x1b[35m> Ready on http://localhost:${port} \x1b[0m`);
     })
 
-    const wss = new WebSocket.Server({ port: 8080 });
-    wss.on('connection', (ws) => {
-      console.log('\x1b[33m> Client connected \x1b[0m');
+    const wss = wssStart();
+    setWssInstance(wss);
 
-      setInterval(() => {
-        const data = {message: 'Hello from server'};
-        ws.send(JSON.stringify(data));
-      }, 5000);
-
-      ws.on('message', (message) => {
-        console.log(`\x1b[33m> Received message => ${message} \x1b[0m`);
-      });
-
-      ws.on('close', () => {
-        console.log('\x1b[33m> Client disconnected \x1b[0m');
-      });
-   });
- 
     clientStart();
   } catch (err) {
     console.error(err.stack)
