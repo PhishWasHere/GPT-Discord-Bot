@@ -1,5 +1,7 @@
 const { GatewayIntentBits, Client, Partials } = require('discord.js');
 const WebSocket = require('ws');
+const Message = require('../../models/index');
+
 let wssInstance;
 
 const client = new Client({
@@ -24,15 +26,22 @@ client.on('message', async (msg) => { // this doesnt fucking work, but messageCr
 });
 
 client.on('messageCreate', async (msg) => {
+  // console.log(msg); // todo, save message to db, then reply based on message id
+
   if (!msg?.author.bot && msg?.content.startsWith('!!') ) {
     const msgClipped = msg.content.slice(2).trim();
-    console.log(msgClipped);
 
     await wssInstance.clients.forEach((client) => {
-        if (client.readyState === WebSocket.OPEN) {
-            client.send(JSON.stringify({ message: msg }));
-        }
+      if (!client.readyState === WebSocket.OPEN) {
+        msg.reply('internal server error')
+      } 
+      client.send(JSON.stringify({ message: msg }));
     });
+    
+    const resMsg = await Message.findOne().sort({ timestamp: -1 }).limit(1);
+    const {content} = resMsg;
+    msg.reply(content)
+
   }
 
   if (msg?.content === '!ping') {
