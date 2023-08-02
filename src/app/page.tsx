@@ -18,9 +18,7 @@ export default function Home() {
 
     ws.onmessage = (e) => {
       const data = JSON.parse(e.data);
-      setMessage(data.message.cleanContent);
-      console.log(`data: ` ,data);
-      
+      setMessage(data.message.cleanContent);      
     };
 
     ws.onclose = () => {

@@ -33,60 +33,60 @@ const initServer = (app) => {
   });
 }
 
-db.once('open', () => {
-  nextApp.prepare()
-    .then(() => {
-      const app = express(); // then starts server
+// db.once('open', () => {
+//   nextApp.prepare()
+//     .then(() => {
+//       const app = express(); // then starts server
 
-      app.use(bodyParser.json());
-      app.use(bodyParser.urlencoded({ extended: true }));
-      app.use('/api', apiRoute);
+//       app.use(bodyParser.json());
+//       app.use(bodyParser.urlencoded({ extended: true }));
+//       app.use('/api', apiRoute);
     
-      app.get('*', (req, res) => {
-        return handle(req, res);
-      });
+//       app.get('*', (req, res) => {
+//         return handle(req, res);
+//       });
         
-      app.listen(port, () => {
-        console.log(`\x1b[35m> Ready\x1b[0m on http://localhost:${port}`);
-      })
+//       app.listen(port, () => {
+//         console.log(`\x1b[35m> Ready\x1b[0m on http://localhost:${port}`);
+//       })
       
-      const wss = wssStart();
-      setWssInstance(wss);
+//       const wss = wssStart();
+//       setWssInstance(wss);
     
-      clientStart();
-    })
-    .catch((ex) => {
-      console.error(ex.stack);
-      process.exit(1);
-    });
-});
-
-
-// const start = async () => {
-//   try {
-//     await nextApp.prepare() // wait for next to be prepared
-//     const app = express() //then starts server
-
-//     app.use(bodyParser.json())
-//     app.use(bodyParser.urlencoded({ extended: true }))
-//     app.use('/api', apiRoute);
-
-//     app.get('*', (req, res) => {
-//       return handle(req, res)
+//       clientStart();
 //     })
+//     .catch((ex) => {
+//       console.error(ex.stack);
+//       process.exit(1);
+//     });
+// });
 
-//    app.listen(port, () => {
-//      console.log(`\x1b[35m> Ready\x1b[0m on http://localhost:${port}`);
-//    })
 
-//     const wss = wssStart();
-//     setWssInstance(wss);
+const start = async () => {
+  try {
+    await nextApp.prepare() // wait for next to be prepared
+    const app = express() //then starts server
 
-//     clientStart();
-//   } catch (err) {
-//     console.error(err.stack)
-//     process.exit(1)
-//   }
-// }
+    app.use(bodyParser.json())
+    app.use(bodyParser.urlencoded({ extended: true }))
+    app.use('/api', apiRoute);
 
-// start();
+    app.get('*', (req, res) => {
+      return handle(req, res)
+    })
+
+   app.listen(port, () => {
+     console.log(`\x1b[35m> Ready\x1b[0m on http://localhost:${port}`);
+   })
+
+    const wss = wssStart();
+    setWssInstance(wss);
+
+    clientStart();
+  } catch (err) {
+    console.error(err.stack)
+    process.exit(1)
+  }
+}
+
+start();
