@@ -2,7 +2,7 @@ require('dotenv').config();
 
 const express = require('express')
 const next = require('next')
-const wssStart = require('./server/config/wss/index');
+const wssStart = require('./config/wss/index');
 const bodyParser  = require('body-parser')
 
 const port = process.env.PORT || 3000
@@ -10,10 +10,10 @@ const dev = process.env.NODE_ENV !== 'production' // boolian for dev mode
 const nextApp = next({ dev }) // nextjs app
 const handle = nextApp.getRequestHandler() // handler for nextjs app
 
-const apiRoute = require('./server/routes/index'); 
+const apiRoute = require('./routes/index'); 
 
-const db = require('./server/config/mongo/index');
-const {client, setWssInstance} = require('./server/config/discord/index');
+const db = require('./config/mongo/index'); //idk how the db is connected to the server, but it is
+const {client, setWssInstance} = require('./config/discord/index');
 
 const clientStart = () => {
   client.login(process.env.DISCORD_SK);
