@@ -2,6 +2,7 @@ require('dotenv').config();
 
 const express = require('express')
 const next = require('next')
+const WebSocket = require('ws')
 const bodyParser  = require('body-parser')
 
 const port = process.env.PORT || 3000
@@ -16,7 +17,7 @@ const client = require('./server/config/index');
 const clientStart = () => {
   client.login(process.env.DISCORD_SK);
   client.once('ready', c => {
-    console.log(`Ready! Logged in as ${c.user.tag}`);
+    console.log(`\x1b[34m> Ready! Logged in as ${c.user.tag} \x1b[0m`);
   }, 1000);
 
 };
@@ -35,8 +36,26 @@ const start = async () => {
     })
 
     app.listen(port, () => {
-      console.log(`> Ready on http://localhost:${port}`)
+      console.log(`\x1b[35m> Ready on http://localhost:${port} \x1b[0m`);
     })
+
+    const wss = new WebSocket.Server({ port: 8080 });
+    wss.on('connection', (ws) => {
+      console.log('\x1b[33m> Client connected \x1b[0m');
+
+      setInterval(() => {
+        const data = {message: 'Hello from server'};
+        ws.send(JSON.stringify(data));
+      }, 5000);
+
+      ws.on('message', (message) => {
+        console.log(`\x1b[33m> Received message => ${message} \x1b[0m`);
+      });
+
+      ws.on('close', () => {
+        console.log('\x1b[33m> Client disconnected \x1b[0m');
+      });
+   });
  
     clientStart();
   } catch (err) {
