@@ -22,7 +22,7 @@ const clientStart = () => {
   }, 1000);
 
 };
-
+//db.once doesnt work in async try statement, but works with .then :<
 const start = async () => {
   try {
     await nextApp.prepare() // wait for next to be prepared
@@ -35,7 +35,7 @@ const start = async () => {
     app.get('*', (req, res) => {
       return handle(req, res)
     })
-
+    
    app.listen(port, () => {
      console.log(`\x1b[35m> Ready!\x1b[0m on http://localhost:${port}`);
    })
