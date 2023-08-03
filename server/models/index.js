@@ -13,6 +13,7 @@ const messageSchema = new mongoose.Schema(
         global_name: { type: String, required: true },
       }
     ],
+    gpt_response: { type: String },
     created_at: { type: Date, default: Date.now },
   },
   {

@@ -7,6 +7,7 @@ export default function Home() {
   const [message, setMessage] = useState('');
   const [inputValue, setInputValue] = useState('');
   const [response, setResponse] = useState('');
+  const [id, setId] = useState('');
 
   useEffect(() => {
     // Replace 'ws://localhost:8080' with the URL of your WebSocket server
@@ -18,6 +19,7 @@ export default function Home() {
 
     ws.onmessage = (e) => {
       const data = JSON.parse(e.data);
+      setId(data.message.id);      
       setMessage(data.message.cleanContent);      
     };
 
@@ -34,19 +36,23 @@ export default function Home() {
   const handleSendMessage = () => {
     // Replace 'ws://localhost:8080' with the URL of your WebSocket server
     const ws = new WebSocket('ws://localhost:8080');
-
+  
     ws.onopen = () => {
       console.log('WebSocket connection established.');
-      // When the WebSocket connection is established, send the message to the backend
-      ws.send(inputValue);
+      // When the WebSocket connection is established, send the message to the backend      
+      const messageObject = {
+        id: id,
+        gpt_response: inputValue,
+      };
+      ws.send(JSON.stringify(messageObject));
     };
-
+  
     ws.onmessage = (e) => {
       const data = JSON.parse(e.data);
-      setResponse(data.message);
+      setResponse(data.gpt_response);
       ws.close(); // Close the WebSocket connection after receiving the response
     };
-
+  
     ws.onclose = () => {
       console.log('WebSocket connection closed.');
     };
@@ -56,15 +62,15 @@ export default function Home() {
     <main className="">
       <p>Received data: {message}</p>
       <div>
-      <input
-        className='text-black'
-        type="text"
-        value={inputValue}
-        onChange={(e) => setInputValue(e.target.value)}
-      />
-      <button onClick={handleSendMessage}>Send to Backend</button>
-      <p>Response from Backend: {response}</p>
-    </div>
+        <input
+          className='text-black'
+          type="text"
+          value={inputValue}
+          onChange={(e) => setInputValue(e.target.value)}
+        />
+        <button onClick={handleSendMessage}>Send to Backend</button>
+        <p>Response from Backend: {response}</p>
+      </div>
     </main>
   )
 }

@@ -8,14 +8,20 @@ const wssStart = () => {
       
       ws.on('message', async (message) => {
         console.log(`\x1b[35m> Received message =>\x1b[0m ${message}`);
-
         try {
-          const newMessage = new Message({ content: message });
-          await newMessage.save();
+          const msg = JSON.parse(message);
+    
+          const dmMsg = await Message.findOne({ id: msg.id });
+    
+          if (!dmMsg) {
+            console.error('Message not found in database');
+          } 
+
+          dmMsg.gpt_response = msg.gpt_response;
+          await dmMsg.save();
           
-          ws.send(JSON.stringify({ messages: newMessage }));
         } catch (err) {
-          console.error(err.stack);
+          console.error(err);
         }
       });
 

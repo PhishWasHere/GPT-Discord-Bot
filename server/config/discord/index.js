@@ -31,8 +31,7 @@ client.on('messageCreate', async (msg) => {
   if (!msg?.author.bot && msg?.content.startsWith('!!') ) {
     try {
       const msgClipped = msg.content.slice(2).trim();
-      
- 
+    
       newMessage = new Message ({
         guild_id: msg.guildId,
         id: msg.id,
@@ -70,7 +69,6 @@ client.on('messageCreate', async (msg) => {
       await msg.reply('Pong!');
   }
 });
-
 
 
 module.exports = {client, setWssInstance};
