@@ -58,7 +58,7 @@ client.on('messageCreate', async (msg) => {
       const resMsg = await Message.findOne().sort({ timestamp: -1 }).limit(1);
       const {content} = resMsg;
       
-      msg.reply(content)
+      // msg.reply(content)
       
     } catch (err) {
       console.error(`Server error: `, err);

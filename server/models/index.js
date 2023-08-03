@@ -14,9 +14,13 @@ const messageSchema = new mongoose.Schema(
       }
     ],
     created_at: { type: Date, default: Date.now },
+  },
+  {
+    expires: 86400 , // 1 day
   }
 );
 
+messageSchema.index({ created_at: 1 }, { expireAfterSeconds: 86400 });
 const Message = mongoose.model('Message', messageSchema);
 
 module.exports = Message;
