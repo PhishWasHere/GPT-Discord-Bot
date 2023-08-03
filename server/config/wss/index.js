@@ -11,14 +11,14 @@ const wssStart = () => {
         try {
           const msg = JSON.parse(message);
     
-          const dmMsg = await Message.findOne({ id: msg.id });
+          const dbMsg = await Message.findOne({ id: msg.id });
     
-          if (!dmMsg) {
+          if (!dbMsg) {
             console.error('Message not found in database');
           } 
 
-          dmMsg.gpt_response = msg.gpt_response;
-          await dmMsg.save();
+          dbMsg.gpt_response = msg.gpt_response;
+          await dbMsg.save();
           
         } catch (err) {
           console.error(err);
