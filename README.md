@@ -16,9 +16,9 @@
   This application is covered by the MIT license.
 
   ## Description
-  (It's still in early dev, the openai stuff still needs to be intergrated)  
+  (It's still in early dev, the openai stuff still needs to be integrated)  
 
-  A Discord bot that is initially prompted to harass you at every opportunity. This bot uses the GPT 3.5 turbo model for the most advanced form of insults. 
+  A Discord bot powered by GPT3.5 turbo.
   
   This is just a personal project for me to mess around with new API's and npm packages. It's not intended to be a large-scale application.
   Response times will probably be slow since this project doesn't use Python.
