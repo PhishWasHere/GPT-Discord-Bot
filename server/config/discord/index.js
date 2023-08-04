@@ -20,13 +20,13 @@ const setWssInstance = (wss) => {
   wssInstance = wss;
 };
 
-client.on('message', async (msg) => { // this doesnt fucking work, but messageCreate reads DM's too for whatever reason
+client.on('message', async (msg) => { // todo: fix DM's
   console.log(msg);
   await msg.reply('👍');
 });
 
 client.on('messageCreate', async (msg) => {
-  //  console.log(msg); // todo, save message to db, then reply based on message id
+  //  console.log(msg);
 
   if (!msg?.author.bot && msg?.content.startsWith('!!') ) {
     try {
@@ -53,16 +53,18 @@ client.on('messageCreate', async (msg) => {
         } 
         client.send(JSON.stringify({ message: msg }));
       });
-      
 
-      //set to find by id (not _id), and reply with gpt_response. 
-        //need to add timeout if gpt_response = null, and try again in X seconds
-          //god this is a dumb way to do things
-      const resMsg = await Message.findOne().sort({ timestamp: -1 }).limit(1); 
-      const {content} = resMsg;
-      
-      // msg.reply(content)
-      
+      setTimeout(async () => { //timeout to give gpt time to respond
+        const resMsg = await Message.findOne({id: msg.id});
+        
+        if (!resMsg || resMsg.gpt_response === null) {
+          msg.reply('internal server error')
+          return;
+        }
+
+        msg.reply(resMsg.gpt_response)        
+      }, 7000); // 7 second timeout
+
     } catch (err) {
       console.error(`Server error: `, err);
       msg.reply(`internal server error, please contact #silentwashere. Error: ${err}`);

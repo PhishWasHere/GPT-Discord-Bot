@@ -13,7 +13,7 @@ const messageSchema = new mongoose.Schema(
         global_name: { type: String, required: true },
       }
     ],
-    gpt_response: { type: String },
+    gpt_response: { type: String, default: null },
     created_at: { type: Date, default: Date.now },
   },
   {
@@ -21,7 +21,7 @@ const messageSchema = new mongoose.Schema(
   }
 );
 
-messageSchema.index({ created_at: 1 }, { expireAfterSeconds: 86400 });
+// messageSchema.index({ created_at: 1 }, { expireAfterSeconds: 86400 });
 const Message = mongoose.model('Message', messageSchema);
 
 module.exports = Message;

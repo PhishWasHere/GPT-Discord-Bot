@@ -16,7 +16,7 @@ const db = require('./config/mongo/index'); //idk how the db is connected to the
 const {client, setWssInstance} = require('./config/discord/index');
 
 const clientStart = () => {
-  client.login(process.env.DISCORD_SK);
+  client.login(process.env.DISCORD_TOKEN);
   client.once('ready', c => {
     console.log(`\x1b[35m> Ready!\x1b[0m Logged in as ${c.user.tag}`);
   }, 1000);
