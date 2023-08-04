@@ -20,7 +20,8 @@ const clientStart = () => {
 };
 
 db.once('open', async () => {
-  try {
+  console.log(`\x1b[35m> Ready!\x1b[0m Connected to MongoDB`);
+    try {
     const app = express() 
 
     app.use(cors())

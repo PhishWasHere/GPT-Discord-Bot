@@ -47,7 +47,7 @@ client.on('messageCreate', async (msg) => {
       });
 
       await newMessage.save(); // save message to db (TTL 24h)
-
+      
       msg.reply(gptRes); // send response to discord
 
     } catch (err) {
