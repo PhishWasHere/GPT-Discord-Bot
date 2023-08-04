@@ -2,16 +2,12 @@
 
 import Image from 'next/image'
 import { useEffect, useState } from 'react';
-import { useChat, Message, CreateMessage } from 'ai/react';
-
 
 export default function Home() {
   const [message, setMessage] = useState('');
   const [inputValue, setInputValue] = useState('');
   const [response, setResponse] = useState('');
   const [id, setId] = useState('');
-
-  const { messages, input, setInput, append } = useChat();
 
   useEffect(() => {
     // Replace 'ws://localhost:8080' with the URL of your WebSocket server
@@ -26,12 +22,6 @@ export default function Home() {
         const data = JSON.parse(e.data);
         setId(data.message.id);
         setMessage(data.message.cleanContent);
-
-        const userMsg: CreateMessage = { content: message, role: 'user' }
-        const response = await append(userMsg)
-        
-        setResponse(response || '')
-        
       } catch (err) {
         console.error(err);
       }
