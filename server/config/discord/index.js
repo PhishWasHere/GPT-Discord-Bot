@@ -1,8 +1,5 @@
 const { GatewayIntentBits, Client, Partials } = require('discord.js');
-const WebSocket = require('ws');
 const Message = require('../../models/index');
-
-let wssInstance;
 
 const client = new Client({
   intents: [
@@ -15,10 +12,6 @@ const client = new Client({
   ],
   partials: [Partials.Channel, Partials.Message],
 });
-
-const setWssInstance = (wss) => {
-  wssInstance = wss;
-};
 
 client.on('message', async (msg) => { // todo: fix DM's
   console.log(msg);
@@ -46,13 +39,6 @@ client.on('messageCreate', async (msg) => {
         ],
       });
       await newMessage.save();
-      
-      await wssInstance.clients.forEach((client) => {
-        if (!client.readyState === WebSocket.OPEN) {
-          msg.reply('internal server error')
-        } 
-        client.send(JSON.stringify({ message: msg }));
-      });
 
       setTimeout(async () => { //timeout to give gpt time to respond
         const resMsg = await Message.findOne({id: msg.id});
@@ -63,7 +49,7 @@ client.on('messageCreate', async (msg) => {
         }
 
         msg.reply(resMsg.gpt_response)        
-      }, 7000); // 7 second timeout
+      }, 5000); // 7 second timeout
 
     } catch (err) {
       console.error(`Server error: `, err);
@@ -77,4 +63,4 @@ client.on('messageCreate', async (msg) => {
 });
 
 
-module.exports = {client, setWssInstance};
+module.exports = {client};
