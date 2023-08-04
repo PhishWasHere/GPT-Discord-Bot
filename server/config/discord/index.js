@@ -52,7 +52,7 @@ client.on('messageCreate', async (msg) => {
 
     } catch (err) {
       // console.error(`Server error: `, err);
-      msg.reply(`internal server error, please contact #silentwashere. Error: ${err}`);
+      msg.reply(`internal server error, please contact the server owner. Error: ${err}`);
     }
   }
 });
