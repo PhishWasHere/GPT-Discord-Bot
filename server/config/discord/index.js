@@ -20,12 +20,13 @@ client.on('message', async (msg) => { // todo: fix DM's
 });
 
 client.on('messageCreate', async (msg) => {
-  //  console.log(msg);
-
   if (!msg?.author.bot && msg?.content.startsWith('!!') ) {
     try {
       const msgClipped = msg.content.slice(2).trim();
     
+      const res = await axios.post('http://localhost:3001/api/gpt', {content: msgClipped})
+      const gptRes = res.data.completion.content;
+
       newMessage = new Message ({
         guild_id: msg.guildId,
         id: msg.id,
@@ -38,18 +39,12 @@ client.on('messageCreate', async (msg) => {
             global_name: msg.author.globalName,
           },
         ],
+        gpt_response: gptRes
       });
+
       await newMessage.save();
 
-      axios.post('http://localhost:3001/api/gpt', {content: msgClipped})
-        .then(res => {
-          console.log(res.data);
-          msg.reply(res.data.completion);
-        })
-        .catch(err => {
-          console.error(err);
-          msg.reply('internal server error');
-        });
+      msg.reply(gptRes);
 
     } catch (err) {
       console.error(`Server error: `, err);
@@ -57,9 +52,6 @@ client.on('messageCreate', async (msg) => {
     }
   }
 
-  if (msg?.content === '!ping') {
-      await msg.reply('Pong!');
-  }
 });
 
 
