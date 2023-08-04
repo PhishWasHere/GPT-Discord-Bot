@@ -1,5 +1,6 @@
 const { GatewayIntentBits, Client, Partials } = require('discord.js');
 const Message = require('../../models/index');
+const axios = require('axios');
 
 const client = new Client({
   intents: [
@@ -40,16 +41,15 @@ client.on('messageCreate', async (msg) => {
       });
       await newMessage.save();
 
-      setTimeout(async () => { //timeout to give gpt time to respond
-        const resMsg = await Message.findOne({id: msg.id});
-        
-        if (!resMsg || resMsg.gpt_response === null) {
-          msg.reply('internal server error')
-          return;
-        }
-
-        msg.reply(resMsg.gpt_response)        
-      }, 5000); // 7 second timeout
+      axios.post('http://localhost:3001/api/gpt', {content: msgClipped})
+        .then(res => {
+          console.log(res.data);
+          msg.reply(res.data.completion);
+        })
+        .catch(err => {
+          console.error(err);
+          msg.reply('internal server error');
+        });
 
     } catch (err) {
       console.error(`Server error: `, err);
