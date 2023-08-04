@@ -54,7 +54,11 @@ client.on('messageCreate', async (msg) => {
         client.send(JSON.stringify({ message: msg }));
       });
       
-      const resMsg = await Message.findOne().sort({ timestamp: -1 }).limit(1);
+
+      //set to find by id (not _id), and reply with gpt_response. 
+        //need to add timeout if gpt_response = null, and try again in X seconds
+          //god this is a dumb way to do things
+      const resMsg = await Message.findOne().sort({ timestamp: -1 }).limit(1); 
       const {content} = resMsg;
       
       // msg.reply(content)
