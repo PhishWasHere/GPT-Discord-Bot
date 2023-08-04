@@ -1,5 +1,11 @@
 const { GatewayIntentBits, Client, Partials } = require('discord.js');
 const Message = require('../../models/index');
+const axios = require('axios');
+
+const API_KEY = process.env.API_KEY;
+const headers = {
+  API_KEY
+};
 
 const client = new Client({
   intents: [
@@ -19,12 +25,12 @@ client.on('message', async (msg) => { // todo: fix DM's
 });
 
 client.on('messageCreate', async (msg) => {
-  //  console.log(msg);
-
-  if (!msg?.author.bot && msg?.content.startsWith('!!') ) {
+  if (!msg?.author.bot && msg?.content.startsWith('!!') ) { // ignore all messages unless they start with !! and are not from a bot
     try {
-      const msgClipped = msg.content.slice(2).trim();
-    
+      const msgClipped = msg.content.slice(2).trim(); // removes !! from message
+      const res = await axios.post('http://localhost:3001/api/gpt', {content: msgClipped}, {headers}) // send message to gpt api
+      const gptRes = res.data.completion.content; // converts response to string
+
       newMessage = new Message ({
         guild_id: msg.guildId,
         id: msg.id,
@@ -37,30 +43,18 @@ client.on('messageCreate', async (msg) => {
             global_name: msg.author.globalName,
           },
         ],
+        gpt_response: gptRes
       });
-      await newMessage.save();
 
-      setTimeout(async () => { //timeout to give gpt time to respond
-        const resMsg = await Message.findOne({id: msg.id});
-        
-        if (!resMsg || resMsg.gpt_response === null) {
-          msg.reply('internal server error')
-          return;
-        }
+      await newMessage.save(); // save message to db (TTL 24h)
 
-        msg.reply(resMsg.gpt_response)        
-      }, 5000); // 7 second timeout
+      msg.reply(gptRes); // send response to discord
 
     } catch (err) {
-      console.error(`Server error: `, err);
+      // console.error(`Server error: `, err);
       msg.reply(`internal server error, please contact #silentwashere. Error: ${err}`);
     }
   }
-
-  if (msg?.content === '!ping') {
-      await msg.reply('Pong!');
-  }
 });
-
 
 module.exports = {client};
