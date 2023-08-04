@@ -16,10 +16,15 @@
   This application is covered by the MIT license.
 
   ## Description
-  A Discord bot that is initially prompted to harass you at every opportunity. This bot uses the GPT 3.5 turbo model for the most advanced form of insults. 
+  (It's still in early dev, the openai stuff still needs to be integrated)  
+
+  A Discord bot powered by GPT3.5 turbo.
+  
+  This is just a personal project for me to mess around with new API's and npm packages. It's not intended to be a large-scale application.
+  Response times will probably be slow since this project doesn't use Python.
 
   ## Installation
-  After cloning the repo, update the .env.local to have a Discord Token, and add your OpenAI api key, then use "yarn dev" or "npm run dev"
+  After cloning the repo, update the .env.local to have a Discord Token, and add your OpenAI API key, then use "yarn dev" or "npm run dev"
 
   ## Usage
   The bot will respond to any comment/message that begins with !!.
@@ -31,5 +36,5 @@
   N/A
 
   ## Questions
-  Made with Javascript, because I dont know python.
   If you have any questions, please contact me at miran.yasunori00@gmail.com. You can also visit my [GitHub profile](https://github.com/PhishWasHere/).
+  
