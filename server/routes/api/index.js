@@ -12,9 +12,4 @@ router.post('/gpt', async (req, res) => {
     }
 });
 
-router.get('/', (req, res) => {
-    res.json({ message: 'Hello World!' });
-});
-
-
 module.exports = router;
