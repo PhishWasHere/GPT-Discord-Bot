@@ -83,9 +83,17 @@ client.on('messageCreate', async (msg) => { //move to subfolders when done
 
       await Guild.findOneAndUpdate( // if guild exists, update it
         {guild_id: msg.guildId}, 
-        {$push: {content: 
-          {id: msg.id, message: msgClipped, created_timestamp: msg.createdTimestamp, gpt_response: gptRes}
-          }
+        {$push: {content: {
+          author:
+            [
+              {
+                id: msg.author.id,
+                username: msg.author.username,
+                global_name: msg.author.globalName,
+              },
+            ],
+          id: msg.id, message: msgClipped, created_timestamp: msg.createdTimestamp, gpt_response: gptRes
+          }}
         },
         {new: true}
       );
