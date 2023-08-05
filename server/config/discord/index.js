@@ -48,35 +48,35 @@ client.on('messageCreate', async (msg) => { //move to subfolders when done
       // });
 
       // await newMessage.save(); // save message to db (TTL 24h)
-      let res;
 
-      await chatCompletion(msgClipped).then((completion) => res = completion);
-      const gptRes = res.content;
-      // console.log('gpt res', res);
       const guild = await Guild.findOne({ guild_id: msg.guildId });
 
       if (!guild) { // if guild does not exist, create it
         newGuild = new Guild ({
           guild_id: msg.guildId,
-          content: [
-            {
-              author: 
-                [
-                  {
-                    id: msg.author.id,
-                    username: msg.author.username,
-                    global_name: msg.author.globalName,
-                  },
-                ],
-              id: msg.id,
-              message: msgClipped,
-              created_timestamp: msg.createdTimestamp,
-              gpt_response: gptRes,
-            },
-          ],
         });
 
         await newGuild.save(); // save guild to db
+
+        await chatCompletion(msgClipped).then((completion) => res = completion);
+        const gptRes = res.content;
+
+        await Guild.findOneAndUpdate( // if guild exists, update it
+          {guild_id: msg.guildId}, 
+          {$push: {content: {
+            author:
+              [
+                {
+                  id: msg.author.id,
+                  username: msg.author.username,
+                  global_name: msg.author.globalName,
+                },
+              ],
+            id: msg.id, message: msgClipped, created_timestamp: msg.createdTimestamp, gpt_response: gptRes
+            }}
+          },
+          {new: true}
+        );
 
         return msg.reply(gptRes); // send response to discord
       }
@@ -101,10 +101,10 @@ client.on('messageCreate', async (msg) => { //move to subfolders when done
       msg.reply(gptRes); // send response to discord
 
     } catch (err) {
-      // console.error(`Server error: `, err);
+      console.error(`Server error: `, err);
       msg.reply(`internal server error, please contact the server owner. Error: ${err}`);
     }
   }
 });
-
+ 
 module.exports = {client};

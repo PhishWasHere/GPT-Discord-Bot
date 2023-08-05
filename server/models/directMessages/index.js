@@ -14,7 +14,7 @@ const messageSchema = new mongoose.Schema(
       }
     ],
     gpt_response: { type: String, default: null },
-    created_at: { type: Number, default: Date.now },
+    created_at: { type: Date, default: Date.now },
   },
   {
     expires: 86400 , //TTL 1 day

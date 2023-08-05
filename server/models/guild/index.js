@@ -2,23 +2,23 @@ const mongoose = require('mongoose');
 
 const guildSchema = new mongoose.Schema(
   {
-    guild_id: { type: String },
+    guild_id: { type: String, required: true },
     content: [
       {
         author:[ 
           { 
-            id: { type: String, required: true },
-            username: { type: String, required: true },
-            global_name: { type: String, required: true },
+            id: { type: String, required: true, default: 'init' },
+            username: { type: String, required: true, default: 'init' },
+            global_name: { type: String, required: true, default: 'init' },
           }
         ],
-        id: { type: String, required: true },
-        message: { type: String, required: true },
-        created_timestamp: { type: Number, required: true },
+        id: { type: String, required: true, default: 'init' },
+        message: { type: String, required: true, default: 'init' },
+        created_timestamp: { type: Number, required: true, default: 0 },
         gpt_response: { type: String, required: true, default: null },
       }
     ],
-    created_at: { type: Number, default: Date.now },
+    created_at: { type: Date, default: Date.now },
   },
   {
     expires: 86400 , //TTL 1 day
