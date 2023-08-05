@@ -1,27 +1,7 @@
-const mongoose = require('mongoose');
+const Message = require('./directMessages');
+const Guild = require('./guild');
 
-const messageSchema = new mongoose.Schema(
-  {
-    guild_id: { type: String },
-    id: { type: String, required: true },
-    created_timestamp: { type: Number, required: true },
-    content: { type: String, required: true },
-    author:[ 
-      { 
-        id: { type: String, required: true },
-        username: { type: String, required: true },
-        global_name: { type: String, required: true },
-      }
-    ],
-    gpt_response: { type: String, default: null },
-    created_at: { type: Number, default: Date.now },
-  },
-  {
-    expires: 86400 , //TTL 1 day
-  }
-);
-
-messageSchema.index({ created_at: 1 }, { expireAfterSeconds: 86400 });
-const Message = mongoose.model('Message', messageSchema);
-
-module.exports = Message;
+module.exports = {
+    Message,
+    Guild
+};
