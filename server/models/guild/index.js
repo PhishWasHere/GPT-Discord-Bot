@@ -7,21 +7,21 @@ const guildSchema = new mongoose.Schema(
       {
         author:[ 
           { 
-            id: { type: String, required: true, default: 'init' },
+            user_id: { type: String, required: true, default: 'init' },
             username: { type: String, required: true, default: 'init' },
             global_name: { type: String, required: true, default: 'init' },
+            message: { type: String, required: true, default: 'init' },
+            message_id: { type: String, required: true, default: 'init' },
+            created_timestamp: { type: Number, required: true, default: 0 },
           }
         ],
-        id: { type: String, required: true, default: 'init' },
-        message: { type: String, required: true, default: 'init' },
-        created_timestamp: { type: Number, required: true, default: 0 },
         gpt_response: { type: String, required: true, default: null },
       }
     ],
     created_at: { type: Date, default: Date.now },
   },
   {
-    expires: 86400 , //TTL 1 day
+     //TTL removed for now, set to 1month (thanks shampoo)
   }
 );
 

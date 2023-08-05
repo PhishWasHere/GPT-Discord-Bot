@@ -67,12 +67,15 @@ client.on('messageCreate', async (msg) => { //move to subfolders when done
             author:
               [
                 {
-                  id: msg.author.id,
+                  user_id: msg.author.id,
                   username: msg.author.username,
                   global_name: msg.author.globalName,
+                  message: msgClipped,
+                  message_id: msg.id, 
+                  created_timestamp: msg.createdTimestamp,
                 },
               ],
-            id: msg.id, message: msgClipped, created_timestamp: msg.createdTimestamp, gpt_response: gptRes
+              gpt_response: gptRes
             }}
           },
           {new: true}
@@ -81,8 +84,15 @@ client.on('messageCreate', async (msg) => { //move to subfolders when done
         return msg.reply(gptRes); // send response to discord
       }
 
-      const prompts = guild.content.slice(0,5).map((message) => message.message); // get all prompts from guild
-      const response = guild.content.slice(0,5).map((message) => message.gpt_response); // get all responses from guild
+      const messages = guild.content.slice(0,10).map((message) => message.author[0].message); // get all prompts from guild
+      const user = guild.content.slice(0,10).map((message) => message.author[0].global_name); // get all prompts from guild      
+     
+      const prompts = messages.map((message, i) => { // create prompts array
+        return {
+          user: user[i],
+          message: message
+        };
+      });
 
       await chatCompletion(msgClipped, prompts).then((completion) => res = completion);
       const gptRes = res.content;
@@ -93,14 +103,18 @@ client.on('messageCreate', async (msg) => { //move to subfolders when done
           author:
             [
               {
-                id: msg.author.id,
+                user_id: msg.author.id,
                 username: msg.author.username,
                 global_name: msg.author.globalName,
+                message: msgClipped,
+                message_id: msg.id, 
+                created_timestamp: msg.createdTimestamp,
               },
             ],
-          id: msg.id, message: msgClipped, created_timestamp: msg.createdTimestamp, gpt_response: gptRes
-          }}
-        },
+            gpt_response: gptRes
+          }
+        }
+      },
         {new: true}
       );
 
@@ -108,7 +122,7 @@ client.on('messageCreate', async (msg) => { //move to subfolders when done
 
     } catch (err) {
       console.error(`Server error: `, err);
-      msg.reply(`internal server error, please contact the server owner. Error: ${err}`);
+      msg.reply(`internal server error. Error: ${err}`);
     }
   }
 });
