@@ -15,7 +15,13 @@ const initComment = [ //comments to initialize gpt
 
 const openai = new OpenAIApi(configuration);
 
-async function chatCompletion(content) {
+async function chatCompletion(content, prompts) {
+    if (prompts){
+        // console.log('prompts', prompts);
+        initComment.push(...prompts.map((prompt) => ({ role: "user", content: prompt })));
+        // console.log('initComment', initComment);
+    }
+    
     const completion = await openai.createChatCompletion({
         model: "gpt-3.5-turbo", 
         messages: [...initComment, { role: "user", content: content }],

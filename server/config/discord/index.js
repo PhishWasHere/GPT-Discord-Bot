@@ -81,6 +81,12 @@ client.on('messageCreate', async (msg) => { //move to subfolders when done
         return msg.reply(gptRes); // send response to discord
       }
 
+      const prompts = guild.content.slice(0,5).map((message) => message.message); // get all prompts from guild
+      const response = guild.content.slice(0,5).map((message) => message.gpt_response); // get all responses from guild
+
+      await chatCompletion(msgClipped, prompts).then((completion) => res = completion);
+      const gptRes = res.content;
+
       await Guild.findOneAndUpdate( // if guild exists, update it
         {guild_id: msg.guildId}, 
         {$push: {content: {
