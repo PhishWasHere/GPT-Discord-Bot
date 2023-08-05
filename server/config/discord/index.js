@@ -1,7 +1,9 @@
 const { GatewayIntentBits, Client, Partials } = require('discord.js');
-const { Message, Guild } = require ('../../models/index.js'); 
+const { User, Guild } = require ('../../models/index.js'); 
 const { chatCompletion } = require('../gpt/index.js');
 const axios = require('axios');
+const { log } = require('console');
+const { newGuild, existingGuild } = require('../../discord/guilds/index.js');
 
 const API_KEY = process.env.API_KEY;
 const headers = {
@@ -12,10 +14,10 @@ const client = new Client({
   intents: [
       GatewayIntentBits.Guilds,
       GatewayIntentBits.GuildMessages,
+      GatewayIntentBits.DirectMessages,
       GatewayIntentBits.MessageContent,
       GatewayIntentBits.GuildMessageReactions,
       GatewayIntentBits.GuildMembers,
-      GatewayIntentBits.DirectMessages,
   ],
   partials: [Partials.Channel, Partials.Message],
 });
@@ -26,98 +28,19 @@ client.on('message', async (msg) => { // todo: fix DM's
 });
 
 client.on('messageCreate', async (msg) => { //move to subfolders when done
+
   if (!msg?.author.bot && msg?.content.startsWith('!!') ) { // ignore all messages unless they start with !! and are not from a bot
     try {
       const msgClipped = msg.content.slice(2).trim(); // removes !! from message
-      // const res = await axios.post('http://localhost:3001/api/gpt', {content: msgClipped}, {headers}) // send message to gpt api
-      // const gptRes = res.data.completion.content; // converts response to string
 
-      // newMessage = new Message ({
-      //   guild_id: msg.guildId,
-      //   id: msg.id,
-      //   created_timestamp: msg.createdTimestamp,
-      //   content: msgClipped,
-      //   author: [
-      //     {
-      //       id: msg.author.id,
-      //       username: msg.author.username,
-      //       global_name: msg.author.globalName,
-      //     },
-      //   ],
-      //   gpt_response: gptRes
-      // });
+      const guildData = await Guild.findOne({ guild_id: msg.guildId });
 
-      // await newMessage.save(); // save message to db (TTL 24h)
-
-      const guild = await Guild.findOne({ guild_id: msg.guildId });
-
-      if (!guild) { // if guild does not exist, create it
-        newGuild = new Guild ({
-          guild_id: msg.guildId,
-        });
-
-        await newGuild.save(); // save guild to db
-
-        await chatCompletion(msgClipped).then((completion) => res = completion);
-        const gptRes = res.content;
-
-        await Guild.findOneAndUpdate( // if guild exists, update it
-          {guild_id: msg.guildId}, 
-          {$push: {content: {
-            author:
-              [
-                {
-                  user_id: msg.author.id,
-                  username: msg.author.username,
-                  global_name: msg.author.globalName,
-                  message: msgClipped,
-                  message_id: msg.id, 
-                  created_timestamp: msg.createdTimestamp,
-                },
-              ],
-              gpt_response: gptRes
-            }}
-          },
-          {new: true}
-        );
-
+      if (!guildData) { // if guild does not exist, create it
+        const gptRes = await newGuild(msg, msgClipped);
         return msg.reply(gptRes); // send response to discord
       }
 
-      const messages = guild.content.slice(0,10).map((message) => message.author[0].message); // get all prompts from guild
-      const user = guild.content.slice(0,10).map((message) => message.author[0].global_name); // get all prompts from guild      
-     
-      const prompts = messages.map((message, i) => { // create prompts array
-        return {
-          user: user[i],
-          message: message
-        };
-      });
-
-      await chatCompletion(msgClipped, prompts).then((completion) => res = completion);
-      const gptRes = res.content;
-
-      await Guild.findOneAndUpdate( // if guild exists, update it
-        {guild_id: msg.guildId}, 
-        {$push: {content: {
-          author:
-            [
-              {
-                user_id: msg.author.id,
-                username: msg.author.username,
-                global_name: msg.author.globalName,
-                message: msgClipped,
-                message_id: msg.id, 
-                created_timestamp: msg.createdTimestamp,
-              },
-            ],
-            gpt_response: gptRes
-          }
-        }
-      },
-        {new: true}
-      );
-
+      const gptRes = await existingGuild(msg, msgClipped, guildData);
       msg.reply(gptRes); // send response to discord
 
     } catch (err) {
@@ -125,6 +48,84 @@ client.on('messageCreate', async (msg) => { //move to subfolders when done
       msg.reply(`internal server error. Error: ${err}`);
     }
   }
+
+  if (!msg?.author.bot && msg.channel.type === 1) { 
+    try {
+      const msgDM = msg.content;
+
+      const userData = await User.findOne({ user_id: msg.author.id });
+
+      if (!userData) {
+        newUser = new User ({
+          user_id: msg.author.id,
+        });
+
+        await newUser.save();
+        
+        await chatCompletion(msgDM).then((completion) => res = completion);
+        const gptRes = res.content;
+
+        await User.findOneAndUpdate(
+          {user_id: msg.author.id}, 
+          {$push: {content: {
+            author: [
+              {
+                user_id: msg.author.id,
+                username: msg.author.username,
+                global_name: msg.author.globalName,
+                message: msgDM,
+                message_id: msg.id,
+                created_timestamp: msg.createdTimestamp,
+              }
+            ],
+            gpt_response: gptRes
+          }}
+        },
+          {new: true}
+        );
+      }
+
+      const messages = userData.content.slice(0,10).map((message) => message.author[0].message); // gets last 10 messages from user
+      const user = userData.content.slice(0,10).map((message) => message.author[0].global_name); // get last 10 users from user
+
+      const prompts = messages.map((message, i) => { // create prompts array
+        return {
+          user: user[i],
+          message: message
+        };
+      });
+
+      await chatCompletion(msgDM, prompts).then((completion) => res = completion);
+      const gptRes = res.content;
+
+      await User.findOneAndUpdate(
+        {user_id: msg.author.id}, 
+        {$push: {content: {
+          author: [
+            {
+              user_id: msg.author.id,
+              username: msg.author.username,
+              global_name: msg.author.globalName,
+              message: msgDM,
+              message_id: msg.id,
+              created_timestamp: msg.createdTimestamp,
+            }
+          ],
+          gpt_response: gptRes
+        }}
+      },
+        {new: true}
+      );
+      
+      msg.reply(gptRes); // send response to discord
+
+    } catch (err) {
+      console.error(`Server error: `, err);
+      msg.reply(`internal server error. Error: ${err}`);
+    }
+  }
+
+
 });
  
 module.exports = {client};

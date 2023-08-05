@@ -1,9 +1,10 @@
 const mongoose = require('mongoose');
 const ttl = require('../utils/index.js');
 
-const guildSchema = new mongoose.Schema(
-  {
-    guild_id: { type: String, required: true },
+const userSchema = new mongoose.Schema(
+  { 
+    id: { type: String, required: true },
+    created_timestamp: { type: Number, required: true },
     content: [
       {
         author:[ 
@@ -22,11 +23,11 @@ const guildSchema = new mongoose.Schema(
     created_at: { type: Date, default: Date.now },
   },
   {
-     expires: ttl,
+    expires: ttl , //TTL 30 days
   }
 );
 
-guildSchema.index({ created_at: 1 }, { expireAfterSeconds: ttl });
-const Guild = mongoose.model('Guild', guildSchema);
+userSchema.index({ created_at: 1 }, { expireAfterSeconds: ttl });
+const User = mongoose.model('User', userSchema);
 
-module.exports = Guild;
+module.exports = User;

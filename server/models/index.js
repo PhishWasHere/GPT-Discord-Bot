@@ -1,7 +1,7 @@
-const Message = require('./directMessages');
+const User = require('./user');
 const Guild = require('./guild');
 
 module.exports = {
-    Message,
+    User,
     Guild
 };
