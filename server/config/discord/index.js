@@ -1,5 +1,6 @@
 const { GatewayIntentBits, Client, Partials } = require('discord.js');
 const { Message, Guild } = require ('../../models/index.js'); 
+const { chatCompletion } = require('../gpt/index.js');
 const axios = require('axios');
 
 const API_KEY = process.env.API_KEY;
@@ -28,8 +29,8 @@ client.on('messageCreate', async (msg) => { //move to subfolders when done
   if (!msg?.author.bot && msg?.content.startsWith('!!') ) { // ignore all messages unless they start with !! and are not from a bot
     try {
       const msgClipped = msg.content.slice(2).trim(); // removes !! from message
-      const res = await axios.post('http://localhost:3001/api/gpt', {content: msgClipped}, {headers}) // send message to gpt api
-      const gptRes = res.data.completion.content; // converts response to string
+      // const res = await axios.post('http://localhost:3001/api/gpt', {content: msgClipped}, {headers}) // send message to gpt api
+      // const gptRes = res.data.completion.content; // converts response to string
 
       // newMessage = new Message ({
       //   guild_id: msg.guildId,
@@ -47,7 +48,11 @@ client.on('messageCreate', async (msg) => { //move to subfolders when done
       // });
 
       // await newMessage.save(); // save message to db (TTL 24h)
+      let res;
 
+      await chatCompletion(msgClipped).then((completion) => res = completion);
+      const gptRes = res.content;
+      // console.log('gpt res', res);
       const guild = await Guild.findOne({ guild_id: msg.guildId });
 
       if (!guild) { // if guild does not exist, create it
@@ -84,7 +89,7 @@ client.on('messageCreate', async (msg) => { //move to subfolders when done
         },
         {new: true}
       );
-      
+
       msg.reply(gptRes); // send response to discord
 
     } catch (err) {

@@ -24,6 +24,7 @@ async function chatCompletion(content) {
             Authorization: `Bearer ${process.env.OPENAI_SK}`, //why do i need to send this when i need it to config the api aaaaaaa?
         },
     });
+    // console.log('gpt completion', completion.data);
     return completion.data.choices[0].message;
 }
 
