@@ -6,26 +6,25 @@ module.exports = {
         try {
             newUser = new User ({
                 user_id: msg.author.id,
+                username: msg.author.username,
+                global_name: msg.author.username,
             });
     
             await newUser.save();
             
             await chatCompletion(msgDm).then((completion) => res = completion);
-            console.log(res);
+
             const gptRes = res.content;
-    
+
             await User.findOneAndUpdate(
-            {user_id: msg.author.id}, 
+            {user_id: msg.author.id, username: msg.author.username, global_name: msg.author.username},
             {$push: {content: {
-                author: [
-                {
-                    user_id: msg.author.id,
-                    username: msg.author.username,
-                    global_name: msg.author.globalName,
-                    message: msgDm,
-                    message_id: msg.id,
-                    created_timestamp: msg.createdTimestamp,
-                }
+                message: [
+                    {
+                        message: msg.author.content,
+                        message_id: msg.author.id,
+                        created_timestamp: msg.createdTimestamp,
+                    }
                 ],
                 gpt_response: gptRes
             }}
@@ -39,5 +38,15 @@ module.exports = {
             console.error(`Server error: `, err);
         }
     },
+
+    existingUser: async (msg, msgDm) => {
+        try {
+            const mesages = user.content.slice(0,10).map((message) => message.author[0].message); // gets last 10 messages from user
+            const userData = user.content.slice(0,10).map((message) => message.author[0].global_name); // get last 10 users from user
+            console.log(messages, userData);
+        } catch (err) {
+            console.error(err);
+        }
+    }
 }
  
