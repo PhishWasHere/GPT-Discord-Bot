@@ -1,6 +1,5 @@
 const { chatCompletion } = require('../../config/gpt');
 const { Guild } = require('../../models');
-const mergeArr = require('../../utils/mergeArr');
 
 module.exports = {
     newGuild: async (msg, msgClipped) => {
@@ -48,7 +47,7 @@ module.exports = {
           const messages = guildData.content.slice(0,10).map((message) => message.author[0].message); // gets last 10 messages from guild
           const user = guildData.content.slice(0,10).map((message) => message.author[0].global_name); // get last 10 users from guild 
 
-          const responses = guildData.content.slice(0,10).map((message) => message.gpt_response); // get last 10 responses from guild
+          const gpt_Responses = guildData.content.slice(0,10).map((message) => message.gpt_response); // get last 10 responses from guild
           
           const userPrompts = messages.map((message, i) => { // create prompts array
             return {
@@ -57,7 +56,7 @@ module.exports = {
             };
           });
 
-          const test = responses.map((response) => {
+          const responses = gpt_Responses.map((response) => {
             return {
               role: 'assistant',
               content: response
@@ -65,7 +64,7 @@ module.exports = {
           });
           const sendMsg = `${msg.author.username}: ${msgClipped}` // create prompt to send to gpt
 
-          await chatCompletion(sendMsg, userPrompts, test).then((completion) => res = completion);
+          await chatCompletion(sendMsg, userPrompts, responses).then((completion) => res = completion);
           const gptRes = res.content;
     
           await Guild.findOneAndUpdate( // if guild exists, update it

@@ -39,10 +39,19 @@ module.exports = {
             const messages = userData.content.slice(0,10).map((message) => message.message); // gets last 10 messages from user
             const user = userData.global_name; // get last 10 users from user
 
+            const gpt_Responses = userData.content.slice(0,10).map((message) => message.gpt_response); // get last 10 responses from user
+
             const prompts = messages.map((message) => { // create prompts array
                 return {
-                    user: user,
-                    message: message
+                    role: 'user',
+                    message: `${user}: ${message}`
+                };
+            });
+
+            const responses = gpt_Responses.map((response) => {
+                return {
+                    role: 'assistant',
+                    message: response
                 };
             });
 

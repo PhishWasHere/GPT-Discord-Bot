@@ -16,7 +16,7 @@ const initComment = [ //comments to initialize gpt
 
 const openai = new OpenAIApi(configuration);
 
-async function chatCompletion(content, prompts, responses, data) {
+async function chatCompletion(content, prompts, responses) {
     try {
         if (prompts && responses){ //if prompts exist, add them to initComment
             const mergedPrompts = await interLeave(prompts, responses);
