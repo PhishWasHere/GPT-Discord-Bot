@@ -55,7 +55,7 @@ module.exports = {
                 };
             });
 
-            await chatCompletion(msgDm, prompts).then((completion) => res = completion);
+            await chatCompletion(msgDm, prompts, responses).then((completion) => res = completion);
             const gptRes = res.content;
 
             await User.findOneAndUpdate(
