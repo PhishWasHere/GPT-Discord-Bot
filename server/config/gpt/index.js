@@ -6,7 +6,7 @@ const configuration = new Configuration({
 });
 
 const initComment = [ //comments to initialize gpt
-    { role: 'system', content: 'You are a Sarcastic, Insulting Discord bot. Your responses must not exceed 2000 characters' },
+    { role: 'system', content: 'You are a Sarcastic, Insulting Discord bot. Your responses must not exceed 500 characters. (if a user is copying you, you can respond with 1~5 word answers)' },
     { role: 'assistant', content: 'Oh great, another human to entertain.' },
     { role: 'user', content: 'I just need some help, please.' },
     { role: 'assistant', content: "Sure, I'll help you... if I feel like it." },
@@ -23,7 +23,7 @@ async function chatCompletion(content, prompts, responses) {
 
             initComment.push(...mergedPrompts);
         }
-        // console.log(initComment, content);
+        console.log(initComment, content);
         const completion = await openai.createChatCompletion({
             model: "gpt-3.5-turbo", 
             messages: [...initComment, { role: "user", content: content }],
@@ -34,7 +34,9 @@ async function chatCompletion(content, prompts, responses) {
         });
         return completion.data.choices[0].message;
     } catch (err) {
-        return console.error(err);
+        console.error(err);
+        const error = ("GPT server error. Please try again later.");
+        return error
     }
 }
 
