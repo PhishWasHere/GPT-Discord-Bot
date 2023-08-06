@@ -1,4 +1,4 @@
-async function interleaveArrays(arr1, arr2) {
+async function interleaveArrays(arr1, arr2) { 
   const merged = [];
   const maxLength = Math.max(arr1.length, arr2.length);
 
@@ -13,5 +13,6 @@ async function interleaveArrays(arr1, arr2) {
 
   return merged;
 }
-
+// function merges arrays by alternating between them
+//eg arr1 = [{1}, {3}, {5}] + arr2 = [{2}, {4}] = [{1}, {2}, {3}, {4}, {5}]
 module.exports = interleaveArrays;

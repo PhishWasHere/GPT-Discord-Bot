@@ -44,14 +44,14 @@ module.exports = {
             const prompts = messages.map((message) => { // create prompts array
                 return {
                     role: 'user',
-                    message: `${user}: ${message}`
+                    content: `${user}: ${message}`
                 };
             });
 
             const responses = gpt_Responses.map((response) => {
                 return {
                     role: 'assistant',
-                    message: response
+                    content: response
                 };
             });
 
