@@ -1,4 +1,5 @@
 const { Configuration, OpenAIApi } = require("openai");
+const interLeave = require("../../utils/mergeArr");
 
 const configuration = new Configuration({
     apiKey: process.env.OPENAI_SK,
@@ -15,24 +16,26 @@ const initComment = [ //comments to initialize gpt
 
 const openai = new OpenAIApi(configuration);
 
-async function chatCompletion(content, prompts) {
-    if (prompts){ //if prompts exist, add them to initComment
-        const msg = prompts.map((prompt) => {
-            return `${prompt.user}: ${prompt.message}`;
+async function chatCompletion(content, prompts, responses, data) {
+    try {
+        if (prompts && responses){ //if prompts exist, add them to initComment
+            const mergedPrompts = await interLeave(prompts, responses);
+
+            initComment.push(...mergedPrompts);
+        }
+        
+        const completion = await openai.createChatCompletion({
+            model: "gpt-3.5-turbo", 
+            messages: [...initComment, { role: "user", content: content }],
+            }, {
+            headers: {
+                Authorization: `Bearer ${process.env.OPENAI_SK}`, //why do i need to send this when i need it to config the api aaaaaaa?
+            },
         });
-        initComment.push(...msg.map((prompt) => ({ role: "user", content: prompt })));
-        // console.log('initComment', initComment);
+        return completion.data.choices[0].message;
+    } catch (err) {
+        return console.error(err);
     }
-    const completion = await openai.createChatCompletion({
-        model: "gpt-3.5-turbo", 
-        messages: [...initComment, { role: "user", content: content }],
-    }, {
-        headers: {
-            Authorization: `Bearer ${process.env.OPENAI_SK}`, //why do i need to send this when i need it to config the api aaaaaaa?
-        },
-    });
-    // console.log('gpt completion', completion.data);
-    return completion.data.choices[0].message;
 }
 
 module.exports = { chatCompletion };
