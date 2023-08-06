@@ -30,7 +30,7 @@ client.on('messageCreate', async (msg) => { //move to subfolders when done
   try {
     ///////////////////guild section/////////////////
     if (!msg?.author.bot && msg?.content.startsWith('!!') ) { // ignore all messages unless they start with !! and are not from a bot
-      const msgClipped = msg.content.slice(2).trim(); // removes !! from message
+      const msgClipped = `${msg.author.globalName}: ${msg.content.slice(2).trim()}`; // removes !! from message
 
       const guildData = await Guild.findOne({ guild_id: msg.guildId });
 
@@ -46,19 +46,17 @@ client.on('messageCreate', async (msg) => { //move to subfolders when done
     //////////////////message section////////////////
 
     if (!msg?.author.bot && msg.channel.type === 1) { 
-      const msgDm = msg.content;
+      const msgDm = `${msg.author.globalName}: ${msg.content}`;
 
       const userData = await User.findOne({ user_id: msg.author.id });
 
       if (!userData) { // if user does not exist, create it
         const gptRes = await newUser(msg, msgDm);
 
-        return msg.reply(gptRes);
+        // return msg.reply(gptRes);
       }
 
       const gptRes = await existingUser(msg, msgDm, userData);
-
-      console.log(gptRes);
     } 
 
   } catch (err) {

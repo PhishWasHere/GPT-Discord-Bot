@@ -11,9 +11,8 @@ module.exports = {
             });
     
             await newUser.save();
-            
-            await chatCompletion(msgDm).then((completion) => res = completion);
 
+            await chatCompletion(msgDm).then((completion) => res = completion);
             const gptRes = res.content;
 
             await User.findOneAndUpdate(
@@ -38,7 +37,17 @@ module.exports = {
     existingUser: async (msg, msgDm, userData) => {
         try {
             const messages = userData.content.slice(0,10).map((message) => message.message); // gets last 10 messages from user
-            console.log(messages);
+            const user = userData.global_name; // get last 10 users from user
+
+            const prompts = messages.map((message, i) => { // create prompts array
+                return {
+                    user: user,
+                    message: message
+                };
+            });
+
+            await chatCompletion(msgDm, prompts).then((completion) => res = completion);
+
         } catch (err) {
             console.error(err);
         }
