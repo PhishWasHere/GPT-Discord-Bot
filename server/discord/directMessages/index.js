@@ -39,7 +39,7 @@ module.exports = {
             const messages = userData.content.slice(0,10).map((message) => message.message); // gets last 10 messages from user
             const user = userData.global_name; // get last 10 users from user
 
-            const prompts = messages.map((message, i) => { // create prompts array
+            const prompts = messages.map((message) => { // create prompts array
                 return {
                     user: user,
                     message: message

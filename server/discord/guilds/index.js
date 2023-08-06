@@ -41,8 +41,8 @@ module.exports = {
       
     existingGuild: async (msg, msgClipped, guildData) => {
         try {
-          const messages = guildData.content.slice(0,20).map((message) => message.author[0].message); // gets last 10 messages from guild
-          const user = guildData.content.slice(0,10).map((message) => message.author[0].global_name); // get last 10 users from guild 
+          const messages = guildData.content.slice(0,15).map((message) => message.author[0].message); // gets last 10 messages from guild
+          const user = guildData.content.slice(0,15).map((message) => message.author[0].global_name); // get last 10 users from guild 
           
           const prompts = messages.map((message, i) => { // create prompts array
             return {
