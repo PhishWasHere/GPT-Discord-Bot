@@ -19,13 +19,9 @@ module.exports = {
             await User.findOneAndUpdate(
             {user_id: msg.author.id, username: msg.author.username, global_name: msg.author.username},
             {$push: {content: {
-                message: [
-                    {
-                        message: msg.author.content,
-                        message_id: msg.author.id,
-                        created_timestamp: msg.createdTimestamp,
-                    }
-                ],
+                message: msgDm,
+                message_id: msg.author.id,
+                created_timestamp: msg.createdTimestamp,
                 gpt_response: gptRes
             }}
             },
@@ -39,11 +35,10 @@ module.exports = {
         }
     },
 
-    existingUser: async (msg, msgDm) => {
+    existingUser: async (msg, msgDm, userData) => {
         try {
-            const mesages = user.content.slice(0,10).map((message) => message.author[0].message); // gets last 10 messages from user
-            const userData = user.content.slice(0,10).map((message) => message.author[0].global_name); // get last 10 users from user
-            console.log(messages, userData);
+            const messages = userData.content.slice(0,10).map((message) => message.message); // gets last 10 messages from user
+            console.log(messages);
         } catch (err) {
             console.error(err);
         }

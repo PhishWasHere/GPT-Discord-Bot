@@ -27,7 +27,6 @@ client.on('message', async (msg) => { // todo: fix DM's
 });
 
 client.on('messageCreate', async (msg) => { //move to subfolders when done
-
   try {
     ///////////////////guild section/////////////////
     if (!msg?.author.bot && msg?.content.startsWith('!!') ) { // ignore all messages unless they start with !! and are not from a bot
@@ -57,8 +56,9 @@ client.on('messageCreate', async (msg) => { //move to subfolders when done
         return msg.reply(gptRes);
       }
 
-      
+      const gptRes = await existingUser(msg, msgDm, userData);
 
+      console.log(gptRes);
     } 
 
   } catch (err) {
