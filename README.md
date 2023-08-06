@@ -3,10 +3,10 @@
 
   ## Table of Contents
 
+  - [License](#license)
   - [Installation](#installation)
   - [Usage](#usage)
-  - [License](#license)
-  - [Note](#note)
+  - [DataStorage](#data)
   - [Questions](#questions)
 
   ## License
@@ -37,9 +37,18 @@ yarn dev
 
   The bot will respond to any direct message, or any message sent in the server that starts with !!.
 
+  ## Data Storage
+  When used in servers, the bot will store essential server-related information, including server ID and date of database creation persistently.
+  On prompt, it logs additional details such as: user ID, username, global name, prompt message, prompt message ID, and the GPT return for 30 days.
 
-  ## Note
-  The bot uses persistant data. This means all prompts to the bot will be saved to a database for 30days, and the last 10 prompts will be added to the initial prompt array to configure behaviour. 
+  When the bot receives a direct message, the bot will store user ID, username, and global name to the database. The bot will also store the message, message id and GPT return for 30 days.
+
+  This information allows the bot to maintain context and history related to the conversation.
+
+  All propmts to GPT will follow this layout:
+```bash
+"username": "message"
+```
 
   ## Questions
   If you have any questions, please contact me at miran.yasunori00@gmail.com. You can also visit my [GitHub profile](https://github.com/PhishWasHere/).
