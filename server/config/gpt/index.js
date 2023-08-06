@@ -23,7 +23,7 @@ async function chatCompletion(content, prompts, responses) {
 
             initComment.push(...mergedPrompts);
         }
-        console.log(initComment, content);
+        console.log(content);
         const completion = await openai.createChatCompletion({
             model: "gpt-3.5-turbo", 
             messages: [...initComment, { role: "user", content: content }],

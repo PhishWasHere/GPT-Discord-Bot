@@ -8,7 +8,7 @@ module.exports = {
           guild_id: msg.guildId,
       });
 
-      const prompt = `${msg.author.global_name}: ${msgClipped}}`
+      const prompt = `${msg.author.globalName}: ${msgClipped}}`
 
       await guildData.save(); // save guild to db
       await chatCompletion(prompt).then((completion) => res = completion);
@@ -62,7 +62,7 @@ module.exports = {
           content: response
         };
       });
-      const sendMsg = `${msg.author.global_name}: ${msgClipped}` // create prompt to send to gpt
+      const sendMsg = `${msg.author.globalName}: ${msgClipped}` // create prompt to send to gpt
 
       await chatCompletion(sendMsg, userPrompts, responses).then((completion) => res = completion);
       const gptRes = res.content;
