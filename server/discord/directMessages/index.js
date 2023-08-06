@@ -47,6 +47,21 @@ module.exports = {
             });
 
             await chatCompletion(msgDm, prompts).then((completion) => res = completion);
+            const gptRes = res.content;
+
+            await User.findOneAndUpdate(
+                {user_id: msg.author.id, username: msg.author.username, global_name: msg.author.username},
+                {$push: {content: {
+                    message: msgDm,
+                    message_id: msg.author.id,
+                    created_timestamp: msg.createdTimestamp,
+                    gpt_response: gptRes
+                }}
+                },
+                {new: true}
+            );
+
+            return gptRes;
 
         } catch (err) {
             console.error(err);

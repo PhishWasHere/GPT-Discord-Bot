@@ -53,10 +53,11 @@ client.on('messageCreate', async (msg) => { //move to subfolders when done
       if (!userData) { // if user does not exist, create it
         const gptRes = await newUser(msg, msgDm);
 
-        // return msg.reply(gptRes);
+        return msg.reply(gptRes);
       }
 
       const gptRes = await existingUser(msg, msgDm, userData);
+      msg.reply(gptRes);
     } 
 
   } catch (err) {
