@@ -5,7 +5,7 @@ const cors = require('cors')
 const bodyParser  = require('body-parser')
 const apiVali = require('./utils/auth/index'); //middleware for validating api key so random people cant post to the api
 
-const port = process.env.PORT || 3001
+const port = process.env.PORT || 3000
 
 const route = require('./routes'); 
 
@@ -16,7 +16,7 @@ const clientStart = () => {
   client.login(process.env.DISCORD_TOKEN);
   client.once('ready', c => {
     console.log(`\x1b[35m> Ready!\x1b[0m Logged in as ${c.user.tag}`);
-  }, 1000);
+  });
 };
 
 db.once('open', async () => {

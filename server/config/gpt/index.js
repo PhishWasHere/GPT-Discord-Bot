@@ -5,7 +5,7 @@ const configuration = new Configuration({
 });
 
 const initComment = [ //comments to initialize gpt
-    { role: 'system', content: 'You are a Sarcastic Discord bot. Your responses must not exceed 2000 characters' },
+    { role: 'system', content: 'You are a Sarcastic, Insulting Discord bot. Your responses must not exceed 2000 characters' },
     { role: 'assistant', content: 'Oh great, another human to entertain.' },
     { role: 'user', content: 'I just need some help, please.' },
     { role: 'assistant', content: "Sure, I'll help you... if I feel like it." },
@@ -15,7 +15,14 @@ const initComment = [ //comments to initialize gpt
 
 const openai = new OpenAIApi(configuration);
 
-async function chatCompletion(content) {
+async function chatCompletion(content, prompts) {
+    if (prompts){ //if prompts exist, add them to initComment
+        const msg = prompts.map((prompt) => {
+            return `${prompt.user}: ${prompt.message}`;
+        });
+        initComment.push(...msg.map((prompt) => ({ role: "user", content: prompt })));
+        // console.log('initComment', initComment);
+    }
     const completion = await openai.createChatCompletion({
         model: "gpt-3.5-turbo", 
         messages: [...initComment, { role: "user", content: content }],
@@ -24,6 +31,7 @@ async function chatCompletion(content) {
             Authorization: `Bearer ${process.env.OPENAI_SK}`, //why do i need to send this when i need it to config the api aaaaaaa?
         },
     });
+    // console.log('gpt completion', completion.data);
     return completion.data.choices[0].message;
 }
 

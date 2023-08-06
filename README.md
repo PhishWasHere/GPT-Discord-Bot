@@ -19,20 +19,27 @@
   A Discord bot powered by GPT3.5 turbo.
   Currently prompted to be insulting and sarcastic, however, to make it a normal assistant all you need to do is change the initComment array in the gpt config folder (server>config>gpt).
 
+  You will need node.js, and mongoDB to run this locally (nodemon is also a nice to have).
+
   ## Installation
-  After cloning the repo, update the .env.example to have a Discord Token, OpenAI API key, and a local API key, then use "yarn dev" or "npm run dev".
+  After cloning the repo, update the .env.example to have a Discord Token, OpenAI API key.
   You can get a Openai API key from [here](https://platform.openai.com/account/api-keys), and you can make a Discord bot from [here](https://discord.com/developers/applications).
 
-  ("API_KEY" makes sure only the server, or trusted users can make requests, and doesnt waste your openai token's. This API key can be anything)
-
   ## Usage
-  The bot will respond to any comment/message that begins with !!.
+  To start the bot, run: 
+```bash
+npm run dev 
+# or
+yarn dev
+```
 
-  (currently you need to use !! even in direct messages, thats currently work in progress)
+  (if you dont have nodemon, you need to update the package.json from: "scripts": {"dev": "nodemon server/server.js", to: "dev": "node server/server.js",)
+
+  The bot will respond to any direct message, or any message sent in the server that starts with !!.
+
 
   ## Note
-  This bot saves user intaractions for 24hours, to disable this, remove lines: 22, 23, 37-41,
-  then delete the mongo folder (server>config>mongo) folder and the models folder (server>models)
+  The bot uses persistant data. This means all prompts to the bot will be saved to a database for 30days, and the last 10 prompts will be added to the initial prompt array to configure behaviour. 
 
   ## Questions
   If you have any questions, please contact me at miran.yasunori00@gmail.com. You can also visit my [GitHub profile](https://github.com/PhishWasHere/).
