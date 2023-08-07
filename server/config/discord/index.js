@@ -27,6 +27,12 @@ client.on('message', async (msg) => { // todo: fix DM's
 });
 
 client.on('messageCreate', async (msg) => { //move to subfolders when done
+
+  // if (!msg?.author.bot && msg?.content.startsWith('!!') || !msg?.author.bot && msg.channel.type === 1) {
+  //   const devRes = 'currently in dev mode, try again later'
+  //   msg.reply(devRes);
+  // }
+
   try {
     ///////////////////guild section/////////////////
     if (!msg?.author.bot && msg?.content.startsWith('!!') ) { // ignore all messages unless they start with !! and are not from a bot
@@ -57,7 +63,6 @@ client.on('messageCreate', async (msg) => { //move to subfolders when done
       }
 
       const gptRes = await existingUser(msg, msgDm, userData);
-      msg.reply(gptRes);
     } 
 
   } catch (err) {

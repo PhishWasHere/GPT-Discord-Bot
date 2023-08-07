@@ -13,6 +13,13 @@ const contentSchema = new mongoose.Schema(
       },
     ],
     gpt_response: { type: String, required: true, default: null },
+    tokens: [ 
+      {
+        prompt: { type: Number, required: true },
+        completion: { type: Number, required: true },
+        total: { type: Number, required: true },
+      },
+    ],
   },
   {
     expires: '30d', //ttl 1month

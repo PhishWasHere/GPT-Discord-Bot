@@ -11,8 +11,10 @@ module.exports = {
       const prompt = `${msg.author.globalName}: ${msgClipped}}`
 
       await guildData.save(); // save guild to db
-      await chatCompletion(prompt).then((completion) => res = completion);
-      const gptRes = res.content;
+
+      const completion = await chatCompletion(prompt);
+      const {prompt_tokens, completion_tokens, total_tokens} =  completion.data.usage;
+      const gptRes = completion.data.choices[0].message.content;
 
       await Guild.findOneAndUpdate( // if guild exists, update it
           {guild_id: msg.guildId}, 
@@ -28,7 +30,14 @@ module.exports = {
                     created_timestamp: msg.createdTimestamp,
                   },
                 ],
-                gpt_response: gptRes
+                gpt_response: gptRes,
+                tokens: [ 
+                  {
+                      prompt: prompt_tokens,
+                      completion: completion_tokens,
+                      total: total_tokens,
+                  }
+                ]
               }
             }
           },
@@ -44,10 +53,10 @@ module.exports = {
     
   existingGuild: async (msg, msgClipped, guildData) => {
     try {
-      const messages = guildData.content.slice(0,6).map((message) => message.author[0].message); // gets last 10 messages from guild
-      const user = guildData.content.slice(0,6).map((message) => message.author[0].global_name); // get last 10 users from guild 
+      const messages = guildData.content.slice(0, 7).map((message) => message.author[0].message); // gets last 10 messages from guild
+      const user = guildData.content.slice(0, 7).map((message) => message.author[0].global_name); // get last 10 users from guild 
 
-      const gpt_Responses = guildData.content.slice(0,6).map((message) => message.gpt_response); // get last 10 responses from guild
+      const gpt_Responses = guildData.content.slice(0, 7).map((message) => message.gpt_response); // get last 10 responses from guild
       
       const userPrompts = messages.map((message, i) => { // create prompts array
         return {
@@ -64,8 +73,9 @@ module.exports = {
       });
       const sendMsg = `${msg.author.globalName}: ${msgClipped}` // create prompt to send to gpt
 
-      await chatCompletion(sendMsg, userPrompts, responses).then((completion) => res = completion);
-      const gptRes = res.content;
+      const completion = await chatCompletion(sendMsg, userPrompts, responses);
+      const {prompt_tokens, completion_tokens, total_tokens} =  completion.data.usage;
+      const gptRes = completion.data.choices[0].message.content;
 
       await Guild.findOneAndUpdate( // if guild exists, update it
         {guild_id: msg.guildId}, 
@@ -81,7 +91,14 @@ module.exports = {
                 created_timestamp: msg.createdTimestamp,
               },
             ],
-            gpt_response: gptRes
+            gpt_response: gptRes,
+            tokens: [ 
+              {
+                  prompt: prompt_tokens,
+                  completion: completion_tokens,
+                  total: total_tokens,
+              }
+          ]
           }
         }
       },
