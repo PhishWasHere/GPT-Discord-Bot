@@ -52,7 +52,7 @@ client.on('messageCreate', async (msg) => { //move to subfolders when done
     //////////////////message section////////////////
 
     if (!msg?.author.bot && msg.channel.type === 1) { 
-      const msgDm = msg.content;
+      const msgDm = msg.content.trim();
 
       const userData = await User.findOne({ user_id: msg.author.id });
 
@@ -63,6 +63,7 @@ client.on('messageCreate', async (msg) => { //move to subfolders when done
       }
 
       const gptRes = await existingUser(msg, msgDm, userData);
+      msg.reply(gptRes);
     } 
 
   } catch (err) {
