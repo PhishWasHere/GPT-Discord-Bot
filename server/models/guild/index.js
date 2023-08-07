@@ -22,6 +22,7 @@ const contentSchema = new mongoose.Schema(
     ],
   },
   {
+
     expires: '30d', //ttl 1month
   }
 );
@@ -31,6 +32,11 @@ const guildSchema = new mongoose.Schema(
     guild_id: { type: String, required: true },
     content: [ contentSchema ],
     created_at: { type: Date, default: Date.now },
+  },
+  {
+    capped: true,
+      size: 1048576,
+      max:10
   }
 );
 

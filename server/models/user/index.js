@@ -28,7 +28,11 @@ const userSchema = new mongoose.Schema(
     content: [ contentSchema ],
     created_at: { type: Date, default: Date.now },
   },
-
+  {
+    capped: true,
+      size: 1048576,
+      max:10
+  }
 );
 
 const User = mongoose.model('User', userSchema);

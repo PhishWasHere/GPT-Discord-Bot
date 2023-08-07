@@ -1,5 +1,7 @@
 const { Configuration, OpenAIApi } = require("openai");
 const interLeave = require("../../utils/mergeArr");
+const { PromptError } = require("../../models");
+const { init } = require("../../models/user");
 
 const configuration = new Configuration({
     apiKey: process.env.OPENAI_SK,
@@ -27,6 +29,7 @@ async function chatCompletion(content, prompts, responses) {
 
         const completion = await openai.createChatCompletion({
             model: "gpt-3.5-turbo", 
+            temperature: 0.8,
             messages: [...initPrompt, { role: "user", content: content }],
             }, {
             headers: {
@@ -34,9 +37,19 @@ async function chatCompletion(content, prompts, responses) {
             },
         });
 
+        console.log('\xb1[34m> prompt: \xb1[0m', content, '\xb1[34m> data: \xb1[0m', completion.data);
+
+        if (!completion.status === 200) {
+            await PromptError.create({
+                prompt: initPrompt,
+                content: content,
+            })
+            return 'GPT server error.'
+        }
+
         return completion
     } catch (err) {
-       return console.error(err);
+        console.error(err);
     }
 }
 
