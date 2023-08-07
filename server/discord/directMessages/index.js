@@ -12,8 +12,9 @@ module.exports = {
     
             await newUser.save();
 
-            await chatCompletion(msgDm).then((completion) => res = completion);
-            const gptRes = res.content;
+            const completion = await chatCompletion(msgDm);
+            const {prompt_tokens, completion_tokens, total_tokens} =  completion.data.usage;
+            const gptRes = completion.data.choices[0].message.content;
 
             await User.findOneAndUpdate(
             {user_id: msg.author.id, username: msg.author.username, global_name: msg.author.username},
@@ -21,7 +22,14 @@ module.exports = {
                 message: msgDm,
                 message_id: msg.author.id,
                 created_timestamp: msg.createdTimestamp,
-                gpt_response: gptRes
+                gpt_response: gptRes,
+                tokens: [ 
+                    {
+                        prompt: prompt_tokens,
+                        completion: completion_tokens,
+                        total: total_tokens,
+                    }
+                ]
             }}
             },
                 {new: true}
@@ -36,10 +44,10 @@ module.exports = {
 
     existingUser: async (msg, msgDm, userData) => {
         try {
-            const messages = userData.content.slice(0,6).map((message) => message.message); // gets last 10 messages from user
+            const messages = userData.content.slice(0, 7).map((message) => message.message); // gets last 10 messages from user
             const user = userData.global_name; // get last 10 users from user
 
-            const gpt_Responses = userData.content.slice(0,6).map((message) => message.gpt_response); // get last 10 responses from user
+            const gpt_Responses = userData.content.slice(0, 7).map((message) => message.gpt_response); // get last 10 responses from user
 
             const prompts = messages.map((message) => { // create prompts array
                 return {
@@ -55,8 +63,9 @@ module.exports = {
                 };
             });
 
-            await chatCompletion(msgDm, prompts, responses).then((completion) => res = completion);
-            const gptRes = res.content;
+            const completion = await chatCompletion(msgDm, prompts, responses);
+            const {prompt_tokens, completion_tokens, total_tokens} =  completion.data.usage;
+            const gptRes = completion.data.choices[0].message.content;
 
             await User.findOneAndUpdate(
                 {user_id: msg.author.id, username: msg.author.username, global_name: msg.author.username},
@@ -64,7 +73,14 @@ module.exports = {
                     message: msgDm,
                     message_id: msg.author.id,
                     created_timestamp: msg.createdTimestamp,
-                    gpt_response: gptRes
+                    gpt_response: gptRes,
+                    tokens: [ 
+                        {
+                            prompt: prompt_tokens,
+                            completion: completion_tokens,
+                            total: total_tokens,
+                        }
+                    ]
                 }}
                 },
                 {new: true}
