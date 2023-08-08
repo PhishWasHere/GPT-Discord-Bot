@@ -20,19 +20,13 @@ const contentSchema = new mongoose.Schema(
     }
 );
 
-
 const userSchema = new mongoose.Schema(
-{ 
-    user_id: { type: String, required: true },
-    username: { type: String, required: true },
-    content: [ contentSchema ],
-    created_at: { type: Date, default: Date.now },
-},
-{
-    capped: true,
-    size: 1048576,
-    max:10
-}
+    { 
+        user_id: { type: String, required: true },
+        username: { type: String, required: true },
+        content: [contentSchema],
+        created_at: { type: Date, default: Date.now },
+    },
 );
 
 const Users = mongoose.model('Users', userSchema);

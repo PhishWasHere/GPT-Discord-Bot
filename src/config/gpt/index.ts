@@ -21,7 +21,7 @@ const initPrompt: Prompt[] = [ //comments to initialize gpt
 const openai = new OpenAIApi(configuration);
 
 export const chatCompletion = async (content: string, prompts?: any, responses?: any) : Promise<any> => { // change any to Prompt[] when i figure that out
-    try {
+    try { 
         if (prompts && responses){ //if prompts exist, add them to initPrompt
             const mergedPrompts = await interLeave(prompts, responses);
 
@@ -38,13 +38,9 @@ export const chatCompletion = async (content: string, prompts?: any, responses?:
             },
         });
 
-        console.log('\xb1[34m> prompt: \xb1[0m', content, '\xb1[34m> data: \xb1[0m', completion.data);
+        //console.log('\xb1[34m> prompt: \xb1[0m', content, '\xb1[34m> data: \xb1[0m', completion.data);
 
         if (completion.status !== 200) {
-            // await PromptError.create({
-            //     prompt: initPrompt,
-            //     content: content,
-            // })
             return 'GPT server error.'
         }
 

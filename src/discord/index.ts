@@ -1,8 +1,8 @@
 import { GatewayIntentBits, Client, Partials } from 'discord.js';
 import {Users, Guilds} from '../models';
 import {newUser, existingUser} from './messageCreate/directMessage';
-
-const API_KEY = process.env.API_KEY;
+import { newGuild } from './messageCreate/guilds';
+import { slicer } from '../utils/slicer';
 
 const client = new Client({
     intents: [
@@ -26,16 +26,38 @@ const clientStart = async () => {
 client.on('messageCreate', async (msg) => {
     try {        
         if (!msg?.author.bot && msg.author.username == 'silentwashere') {
-            const msgContent = msg.content.trim();
+            let msgContent = msg.content.trim();
             
             switch(true) {
-                case msg.channel.type === 1: // db
+                //////////////////message section/////////////////
+                case msg.channel.type === 1: // dm
                     const userData = await Users.findOne({ user_id: msg.author.id });
+
                     if (!userData) {
                         const gptRes = await newUser(msg, msgContent);
                         msg.reply(gptRes);
-                    } const gptRes = await existingUser(msg, msgContent, userData);
+                        break;
+                    } 
+                    
+                    const gptRes = await existingUser(msg, msgContent, userData);
+                    
                     msg.reply(gptRes);
+                break;
+                
+                ///////////////////guild section/////////////////
+                case msg?.content.startsWith('!!'): // guild
+                    msgContent = msgContent.slice(2).trim();
+                    const guildData = await Guilds.findOne({ guild_id: msg.guildId });
+                    if (!guildData) {
+                        const gptRes = await newGuild(msg, msgContent);
+                        msg.reply(gptRes);
+                        break;
+                    }
+                                        
+                    if (guildData.content.length > 6) {
+                        guildData.content.shift();
+                    }
+                    
                 break;
 
             }
