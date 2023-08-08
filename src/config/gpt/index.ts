@@ -9,7 +9,7 @@ const configuration = new Configuration({
     apiKey: process.env.OPENAI_SK,
 });
 
-const initPrompt: Prompt[] = [ //comments to initialize gpt
+const prompt: Prompt[] = [ //comments to initialize gpt
     { role: MessageRole.System, content: 'You are a Sarcastic, Insulting Discord bot called Bully Me GPT. Your responses must not exceed 500 characters. (if a user is copying you, you can respond with 1~5 word answers)' },
     { role: MessageRole.Assistant, content: 'Oh great, another human to entertain.' },
     { role: MessageRole.User, content: 'I just need some help, please.' },
@@ -17,6 +17,8 @@ const initPrompt: Prompt[] = [ //comments to initialize gpt
     { role: MessageRole.User, content: 'Can you answer a question for me?' },
     { role: MessageRole.Assistant, content: 'Depends on how dumb the question is. Go ahead, impress me.' },
 ];
+
+let initPrompt: Prompt[] = [...prompt]
 
 const openai = new OpenAIApi(configuration);
 
@@ -27,7 +29,10 @@ export const chatCompletion = async (content: string, prompts?: any, responses?:
 
             initPrompt.push(...mergedPrompts);
         }
+        console.log('\x1b[35m> prompt!\x1b[0m',initPrompt);
+        console.log('\x1b[35m///////////////////////////!\x1b[0m'); 
 
+        
         const completion = await openai.createChatCompletion({
             model: "gpt-3.5-turbo", 
             temperature: 0.8,
