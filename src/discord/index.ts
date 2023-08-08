@@ -1,6 +1,6 @@
 import { GatewayIntentBits, Client, Partials } from 'discord.js';
 import {Users, Guilds} from '../models';
-import {newUser} from './messageCreate/directMessage';
+import {newUser, existingUser} from './messageCreate/directMessage';
 
 const API_KEY = process.env.API_KEY;
 
@@ -34,8 +34,8 @@ client.on('messageCreate', async (msg) => {
                     if (!userData) {
                         const gptRes = await newUser(msg, msgContent);
                         msg.reply(gptRes);
-                    } //const gptRes = await existingUser(msg, msgDm, userData);
-                    // msg.reply(gptRes);
+                    } const gptRes = await existingUser(msg, msgContent, userData);
+                    msg.reply(gptRes);
                 break;
 
             }

@@ -43,21 +43,21 @@ export const newUser = async (msg: any, msgContent: string) => { //change any to
     }
 };
 
-export const existingUser: ExistingUserFunction = async (msg, msgContent, userData) => {
+export const existingUser = async (msg: any, msgContent: string, userData: any) => { //remove any type when i figure that out
     try {
-        const messages = userData.content.slice(0, 7).map((message) => message.message); // gets last 10 messages from user
+        const messages = userData.content.slice(0, 7).map((message: any) => message.message); // gets last 10 messages from user
         const user = userData.global_name; // get last 10 users from user
 
-        const gpt_Responses = userData.content.slice(0, 7).map((message) => message.gpt_response); // get last 10 responses from user
+        const gpt_Responses = userData.content.slice(0, 7).map((message: any) => message.gpt_response); // get last 10 responses from user
 
-        const prompts = messages.map((message) => { // create prompts array
+        const prompts = messages.map((message: any) => { // create prompts array
             return {
                 role: 'user',
                 content: `${user}: ${message}`
             };
         });
 
-        const responses = gpt_Responses.map((response) => {
+        const responses = gpt_Responses.map((response: any) => {
             return {
                 role: 'assistant',
                 content: response
@@ -69,8 +69,9 @@ export const existingUser: ExistingUserFunction = async (msg, msgContent, userDa
         const gptRes = completion.data.choices[0].message.content;
 
         await User.findOneAndUpdate(
-            {user_id: msg.author.id, username: msg.author.username, global_name: msg.author.username},
+            {user_id: msg.author.id},
             {$push: {content: {
+                global_name: msg.author.username,
                 message: msgContent,
                 message_id: msg.author.id,
                 created_timestamp: msg.createdTimestamp,
