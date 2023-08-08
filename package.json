@@ -2,17 +2,17 @@
   "name": "bully-me-gpt",
   "version": "0.1.0",
   "private": true,
+  "main": "server.ts",
   "scripts": {
-    "dev": "nodemon server/server.js",
-    "start": "node server.js",
-    "lint": "next lint"
+    "dev": "nodemon src/server.ts",
+    "start": "node server.ts",
+    "lint": "next lint",
+    "build": "tsc"
   },
   "dependencies": {
-    "@types/node": "20.4.5",
-    "@types/react": "18.2.17",
-    "@types/react-dom": "18.2.7",
+    "@types/node": "^20.4.8",
     "autoprefixer": "10.4.14",
-    "axios": "^1.4.0",
+    "body-parser": "^1.20.2",
     "cors": "^2.8.5",
     "discord-interactions": "^3.4.0",
     "discord.js": "^14.12.1",
@@ -21,6 +21,8 @@
     "eslint-config-next": "13.4.12",
     "express": "^4.18.2",
     "mongoose": "^7.0.2",
-    "openai": "^3.3.0"
+    "openai": "^3.3.0",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.1.6"
   }
 }
