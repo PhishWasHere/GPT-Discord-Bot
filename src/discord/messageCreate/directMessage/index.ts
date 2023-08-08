@@ -1,6 +1,7 @@
 import {chatCompletion} from '../../../config/gpt/';
 import User from '../../../models/users/';
-import { ExistingUserFunction } from '../../../utils/interface';
+import { Message } from "../../../utils/interface";
+
 
 export const newUser = async (msg: any, msgContent: string) => { //change any to acept Message type when i get that working
     try {

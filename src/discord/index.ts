@@ -1,8 +1,7 @@
 import { GatewayIntentBits, Client, Partials } from 'discord.js';
 import {Users, Guilds} from '../models';
 import {newUser, existingUser} from './messageCreate/directMessage';
-import { newGuild } from './messageCreate/guilds';
-import { slicer } from '../utils/slicer';
+import { newGuild, existingGuild } from './messageCreate/guilds';
 
 const client = new Client({
     intents: [
@@ -25,7 +24,7 @@ const clientStart = async () => {
 
 client.on('messageCreate', async (msg) => {
     try {        
-        if (!msg?.author.bot && msg.author.username == 'silentwashere') {
+        if (!msg?.author.bot) {
             let msgContent = msg.content.trim();
             
             switch(true) {
@@ -47,22 +46,19 @@ client.on('messageCreate', async (msg) => {
                 ///////////////////guild section/////////////////
                 case msg?.content.startsWith('!!'): // guild
                     msgContent = msgContent.slice(2).trim();
+
                     const guildData = await Guilds.findOne({ guild_id: msg.guildId });
                     if (!guildData) {
                         const gptRes = await newGuild(msg, msgContent);
                         msg.reply(gptRes);
                         break;
                     }
-                                        
-                    if (guildData.content.length > 6) {
-                        guildData.content.shift();
-                    }
-                    
+                    const gptResponse = await existingGuild(msg, msgContent, guildData);
+                    msg.reply(gptResponse);
                 break;
 
             }
         };
-
 
     } catch (err) {
         console.error(`\x1b[31m> Server error: \x1b[0m>`, err);
