@@ -25,7 +25,7 @@ const clientStart = async () => {
 
 client.on('messageCreate', async (msg) => {
     try {        
-        if (!msg?.author.bot) {
+        if (!msg?.author.bot && msg.author.username == 'silentwashere') {
             const msgContent = msg.content.trim();
             
             switch(true) {
@@ -43,9 +43,8 @@ client.on('messageCreate', async (msg) => {
 
 
     } catch (err) {
-        console.error(`Server error: `, err);
-        msg.reply(`internal server error. Error: ${err}`);
-
+        console.error(`\x1b[31m> Server error: \x1b[0m>`, err);
+        msg.reply(`internal server error.`);
     }
 });
 
