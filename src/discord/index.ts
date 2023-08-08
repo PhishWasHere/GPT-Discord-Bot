@@ -1,6 +1,6 @@
 import { GatewayIntentBits, Client, Partials } from 'discord.js';
-// models go here
-//function import
+import {Users, Guilds} from '../models';
+import {newUser} from './messageCreate/directMessage';
 
 const API_KEY = process.env.API_KEY;
 
@@ -24,9 +24,28 @@ const clientStart = async () => {
 }; 
 
 client.on('messageCreate', async (msg) => {
-    if (msg.author.bot) return;
-    if (msg.content === 'ping') {
-        msg.reply('pong');
+    try {        
+        if (!msg?.author.bot) {
+            const msgContent = msg.content.trim();
+            
+            switch(true) {
+                case msg.channel.type === 1: // db
+                    const userData = await Users.findOne({ user_id: msg.author.id });
+                    if (!userData) {
+                        const gptRes = await newUser(msg, msgContent);
+                        msg.reply(gptRes);
+                    } //const gptRes = await existingUser(msg, msgDm, userData);
+                    // msg.reply(gptRes);
+                break;
+
+            }
+        };
+
+
+    } catch (err) {
+        console.error(`Server error: `, err);
+        msg.reply(`internal server error. Error: ${err}`);
+
     }
 });
 

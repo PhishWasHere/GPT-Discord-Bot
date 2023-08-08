@@ -25,7 +25,7 @@ db.once('open', async () => {
       })
   
       clientStart();
-    } catch (err) {
+    } catch (err: any) {
       console.error(err.stack)
       process.exit(1)
     }
