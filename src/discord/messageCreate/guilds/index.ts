@@ -52,15 +52,15 @@ export const newGuild = async (msg: any, msgContent: string) => {
 export const existingGuild = async (msg: any, msgContent: string, guildData: any) => {
     try {
         const messages = guildData.content
-            .slice(Math.max(guildData.content.length - 6, 0))
+            .slice(Math.max(guildData.content.length - 7, 0))
             .map((message: any) => message.author[0].message);
 
         const user = guildData.content
-            .slice(Math.max(guildData.content.length - 6, 0))
+            .slice(Math.max(guildData.content.length - 7, 0))
             .map((message: any) => message.author[0].global_name);
 
         const gpt_Responses = guildData.content
-            .slice(Math.max(guildData.content.length - 6, 0))
+            .slice(Math.max(guildData.content.length - 7, 0))
             .map((message: any) => message.gpt_response);
 
         const userPrompts = messages.map((message: any, i: any) => { // create prompts array

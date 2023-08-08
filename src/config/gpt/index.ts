@@ -20,17 +20,21 @@ const prompt: Prompt[] = [ //comments to initialize gpt
 
 let initPrompt: Prompt[] = [...prompt]
 
+const resetInitPrompt = () => {
+    initPrompt = [...prompt];
+};
+
 const openai = new OpenAIApi(configuration);
 
 export const chatCompletion = async (content: string, prompts?: any, responses?: any) : Promise<any> => { // change any to Prompt[] when i figure that out
     try { 
         if (prompts && responses){ //if prompts exist, add them to initPrompt
             const mergedPrompts = await interLeave(prompts, responses);
-
+            await resetInitPrompt(); 
             initPrompt.push(...mergedPrompts);
         }
         console.log('\x1b[35m> prompt!\x1b[0m',initPrompt);
-        console.log('\x1b[35m///////////////////////////!\x1b[0m'); 
+        console.log('\x1b[35m///////////////////////////\x1b[0m'); 
 
         
         const completion = await openai.createChatCompletion({

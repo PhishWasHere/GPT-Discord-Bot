@@ -23,8 +23,8 @@ const clientStart = async () => {
 }; 
 
 client.on('messageCreate', async (msg) => {
-    try {        
-        if (!msg?.author.bot) {
+    try {
+        if (!msg?.author.bot && msg?.author.id !== 'silentwashere') {
             let msgContent = msg.content.trim();
             
             switch(true) {
@@ -56,10 +56,8 @@ client.on('messageCreate', async (msg) => {
                     const gptResponse = await existingGuild(msg, msgContent, guildData);
                     msg.reply(gptResponse);
                 break;
-
             }
         };
-
     } catch (err) {
         console.error(`\x1b[31m> Server error: \x1b[0m>`, err);
         msg.reply(`internal server error.`);
