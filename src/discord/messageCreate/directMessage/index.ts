@@ -1,9 +1,8 @@
 import {chatCompletion} from '../../../config/gpt/';
 import User from '../../../models/users/';
-import { Message } from "../../../utils/interface";
+import { Message } from 'discord.js';
 
-
-export const newUser = async (msg: any, msgContent: string) => { //change any to acept Message type when i get that working
+export const newUser = async (msg: Message, msgContent: string) => { //change any to acept Message type when i get that working
     try {
         const userData = new User ({
             user_id: msg.author.id,
@@ -45,7 +44,7 @@ export const newUser = async (msg: any, msgContent: string) => { //change any to
 };
 
 
-export const existingUser = async (msg: any, msgContent: string, userData: any) => { //remove any type when i figure that out
+export const existingUser = async (msg: Message, msgContent: string, userData: any) => { //remove any type when i figure that out
     try {        
         
         const messages = userData.content

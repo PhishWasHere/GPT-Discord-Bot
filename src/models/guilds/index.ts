@@ -22,7 +22,7 @@ const contentSchema = new mongoose.Schema(
       ],
     },
     {
-      expires: '30d', //ttl 1month
+      expires: '7d', //ttl 1month
     }
 );
 

@@ -4,7 +4,7 @@ import express from 'express';
 import cors from 'cors';
 import bodyParser from 'body-parser';
 
-const port = process.env.PORT || 3002;
+const port = process.env.PORT || 3001;
 
 import db from './config/mongo';
 import {clientStart} from './discord';

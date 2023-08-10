@@ -20,7 +20,7 @@ const prompt: Prompt[] = [ //comments to initialize gpt
 
 let initPrompt: Prompt[] = [...prompt]
 
-const resetInitPrompt = () => {
+const resetInitPrompt = async () => {
     initPrompt = [...prompt];
 };
 
@@ -33,13 +33,13 @@ export const chatCompletion = async (content: string, prompts?: any, responses?:
             await resetInitPrompt(); 
             initPrompt.push(...mergedPrompts);
         }
-        console.log('\x1b[35m> prompt!\x1b[0m',initPrompt);
-        console.log('\x1b[35m///////////////////////////\x1b[0m'); 
+        // console.log('\x1b[35m> prompt!\x1b[0m',initPrompt);
+        // console.log('\x1b[35m///////////////////////////\x1b[0m'); 
 
         
         const completion = await openai.createChatCompletion({
             model: "gpt-3.5-turbo", 
-            temperature: 0.8,
+            temperature: 0.9,
             messages: [...initPrompt, { role: "user", content: content }],
             }, {
             headers: {
