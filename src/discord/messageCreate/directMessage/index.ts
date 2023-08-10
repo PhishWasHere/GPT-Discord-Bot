@@ -43,28 +43,50 @@ export const newUser = async (msg: Message, msgContent: string) => { //change an
     }
 };
 
+interface Token {
+    prompt: number;
+    completion: number;
+    total: number;
+}
 
-export const existingUser = async (msg: Message, msgContent: string, userData: any) => { //remove any type when i figure that out
+interface Content {
+    global_name: string;
+    message: string;
+    message_id: string;
+    created_timestamp: number;
+    gpt_response: string | null;
+    tokens: Token[];
+}
+
+interface UserProfile {
+    user_id: string;
+    username: string;
+    content: Content[];
+    created_at: Date;
+}
+
+export const existingUser = async (msg: Message, msgContent: string, userData: UserProfile) => { //remove any type when i figure that out
     try {        
         
         const messages = userData.content
             .slice(Math.max(userData.content.length - 7, 0))
-            .map((message: any) => message.message); // gets last 10 messages from user
+            .map((message) => message.message); // gets last 10 messages from user
        
-        const user = userData.global_name; 
-
+        const user = userData.content
+            .map((message) => message.global_name); 
+                
         const gpt_Responses = userData.content
             .slice(Math.max(userData.content.length - 7, 0))
-            .map((message: any) => message.gpt_response);// get last 10 responses from user
+            .map((message) => message.gpt_response);// get last 10 responses from user
 
-        const prompts = messages.map((message: any) => { // create prompts array
+        const prompts = messages.map((message) => { // create prompts array
             return {
                 role: 'user',
                 content: `${user}: ${message}`
             };
         });
 
-        const responses = gpt_Responses.map((response: any) => {
+        const responses = gpt_Responses.map((response) => {
             return {
                 role: 'assistant',
                 content: response
