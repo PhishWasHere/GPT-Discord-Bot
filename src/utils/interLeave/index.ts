@@ -1,4 +1,3 @@
-import { Message } from "discord.js";
 
 export const interLeave = async (arr1: any, arr2:any) => { 
     const merged = [];

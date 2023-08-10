@@ -1,8 +1,9 @@
 import {chatCompletion} from '../../../config/gpt/';
 import User from '../../../models/users/';
 import { Message } from 'discord.js';
+import { UserProfile } from '../../../utils/interface/';
 
-export const newUser = async (msg: Message, msgContent: string) => { //change any to acept Message type when i get that working
+export const newUser = async (msg: Message, msgContent: string) => { 
     try {
         const userData = new User ({
             user_id: msg.author.id,
@@ -16,22 +17,22 @@ export const newUser = async (msg: Message, msgContent: string) => { //change an
         const {prompt_tokens, completion_tokens, total_tokens} =  completion.data.usage;
         const gptRes = completion.data.choices[0].message.content;        
         
-        const updatedData = await User.findOneAndUpdate(
-        {user_id: msg.author.id},
-        {$push: {content: {
-            global_name: msg.author.username,
-            message: msgContent,
-            message_id: msg.author.id,
-            created_timestamp: msg.createdTimestamp,
-            gpt_response: gptRes,
-            tokens: [ 
-                {
-                    prompt: prompt_tokens,
-                    completion: completion_tokens,
-                    total: total_tokens,
-                }
-            ]
-        }}
+        await User.findOneAndUpdate(
+            {user_id: msg.author.id},
+            {$push: {content: {
+                global_name: msg.author.username,
+                message: msgContent,
+                message_id: msg.author.id,
+                created_timestamp: msg.createdTimestamp,
+                gpt_response: gptRes,
+                tokens: [ 
+                    {
+                        prompt: prompt_tokens,
+                        completion: completion_tokens,
+                        total: total_tokens,
+                    }
+                ]
+            }}
         },
             {new: true}
         );
@@ -43,29 +44,7 @@ export const newUser = async (msg: Message, msgContent: string) => { //change an
     }
 };
 
-interface Token {
-    prompt: number;
-    completion: number;
-    total: number;
-}
-
-interface Content {
-    global_name: string;
-    message: string;
-    message_id: string;
-    created_timestamp: number;
-    gpt_response: string | null;
-    tokens: Token[];
-}
-
-interface UserProfile {
-    user_id: string;
-    username: string;
-    content: Content[];
-    created_at: Date;
-}
-
-export const existingUser = async (msg: Message, msgContent: string, userData: UserProfile) => { //remove any type when i figure that out
+export const existingUser = async (msg: Message, msgContent: string, userData: UserProfile) => {
     try {        
         
         const messages = userData.content
@@ -113,7 +92,7 @@ export const existingUser = async (msg: Message, msgContent: string, userData: U
                     }
                 ]
             }}
-            },
+        },
             {new: true}
         );
 

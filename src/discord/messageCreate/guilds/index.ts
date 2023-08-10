@@ -1,6 +1,7 @@
 import { chatCompletion } from "../../../config/gpt";
 import Guilds from '../../../models/guilds/';
 import { Message } from "discord.js";
+import { Guild } from "../../../utils/interface/";
 
 export const newGuild = async (msg: Message, msgContent: string) => {
     try {
@@ -48,34 +49,6 @@ export const newGuild = async (msg: Message, msgContent: string) => {
         console.error(err);
     }
 };
-
-interface Author {
-    user_id: string;
-    username: string;
-    global_name: string;
-    message: string;
-    message_id: string;
-    created_timestamp: number;
-}
-
-interface Token {
-    prompt: number;
-    completion: number;
-    total: number;
-}
-
-interface Content {
-    author: Author[];
-    gpt_response: string | null;
-    tokens: Token[];
-}
-
-interface Guild {
-    guild_id: string;
-    content: Content[];
-    created_at: Date;
-}
-
 
 export const existingGuild = async (msg: Message, msgContent: string, guildData: Guild) => {
     try {
