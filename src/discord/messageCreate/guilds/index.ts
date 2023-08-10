@@ -1,8 +1,8 @@
 import { chatCompletion } from "../../../config/gpt";
 import Guilds from '../../../models/guilds/';
-import { Message } from "../../../utils/interface";
+import { Message } from "discord.js";
 
-export const newGuild = async (msg: any, msgContent: string) => {
+export const newGuild = async (msg: Message, msgContent: string) => {
     try {
         const guildData = new Guilds ({
             guild_id: msg.guildId,
@@ -49,28 +49,56 @@ export const newGuild = async (msg: any, msgContent: string) => {
     }
 };
 
-export const existingGuild = async (msg: any, msgContent: string, guildData: any) => {
+interface Author {
+    user_id: string;
+    username: string;
+    global_name: string;
+    message: string;
+    message_id: string;
+    created_timestamp: number;
+}
+
+interface Token {
+    prompt: number;
+    completion: number;
+    total: number;
+}
+
+interface Content {
+    author: Author[];
+    gpt_response: string | null;
+    tokens: Token[];
+}
+
+interface Guild {
+    guild_id: string;
+    content: Content[];
+    created_at: Date;
+}
+
+
+export const existingGuild = async (msg: Message, msgContent: string, guildData: Guild) => {
     try {
         const messages = guildData.content
             .slice(Math.max(guildData.content.length - 7, 0))
-            .map((message: any) => message.author[0].message);
+            .map((message) => message.author[0].message);
 
         const user = guildData.content
             .slice(Math.max(guildData.content.length - 7, 0))
-            .map((message: any) => message.author[0].global_name);
+            .map((message) => message.author[0].global_name);
 
         const gpt_Responses = guildData.content
             .slice(Math.max(guildData.content.length - 7, 0))
-            .map((message: any) => message.gpt_response);
+            .map((message) => message.gpt_response);
 
-        const userPrompts = messages.map((message: any, i: any) => { // create prompts array
+        const userPrompts = messages.map((message, i) => { // create prompts array
             return {
                 role: 'user',
                 content: `${user[i]}: ${message}}`
             };
         });
     
-            const responses = gpt_Responses.map((response: any) => {
+            const responses = gpt_Responses.map((response) => {
             return {
                 role: 'assistant',
                 content: response
