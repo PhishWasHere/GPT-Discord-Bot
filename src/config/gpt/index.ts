@@ -1,9 +1,16 @@
 import { Configuration, OpenAIApi } from 'openai';
-import { Prompt, MessageRole } from '../../utils/interface';
-
 import { interLeave } from '../../utils/interLeave';
 
+enum MessageRole{ 
+    System = 'system',
+    Assistant = 'assistant',
+    User = 'user',
+}
 
+type Prompt = {
+    role: MessageRole;
+    content: string;
+};
 
 const configuration = new Configuration({
     apiKey: process.env.OPENAI_SK,
@@ -25,9 +32,13 @@ const resetInitPrompt = async () => {
 };
 
 const openai = new OpenAIApi(configuration);
-
-export const chatCompletion = async (content: string, prompts?: any, responses?: any) : Promise<any> => { // change any to Prompt[] when i figure that out
+interface UserPrompt{
+    role: string;
+    content: string;
+}
+export const chatCompletion = async (content: string, prompts?: UserPrompt[], responses?: any) : Promise<any> => { // change any to Prompt[] when i figure that out
     try { 
+        
         if (prompts && responses){ //if prompts exist, add them to initPrompt
             const mergedPrompts = await interLeave(prompts, responses);
             await resetInitPrompt(); 

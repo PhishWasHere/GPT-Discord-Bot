@@ -25,8 +25,8 @@ const clientStart = async () => {
 client.on('messageCreate', async (msg) => {
     try {
         // console.log(msg);
-        
-        if (!msg?.author.bot || !msg?.author.bot && msg.channelId == '801086256711860335') {
+        //|| !msg?.author.bot && msg.channelId == '801086256711860335'
+        if (!msg?.author.bot) {
             let msgContent = msg.content.trim();
             
             switch(true) {
