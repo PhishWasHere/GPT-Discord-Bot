@@ -31,9 +31,6 @@ export const chatCompletion = async (content: string, prompts?: UserPrompt[], re
             await resetInitPrompt(); 
             initPrompt.push(...mergedPrompts);
         }
-        // console.log('\x1b[35m> prompt!\x1b[0m',initPrompt);
-        // console.log('\x1b[35m///////////////////////////\x1b[0m'); 
-
         
         const completion = await openai.createChatCompletion({
             model: "gpt-3.5-turbo", 
@@ -44,8 +41,6 @@ export const chatCompletion = async (content: string, prompts?: UserPrompt[], re
                 Authorization: `Bearer ${process.env.OPENAI_SK}`, //why do i need to send this when i need it to config the api aaaaaaa?
             },
         });
-
-        //console.log('\xb1[34m> prompt: \xb1[0m', content, '\xb1[34m> data: \xb1[0m', completion.data);
 
         if (completion.status !== 200) {
             return 'GPT server error.'
