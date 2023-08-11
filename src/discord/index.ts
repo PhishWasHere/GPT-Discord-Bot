@@ -1,7 +1,5 @@
 import { GatewayIntentBits, Client, Partials } from 'discord.js';
-import {Users, Guilds} from '../models';
-import {newUser, existingUser} from './messageCreate/directMessage';
-import { newGuild, existingGuild } from './messageCreate/guilds';
+import { handleDm, handleGuild } from './messageCreate';
 
 const client = new Client({
     intents: [
@@ -16,10 +14,11 @@ const client = new Client({
 });
 
 const clientStart = async () => {
-    client.login(process.env.DISCORD_TOKEN);
-    client.once('ready', c => {
-      console.log(`\x1b[35m> Ready!\x1b[0m Logged in as ${c.user.tag}`);
-    });
+    try {
+        client.login(process.env.DISCORD_TOKEN);
+    } catch (err) {
+        console.error(`\x1b[31m> Server error: \x1b[0m>`, err);
+    }
 }; 
 
 client.on('messageCreate', async (msg) => {
@@ -31,31 +30,13 @@ client.on('messageCreate', async (msg) => {
             switch(true) {
                 //////////////////message section/////////////////
                 case msg.channel.type === 1: // dm
-                    const userData = await Users.findOne({ user_id: msg.author.id });
-
-                    if (!userData) {
-                        const gptRes = await newUser(msg, msgContent);
-                        msg.reply(gptRes);
-                        break;
-                    } 
-                    
-                    const gptRes = await existingUser(msg, msgContent, userData);
-                    
-                    msg.reply(gptRes);
+                    await handleDm(msg, msgContent);
                 break;
                 
                 ///////////////////guild section/////////////////
                 case msg?.content.startsWith('!!'): // guild
                     msgContent = msgContent.slice(2).trim();
-
-                    const guildData = await Guilds.findOne({ guild_id: msg.guildId });
-                    if (!guildData) {
-                        const gptRes = await newGuild(msg, msgContent);
-                        msg.reply(gptRes);
-                        break;
-                    }
-                    const gptResponse = await existingGuild(msg, msgContent, guildData);
-                    msg.reply(gptResponse);
+                    await handleGuild(msg, msgContent);
                 break;
             }
         };
@@ -65,6 +46,8 @@ client.on('messageCreate', async (msg) => {
     }
 });
 
-
+client.once('ready', c => {
+    console.log(`\x1b[35m> Ready!\x1b[0m Logged in as ${c.user.tag}`);
+});
 export {client, clientStart};
 
