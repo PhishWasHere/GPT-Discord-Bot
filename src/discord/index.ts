@@ -1,4 +1,5 @@
 import { GatewayIntentBits, Client, Partials } from 'discord.js';
+import {createCommands, commandArr} from './commands';
 import {Users, Guilds} from '../models';
 import {newUser, existingUser} from './messageCreate/directMessage';
 import { newGuild, existingGuild } from './messageCreate/guilds';
@@ -16,15 +17,15 @@ const client = new Client({
 });
 
 const clientStart = async () => {
-    client.login(process.env.DISCORD_TOKEN);
-    client.once('ready', c => {
-      console.log(`\x1b[35m> Ready!\x1b[0m Logged in as ${c.user.tag}`);
-    });
+    try {
+        client.login(process.env.DISCORD_TOKEN);
+    } catch (err) {
+        console.error(`\x1b[31m> Server error: \x1b[0m>`, err);
+    }
 }; 
 
 client.on('messageCreate', async (msg) => {
     try {
-        // console.log(msg);
         if (!msg?.author.bot || !msg?.author.bot && msg.channelId == '801086256711860335') {
             let msgContent = msg.content.trim();
             
@@ -65,6 +66,34 @@ client.on('messageCreate', async (msg) => {
     }
 });
 
+client.on('interactionCreate', async (interaction) => {
+    if (!interaction.isCommand()) return;
 
+    const { commandName, options } = interaction;
+
+    switch (commandName) {
+        case 'mute':
+            
+        break;
+
+    }
+});
+
+
+client.once('ready', async (c) => {
+    console.log(`\x1b[35m> Ready!\x1b[0m Logged in as ${c.user.tag}`);
+
+    const dev_Guild = process.env.GUILD_ID;
+    const guild = client.guilds.cache.get(dev_Guild!);
+    let commands;
+
+    if (guild) {
+        commands = guild.commands;
+    }
+    commands = client.application?.commands;
+
+    await createCommands(commandArr!, commands);
+            
+});
 export {client, clientStart};
 

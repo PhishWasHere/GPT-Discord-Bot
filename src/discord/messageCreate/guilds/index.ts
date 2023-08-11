@@ -71,7 +71,7 @@ export const existingGuild = async (msg: Message, msgContent: string, guildData:
             };
         });
     
-            const responses = gpt_Responses.map((response) => {
+         const responses = gpt_Responses.map((response) => {
             return {
                 role: 'assistant',
                 content: response

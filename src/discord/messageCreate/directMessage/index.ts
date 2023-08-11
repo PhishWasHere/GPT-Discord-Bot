@@ -49,14 +49,14 @@ export const existingUser = async (msg: Message, msgContent: string, userData: U
         
         const messages = userData.content
             .slice(Math.max(userData.content.length - 7, 0))
-            .map((message) => message.message); // gets last 10 messages from user
+            .map((message) => message.message); // gets last 8 messages from user
        
         const user = userData.content
             .map((message) => message.global_name); 
                 
         const gpt_Responses = userData.content
             .slice(Math.max(userData.content.length - 7, 0))
-            .map((message) => message.gpt_response);// get last 10 responses from user
+            .map((message) => message.gpt_response);// get last 8 responses from user
 
         const prompts = messages.map((message) => { // create prompts array
             return {
