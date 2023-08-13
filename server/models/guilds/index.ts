@@ -32,12 +32,9 @@ const guildSchema = new mongoose.Schema(
         guild_id: { type: String, required: true },
         content: [ contentSchema ],
         created_at: { type: Date, default: Date.now },
+        credit: { type: Number, required: true, default: 0 }, //credit to use persistent data
+        eula: { type: Boolean, required: true, default: false }, //eula agreement to use persistent data
     },
-    {
-        capped: true,
-        size: 1048576,
-        max:10
-    }
 );
   
 const Guilds = mongoose.model('Guilds', guildSchema);

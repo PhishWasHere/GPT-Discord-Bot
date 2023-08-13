@@ -26,6 +26,8 @@ const userSchema = new mongoose.Schema(
         username: { type: String, required: true },
         content: [contentSchema],
         created_at: { type: Date, default: Date.now },
+        credit: { type: Number, required: true, default: 0 }, //credit to use persistent data
+        eula: { type: Boolean, required: true, default: false }, //eula agreement to use persistent data
     },
 );
 
