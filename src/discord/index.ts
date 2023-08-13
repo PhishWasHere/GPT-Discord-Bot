@@ -1,13 +1,36 @@
 import { GatewayIntentBits, Client, Partials } from 'discord.js';
-import {createCommands, commandArr} from './commands';
-import {Users, Guilds} from '../models';
-import {newUser, existingUser} from './messageCreate/directMessage';
-import { newGuild, existingGuild } from './messageCreate/guilds';
+import { handleDm, handleGuild } from './messageCreate';
+import { REST } from '@discordjs/rest';
+import { Routes } from 'discord-api-types/v10';
+import { createCommands, commandArr } from './commands';
+import * as playCommand from './commands';
+// just watch that 1 tutorial and modify it later
+// const commands = [
+//     playCommand.data.toJSON(),
+// ]
+
+// const rest = new REST({ version: '10' }).setToken(process.env.DISCORD_TOKEN as string);
+
+// (async () => {
+//     try {
+//         console.log('\x1b[33m> Started refreshing application (/) commands.\x1b[0m');
+
+//         await rest.put(
+//             Routes.applicationGuildCommands(process.env.CLIENT_ID as string, process.env.GUILD_ID as string),
+//             { body: commands },
+//         );
+
+//         console.log('\x1b[33m> Successfully reloaded application (/) commands.\x1b[0m');
+//     } catch (error) {
+//         console.error(error);
+//     }
+// })();
 
 const client = new Client({
     intents: [
         GatewayIntentBits.Guilds,
         GatewayIntentBits.GuildMessages,
+        GatewayIntentBits.GuildVoiceStates,
         GatewayIntentBits.DirectMessages,
         GatewayIntentBits.MessageContent,
         GatewayIntentBits.GuildMessageReactions,
@@ -32,31 +55,13 @@ client.on('messageCreate', async (msg) => {
             switch(true) {
                 //////////////////message section/////////////////
                 case msg.channel.type === 1: // dm
-                    const userData = await Users.findOne({ user_id: msg.author.id });
-
-                    if (!userData) {
-                        const gptRes = await newUser(msg, msgContent);
-                        msg.reply(gptRes);
-                        break;
-                    } 
-                    
-                    const gptRes = await existingUser(msg, msgContent, userData);
-                    
-                    msg.reply(gptRes);
+                    await handleDm(msg, msgContent);
                 break;
                 
                 ///////////////////guild section/////////////////
-                case msg?.content.startsWith('!!'): // guild
+                case msg?.content.startsWith('!!') && msg?.channel.type === 0: // guild
                     msgContent = msgContent.slice(2).trim();
-
-                    const guildData = await Guilds.findOne({ guild_id: msg.guildId });
-                    if (!guildData) {
-                        const gptRes = await newGuild(msg, msgContent);
-                        msg.reply(gptRes);
-                        break;
-                    }
-                    const gptResponse = await existingGuild(msg, msgContent, guildData);
-                    msg.reply(gptResponse);
+                    await handleGuild(msg, msgContent);
                 break;
             }
         };
@@ -65,35 +70,48 @@ client.on('messageCreate', async (msg) => {
         msg.reply(`internal server error.`);
     }
 });
-
+import {test } from './commands';
 client.on('interactionCreate', async (interaction) => {
-    if (!interaction.isCommand()) return;
+    try{
+        if(!interaction.isCommand()) return;
 
-    const { commandName, options } = interaction;
+        const {commandName, options} = interaction;
+        switch (commandName) {
+            case 'play':
+                // await playCommand.execute(interaction);
+            break;
+            case 'test':
+                await test(interaction, options);
+            break;
+        }
 
-    switch (commandName) {
-        case 'mute':
-            
-        break;
+        // const command = commandArr.find(c => c.name === commandName);
+
+        // if(command) {
+        //     await command.execute(interaction);
+        // } else {
+        //     await interaction.reply({content: 'Command not found', ephemeral: true});
+        // }
+    }catch(err){
 
     }
 });
 
-
-client.once('ready', async (c) => {
+client.once('ready', c => {
     console.log(`\x1b[35m> Ready!\x1b[0m Logged in as ${c.user.tag}`);
 
-    const dev_Guild = process.env.GUILD_ID;
-    const guild = client.guilds.cache.get(dev_Guild!);
+    const guildId = process.env.GUILD_ID;
+    const guild = client.guilds.cache.get(guildId!);
+
     let commands;
 
-    if (guild) {
+    if( guild ) {
         commands = guild.commands;
+    } else {
+        commands = client.application?.commands;
     }
-    commands = client.application?.commands;
 
-    await createCommands(commandArr!, commands);
-            
+    createCommands(commandArr, commands);
 });
 export {client, clientStart};
 
