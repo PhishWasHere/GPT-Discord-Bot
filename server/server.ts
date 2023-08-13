@@ -23,7 +23,7 @@ db.once('open', async () => {
 
     app.listen(port, () => {
       console.log(`\x1b[35m> Ready!\x1b[0m on http://localhost:${port}`);
-    })
+    });
 
     // clientStart();
   } catch (err: any) {

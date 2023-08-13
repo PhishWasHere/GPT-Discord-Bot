@@ -8,7 +8,7 @@ export default function Test() {
     useEffect(() => {
       const fetchData = async () => {
         try {
-          const response = await fetch('http://localhost:8080/api/v1');
+          const response = await fetch('/api/v1');
           const responseData = await response.json();
           setData(responseData.message);
         } catch (error) {

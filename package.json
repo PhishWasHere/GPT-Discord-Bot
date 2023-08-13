@@ -4,7 +4,7 @@
     "description": "",
     "main": "server/server.ts",
     "scripts": {
-      "start": "node server/server.js",
+      "start": "node server/server.ts",
       "dev": "concurrently \"cd server && yarn dev\" \"cd client && yarn dev\"",
       "install": "cd server && yarn && cd ../client && yarn",
       "seed": "cd server && yarn seed",
