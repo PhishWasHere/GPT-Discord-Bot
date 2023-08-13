@@ -8,6 +8,15 @@ const nextConfig = {
             }
         ]
     },
+    images: {
+        remotePatterns: [
+            {
+                protocol: 'https',
+                hostname: '//localhost:8080',
+                port: '',
+            }
+        ]
+    }
 }
 
 module.exports = nextConfig
