@@ -1,16 +1,16 @@
-import { getServerSession } from 'next-auth';
-import { options } from '../api/auth/[...nextauth]/options'
+'use client'
+import { useState } from 'react';
+import axios from 'axios';
+import Link from 'next/link';
 
-export default async function Test() {
-  const session = await getServerSession(options);
-
+export default function Test() {
+  const login = () => {
+    window.location.href ='http://localhost:8080/api/v1/auth';
+  }
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      {session? (
-        <>hi</>
-      ) : (
-        <>bye</>
-      )}
+      <button onClick={() => login()}>Login with Google</button>
     </main>
   )
 }
+
