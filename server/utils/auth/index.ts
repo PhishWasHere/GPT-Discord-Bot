@@ -11,4 +11,13 @@ passport.use(new DiscordStrategy({
   return done(null, profile);
 }));
 
+passport.serializeUser((user, done) => {
+  done(null, user);
+});
+
+passport.deserializeUser(async (user, done) => {
+  done(null, user!);
+});
+
+
 export { passport };
