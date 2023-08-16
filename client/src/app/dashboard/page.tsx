@@ -6,6 +6,7 @@ import setToken from '@/utils/auth'; // Import the setToken function
 const getData = async () => {
     try {
       const res = await axios.get('/api/v1/');
+            
       return res.data; // Return the response data
     } catch (err) {
       console.log(err);

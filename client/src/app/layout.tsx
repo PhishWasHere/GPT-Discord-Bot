@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 }
 
 
-
+import { ReduxProvider } from '@/utils/redux/provider'
 
 export default function RootLayout({
   children,
@@ -19,10 +19,12 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <Provider store={store}>
     <html lang="en">
-        <body className={inter.className}>{children}</body>
+        <body className={inter.className}>
+            <ReduxProvider>
+              {children}
+            </ReduxProvider>
+          </body>
     </html>
-    </Provider>
   )
 }

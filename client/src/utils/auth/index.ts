@@ -1,24 +1,14 @@
 import jwtDecode from 'jwt-decode'
+import { parse } from 'cookie'; // Import the parse function from the 'cookie' package
+import Cookies from 'js-cookie'; // Import the js-cookie package
 
-const setToken = async () => {
-    const tokenCookie = document.cookie
-    .split('; ')
-    .find(row => row.startsWith('token='));
-    
-    const token = tokenCookie ? tokenCookie.split('=')[1] : null;
-    if(token) {
-      const decodedToken = jwtDecode(token) as any;
-      if (decodedToken.exp * 1000 > Date.now()) {
-        // return <AuthProvider token={token}>{children}</AuthProvider>
-        return {
-            headers: {
-                authorization: token ? `Bearer ${token}` : '',
-            }
-        }
-      }
-      console.log('invalid');
-    }
-    return {}
+function getToken() {
+  const token = Cookies.get('token');
+
+  if (!token) {
+    return null;
+  }
+
+  return token
 }
-
-export default setToken as any;
+export default getToken as any;

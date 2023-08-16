@@ -16,6 +16,9 @@ router.get('/', (req, res) => {
   res.json({ message: 'API base route' });
 });
 
-
+router.get('/userdata', (req, res) => {
+  // Check if the user is authenticated, and if so, send the user data
+  res.send({message: 'success'})
+});
 
 export default router;
