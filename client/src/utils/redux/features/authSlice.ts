@@ -34,7 +34,7 @@ const auth = createSlice({
         },
 
         setUser: (state, action: PayloadAction<any>) => {
-            return {
+            return{
                 value: {
                     isAuth: true,
                     token: action.payload.token,

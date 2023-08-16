@@ -1,5 +1,4 @@
 'use client'
-import setToken from "@/utils/auth";
 export default function Test() {
   const handleLogin = () => {
     // Redirect user to the backend's OAuth route
@@ -8,7 +7,6 @@ export default function Test() {
   
   return (
     <div>
-      <button onClick={() => console.log(setToken())}>Set Token</button>
       <button className='justify-center' onClick={handleLogin}>Login with Discord</button>
     </div>  
   )
