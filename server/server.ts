@@ -38,7 +38,8 @@ db.once('open', async () => {
     app.get('/api/v1/auth',
       passport.authenticate('discord', { failureRedirect: '/login' }),
       (req: Request, res: Response) => {
-        const token = jwt.sign(req.user!, process.env.JWT_SECRET!, { expiresIn: '3d' });
+        const { id } = req.user as JwtPayload;
+        const token = jwt.sign({user_id: id }, process.env.JWT_SECRET!, { expiresIn: '3d' });
         res.cookie('token', token, { httpOnly: false });     
         res.redirect(`http://localhost:3000/`);
       }

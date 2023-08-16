@@ -11,8 +11,8 @@ export function authToken(req: Request, res: Response, next: NextFunction){
     }
     
     try {
-        const { data } = jwt.verify(token, process.env.JWT_SECRET!) as JwtPayload;        
-        req.user = data;
+        const { user_id } = jwt.verify(token, process.env.JWT_SECRET!) as JwtPayload;             
+        req.user = user_id;
     } catch (err) {
         console.error(err);
         return res.status(403).json({ message: 'Forbidden' });
