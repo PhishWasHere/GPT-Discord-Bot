@@ -12,7 +12,7 @@ export function authToken(req: Request, res: Response, next: NextFunction){
     
     try {
         const { user_id } = jwt.verify(token, process.env.JWT_SECRET!) as JwtPayload;             
-        req.user = user_id;
+        req.user = {id: user_id};
     } catch (err) {
         console.error(err);
         return res.status(403).json({ message: 'Forbidden' });

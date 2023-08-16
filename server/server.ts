@@ -17,7 +17,6 @@ import {clientStart} from './discord';
 import routes from './routes';
 
 import {authToken} from './utils/jwt';
-
 db.once('open', async () => {
   console.log(`\x1b[35m> Ready!\x1b[0m Connected to MongoDB`);
   try {

@@ -4,7 +4,7 @@ import  Users from '../../models/users';
 import Guilds from '../../models/guilds';
 
 const findUser = async (id: string, username: string) => {
-  const userData = Users.findOne({user_id: id});
+  const userData = await Users.findOne({user_id: id});
   
   if (!userData) {    
     Users.create({
@@ -15,17 +15,20 @@ const findUser = async (id: string, username: string) => {
   return userData;
 }
 
+import { JwtUser } from '../interface';
+
 passport.use(new DiscordStrategy({
   clientID: process.env.CLIENT_ID!,
   clientSecret: process.env.CLIENT_SECRET!,
   callbackURL: 'http://localhost:8080/api/v1/auth',
   scope: ['identify', 'guilds'],
-  }, async (accessToken, refreshToken, profile, done) => {
+  }, async (accessToken, refreshToken, profile, done) => { //setup refresh tokens
   const { id, username, discriminator, avatar, guilds } = profile;   
-    
+
+  const user:JwtUser = {id};
   await findUser(id, username);
 
-  return done(null, { id, username, discriminator, avatar, guilds });
+  return done(null, user, { id, username, discriminator, avatar, guilds });
 }));
 
 passport.serializeUser((user, done) => {
