@@ -10,10 +10,7 @@ import Cookies from 'js-cookie';
 export default function NavBar () {
     const [userData, setUserData] = useState(null);
     const dispatch = useDispatch<AppDispatch>();
-    const handleLogin = () => {
-        // Redirect user to the backend's OAuth route
-        window.location.href = '/api/v1/auth';
-    };
+
     const handleLogout= () =>{        
         Cookies.remove('token')
         logout();
@@ -116,12 +113,12 @@ export default function NavBar () {
                     ))}
                 </ul>
                 {!userData ? (
-                    <button onClick={() => handleLogin()} className="flex items-center justify-center w-full h-16 mt-auto bg-gray-800 hover:bg-gray-700 hover:text-gray-300">
+                    <Link href='/login' className="flex items-center justify-center w-full h-16 mt-auto bg-gray-800 hover:bg-gray-700 hover:text-gray-300">
                         <svg className="w-6 h-6 stroke-current" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"> 
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="" /> 
                         </svg>
                         <span className="ml-2 text-sm font-medium">Login</span>
-                    </button>
+                    </Link>
                 ) : (
                     <button onClick={() => handleLogout()} className="flex items-center justify-center w-full h-16 mt-auto bg-gray-800 hover:bg-gray-700 hover:text-gray-300">
                         <svg className="w-6 h-6 stroke-current" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">

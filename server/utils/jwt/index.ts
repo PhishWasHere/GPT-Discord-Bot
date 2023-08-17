@@ -4,7 +4,7 @@ import { Request, Response, NextFunction } from 'express';
 export function authToken(req: Request, res: Response, next: NextFunction){
     let token = req.body.token || req.query.token || req.headers.authorization;
     
-    if(!token) return res.status(401);
+    if(!token) return res.status(403).json({ message: 'Forbidden' });
 
     if (req.headers.authorization) { 
         token = token.split(' ').pop().trim();
