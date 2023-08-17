@@ -12,6 +12,7 @@ export const metadata: Metadata = {
 
 
 import { ReduxProvider } from '@/utils/redux/provider'
+import NavBar from '@/components/nav'
 
 export default function RootLayout({
   children,
@@ -22,7 +23,10 @@ export default function RootLayout({
     <html lang="en">
         <body className={inter.className}>
             <ReduxProvider>
-              {children}
+              <div className='flex min-h-screen'>
+                <NavBar />
+                {children}
+              </div>
             </ReduxProvider>
           </body>
     </html>
