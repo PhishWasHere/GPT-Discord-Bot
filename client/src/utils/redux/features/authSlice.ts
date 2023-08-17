@@ -1,8 +1,5 @@
-import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { AppDispatch } from '../store';
-import axios from 'axios';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import getToken from '@/utils/auth';
-import Cookies from 'js-cookie';
 
 type initStateTyoe = {
     value: AuthStateType;
@@ -29,7 +26,6 @@ const auth = createSlice({
     initialState: initState,
     reducers: {
         logout: () => {
-            Cookies.remove('token')
             return initState
         },
 
