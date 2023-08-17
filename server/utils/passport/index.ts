@@ -27,7 +27,7 @@ passport.use(new DiscordStrategy({
 
   const user:JwtUser = {id};
   await findUser(id, username);
-
+    
   return done(null, user, { id, username, discriminator, avatar, guilds });
 }));
 
