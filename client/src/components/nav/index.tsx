@@ -10,6 +10,11 @@ import Cookies from 'js-cookie';
 export default function NavBar () {
     const [userData, setUserData] = useState(null);
     const dispatch = useDispatch<AppDispatch>();
+    const [showComponent, setShowComponent] = useState(false);
+
+    const handleShowComponent = () => {
+        setShowComponent(!showComponent);
+    };
 
     const handleLogout= () =>{        
         Cookies.remove('token')
@@ -80,8 +85,45 @@ export default function NavBar () {
     ];
   
     return(
-        <nav className=''>
-           <div className="hidden md:flex flex-col items-center w-48 h-full overflow-hidden text-gray-400 bg-gray-900 rounded">
+        <nav className='flex'>
+            {/* <button onClick={() => handleShowComponent()} className={`md:hidden ${showComponent? '' : 'm-2 ml-3 p-2 bg-gray-900 rounded-lg ' }`}> 
+                <svg className={`w-8 h-8 fill-current ${showComponent? 'hidden' : ''}`} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                    <path fillRule="evenodd" d="M3 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm1 5a1 1 0 100 2h12a1 1 0 100-2H4z" clipRule="evenodd" />
+                </svg>
+            </button> */}
+            <div onMouseEnter={() => handleShowComponent()} onMouseLeave={() => handleShowComponent()} className={`md:hidden flex-col items-center w-16 h-full overflow-hidden text-gray-100 bg-gray-900 rounded-r ${showComponent ? 'hidden' : ''}`}>
+                <svg className="w-8 h-8 fill-current mx-auto mt-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                    <path d="M11 17a1 1 0 001.447.894l4-2A1 1 0 0017 15V9.236a1 1 0 00-1.447-.894l-4 2a1 1 0 00-.553.894V17zM15.211 6.276a1 1 0 000-1.788l-4.764-2.382a1 1 0 00-.894 0L4.789 4.488a1 1 0 000 1.788l4.764 2.382a1 1 0 00.894 0l4.764-2.382zM4.447 8.342A1 1 0 003 9.236V15a1 1 0 00.553.894l4 2A1 1 0 009 17v-5.764a1 1 0 00-.553-.894l-4-2z" />
+                </svg>
+
+                <ul className="w-full px-2">
+                    {sideOptions.map((i) => (
+                        <li key={i.key} className="flex flex-col items-center w-full mt-3 border-t border-gray-700">
+                            <Link className="flex items-center w-full h-12 px-3 mt-2 rounded hover:bg-gray-700 hover:text-gray-300" href={i.link}>
+                                <svg className="w-6 h-6 stroke-current" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d={i.path} />
+                                </svg>
+                            </Link>
+                        </li>
+                    ))}
+                </ul>
+
+                {!userData ? (
+                    <Link href='/login' className="flex items-center justify-center w-full h-16 mt-auto bg-gray-800 hover:bg-gray-700 hover:text-gray-300">
+                        <svg className="w-6 h-6 stroke-current" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"> 
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="" /> 
+                        </svg>
+                    </Link>
+                ) : (
+                    <button onClick={() => handleLogout()} className="flex items-center justify-center w-full h-16 mt-auto bg-gray-800 hover:bg-gray-700 hover:text-gray-300">
+                        <svg className="w-6 h-6 stroke-current" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="" /> 
+                        </svg>
+                    </button>
+                )}
+            </div>
+
+           <div className={`md:flex flex-col items-center w-48 h-full overflow-hidden text-gray-100 bg-gray-900 rounded-r ${showComponent ? '' : 'hidden'}`}>
                 <section className="flex items-center w-full px-3 mt-3">
                     {userData ? (
                         <>
@@ -97,7 +139,6 @@ export default function NavBar () {
                         <span className="ml-2 text-sm font-bold">Bully Me GPT</span>
                         </>
                     )}
-
                 </section>
 
                 <ul className="w-full px-2">
