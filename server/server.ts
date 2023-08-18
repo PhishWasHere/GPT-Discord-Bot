@@ -1,8 +1,13 @@
 import 'dotenv/config';
 
-import express from 'express';
+import express, { Request, Response, NextFunction } from 'express';
+import session from 'express-session';
+import {passport} from './utils/passport';
+import { Strategy as DiscordStrategy } from 'passport-discord';
+import jwt, { JwtPayload } from 'jsonwebtoken';
 import cors from 'cors';
 import bodyParser from 'body-parser';
+import cookieParser from 'cookie-parser';
 
 const port = process.env.PORT || 8080;
 
@@ -11,15 +16,35 @@ import {clientStart} from './discord';
 
 import routes from './routes';
 
+import {authToken} from './utils/jwt';
 db.once('open', async () => {
   console.log(`\x1b[35m> Ready!\x1b[0m Connected to MongoDB`);
-    try {
+  try {
     const app = express() 
 
-    app.use(cors())
+    app.use(session({ secret: process.env.SESSION!, 
+      resave: false, saveUninitialized: false 
+    }))
+
+    app.use(passport.initialize());
+    app.use(passport.session());
+    
+    app.use(cookieParser())
+
     app.use(bodyParser.json()) // for parsing application/json
     app.use(bodyParser.urlencoded({ extended: true })) // for parsing application/x-www-form-urlencoded
-    app.use('/api/v1', routes)
+    
+    app.get('/api/v1/auth',
+      passport.authenticate('discord', { failureRedirect: '/login' }),
+      (req: Request, res: Response) => {
+        const { id } = req.user as JwtPayload;
+        const token = jwt.sign({user_id: id }, process.env.JWT_SECRET!, { expiresIn: '3d' });
+        res.cookie('token', token, { httpOnly: false });     
+        res.redirect(`http://localhost:3000/`);
+      }
+    );
+    
+    app.use('/api/v1', authToken, routes);
 
     app.listen(port, () => {
       console.log(`\x1b[35m> Ready!\x1b[0m on http://localhost:${port}`);

@@ -1,16 +1,14 @@
-import { getServerSession } from 'next-auth';
-import { options } from '../api/auth/[...nextauth]/options'
-
-export default async function Test() {
-  const session = await getServerSession(options);
-
+'use client'
+export default function Test() {
+  const handleLogin = () => {
+    // Redirect user to the backend's OAuth route
+    window.location.href = '/api/v1/auth';
+  };
+  
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      {session? (
-        <>hi</>
-      ) : (
-        <>bye</>
-      )}
-    </main>
+    <div>
+      <button className='justify-center' onClick={handleLogin}>Login with Discord</button>
+    </div>  
   )
 }
+
