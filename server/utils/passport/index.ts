@@ -1,9 +1,17 @@
 import passport from 'passport';
 import { Strategy as DiscordStrategy } from 'passport-discord';
-import  Users from '../../models/users';
-import Guilds from '../../models/guilds';
+import Users from '../../models/users';
 
-const findUser = async (id: string, username: string) => {
+type Guild = {
+  id: string;
+  name: string;
+  owner: boolean;
+};
+
+type GuildArray = Guild[];
+
+
+const findUser = async (id: string, username: string, guilds?: GuildArray) => {
   const userData = await Users.findOne({user_id: id});
   
   if (!userData) {    
@@ -11,7 +19,29 @@ const findUser = async (id: string, username: string) => {
       user_id: id,
       username,
     })
+    if (guilds) {
+      guilds.forEach(async (guild) => {
+        if (guild.owner) {
+          await Users.findOneAndUpdate({user_id: id}, {$push: {guilds: guild.id}});
+        }
+      });
+    }     
   }
+
+  if (guilds) {
+    const uniqueGuildIds = new Set();
+
+    guilds.forEach(async (guild) => {
+      if (guild.owner && !uniqueGuildIds.has(guild.id)) {
+        uniqueGuildIds.add(guild.id);
+        await Users.findOneAndUpdate(
+          { user_id: id },
+          { $addToSet: { guilds: guild.id } } // Using $addToSet to prevent duplicates
+        );
+      }
+    });
+  }   
+
   return userData;
 }
 
@@ -24,9 +54,9 @@ passport.use(new DiscordStrategy({
   scope: ['identify', 'guilds'],
   }, async (accessToken, refreshToken, profile, done) => { //setup refresh tokens
   const { id, username, discriminator, avatar, guilds } = profile;   
-
+  
   const user:JwtUser = {id};
-  await findUser(id, username);
+  await findUser(id, username, guilds);
     
   return done(null, user, { id, username, discriminator, avatar, guilds });
 }));

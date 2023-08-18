@@ -22,13 +22,14 @@ const contentSchema = new mongoose.Schema(
       ],
     },
     {
-      expires: '7d', //ttl 1month
+      expires: '7d',
     }
 );
 
  
 const guildSchema = new mongoose.Schema(
     {
+        owner_id: { type: String, required: true },
         guild_id: { type: String, required: true },
         content: [ contentSchema ],
         created_at: { type: Date, default: Date.now },

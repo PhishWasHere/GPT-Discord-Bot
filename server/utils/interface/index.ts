@@ -68,6 +68,7 @@ interface GuildContent {
 }
 
 interface Guild { // used for guilds/servers
+    owner_id: string;
     guild_id: string;
     content: GuildContent[];
     created_at: Date;

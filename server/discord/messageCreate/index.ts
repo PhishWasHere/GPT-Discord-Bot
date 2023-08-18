@@ -1,6 +1,7 @@
 import { newGuild, existingGuild } from "./guilds";
 import { newUser, existingUser } from "./directMessage";
-import {Users, Guilds} from '../../models';
+import Users from "../../models/users";
+import Guilds from "../../models/guilds";
 import { Message } from "discord.js";
 
 export const handleDm = async (msg: Message, msgContent: string) => {

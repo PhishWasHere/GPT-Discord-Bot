@@ -6,6 +6,7 @@ import { Guild } from "../../../utils/interface/";
 export const newGuild = async (msg: Message, msgContent: string) => {
     try {
         const guildData = new Guilds ({
+            owner_id: msg.guild?.ownerId,
             guild_id: msg.guildId,
         });
 
