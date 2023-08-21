@@ -13,6 +13,7 @@ export const metadata: Metadata = {
 
 import { ReduxProvider } from '@/utils/redux/provider'
 import NavBar from '@/components/nav'
+import Footer from '@/components/footer'
 
 export default function RootLayout({
   children,
@@ -29,6 +30,7 @@ export default function RootLayout({
                   {children}
                 </div>
               </div>
+              <Footer/>
             </ReduxProvider>
           </body>
     </html>

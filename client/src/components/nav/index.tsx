@@ -53,12 +53,12 @@ export default function NavBar () {
     }, [dispatch]);
 
     const sideOptions = [
-        {
-            key: 'acocunt',
-            name: 'Account',
-            link: '/account',
-            path: 'M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z'
-        },
+        // {
+        //     key: 'acocunt',
+        //     name: 'Account',
+        //     link: '/account',
+        //     path: 'M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z'
+        // },
         {
             key: 'dashboard',
             name: 'Dashboard',
@@ -70,6 +70,12 @@ export default function NavBar () {
             name: 'Tokens',
             link: '/tokens',
             path: 'M13 10V3L4 14h7v7l9-11h-7z'
+        },
+        {
+            key: 'documentation',
+            name: 'Documentation',
+            link: '/documentation',
+            path: 'M1 17V2a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H3a2 2 0 0 0-2 2Zm0 0a2 2 0 0 0 2 2h12M5 15V1m8 18v-4'
         },
         {
             key: 'faq',
@@ -86,8 +92,8 @@ export default function NavBar () {
     ];
 
     return(
-        <nav className='container'>
-            <section className="bg-primary sm:hidden">
+        <nav className='container bg-primary'>
+            <section className="sm:hidden">
                 <div className="max-w-screen-xl flex sm:hidden flex-wrap items-center justify-between mx-auto p-4">
                     <Link href="/" className="flex items-center">
                         <svg className="w-8 h-8 fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-label='logo'>
@@ -114,7 +120,7 @@ export default function NavBar () {
                                     <Link href={i.link} className="block py-2 pl-3 pr-4 text-text-secondary">{i.name}</Link>
                                 </li>
                             ))}
-
+                            
                             {!userData ? (
                                 <>
                                     <Link href="/login">
@@ -132,14 +138,17 @@ export default function NavBar () {
                                     </li>
                                 </>
                             )}
+                            <Link href='/terms' className='flex justify-center'>
+                                <p className='text-gray-400 text-sm mt-3 text-center hover:text-white'>Terms of Service </p>
+                            </Link>
                         </ul>
                     </div>
                 </div>
             </section>
             
             <aside className='sm:flex hidden'>
-                <div id="sidebar" className='fixed top-0 left-0 z-40 w-44 h-screen transition-transform -translate-x-full sm:translate-x-0 bg-gray-900' aria-label="Sidebar">
-                    <section className='md:flex flex-col items-center w-48 h-screen overflow-hidden text-gray-100 bg-gray-900 rounded-r'>
+                <div id="sidebar" className='fixed top-0 left-0 z-40 w-44 h-screen transition-transform -translate-x-full sm:translate-x-0' aria-label="Sidebar">
+                    <section className='md:flex flex-col items-center w-48 h-screen overflow-hidden text-gray-100 bg-primary'>
                         <section className="flex items-center w-full px-3 mt-3">
                             {userData ? (
                             <>
@@ -171,6 +180,9 @@ export default function NavBar () {
                         </ul>
 
                         <div className="sticky w-full mt-auto">
+                            <Link href='/terms' className='flex justify-center'>
+                                <p className='text-gray-400 text-sm mb-2 text-center hover:text-white'>Terms of Service </p>
+                            </Link>
                             {!userData ? (
                                 <Link href='/login' className="flex items-center justify-center w-full h-16 mt-auto bg-gray-800 hover:bg-gray-700 hover:text-gray-300">
                                     <svg className="w-6 h-6 stroke-current mt-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"> 
