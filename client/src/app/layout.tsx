@@ -23,9 +23,11 @@ export default function RootLayout({
     <html lang="en">
         <body className={inter.className}>
             <ReduxProvider>
-              <div className='flex min-h-screen bg-gradient-to-br from-sky-50 to-gray-200'>
+              <div className='min-h-screen bg-gradient-to-br from-sky-50 to-gray-200'>
                 <NavBar />
-                {children}
+                <div className='sm:ml-48'>
+                  {children}
+                </div>
               </div>
             </ReduxProvider>
           </body>
