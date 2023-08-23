@@ -138,8 +138,8 @@ export default function NavBar () {
                                     </li>
                                 </>
                             )}
-                            <Link href='/terms' className='flex justify-center'>
-                                <p className='text-gray-400 text-sm mt-3 text-center hover:text-white'>Terms of Service </p>
+                            <Link href='/policy' className='flex justify-center'>
+                                <p className='text-gray-400 text-sm mt-3 text-center hover:text-white'>Terms & policies </p>
                             </Link>
                         </ul>
                     </div>
@@ -181,7 +181,7 @@ export default function NavBar () {
 
                         <div className="sticky w-full mt-auto">
                             <Link href='/policy' className='flex justify-center'>
-                                <p className='text-gray-400 text-sm mb-2 text-center hover:text-white'>Terms & policies </p>
+                                <p className='text-gray-400 text-sm mb-2 text-center hover:text-white'>Terms & policies</p>
                             </Link>
                             {!userData ? (
                                 <Link href='/login' className="flex items-center justify-center w-full h-16 mt-auto bg-gray-800 hover:bg-gray-700 hover:text-gray-300">
@@ -192,7 +192,7 @@ export default function NavBar () {
                                 </Link>
                             ) : (
                                 <button onClick={() => handleLogout()} className="flex items-center justify-center w-full h-16 mt-auto bg-gray-800 hover:bg-gray-700 hover:text-gray-300">
-                                    <svg className="w-6 h-6 stroke-current" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <svg className="w-6 h-6 stroke-current mt-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 8h11m0 0-4-4m4 4-4 4m-5 3H3a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h3" /> 
                                     </svg>
                                     <span className="ml-2 text-sm font-medium">Logout</span>
