@@ -19,7 +19,7 @@ export default function Login() {
 
                                 <div className="space-y-4">
                                     <img src="https://tailus.io/sources/blocks/social/preview/images/icon.svg" loading="lazy" className="w-10" alt="tailus logo"/>
-                                    <h2 className="mb-8 text-2xl text-cyan-900 font-bold">Sign in to unlock the best of Bully Me GPT.</h2>
+                                    <h2 className="mb-8 text-2xl text-cyan-900 font-bold">Sign in to unlock the best of Hostile.</h2>
                                 </div>
 
                                 <div className="mt-16 grid space-y-4">
@@ -29,7 +29,7 @@ export default function Login() {
                                             <span className="block w-max font-semibold tracking-wide text-gray-700 text-sm transition duration-300 group-hover:text-blue-600 sm:text-base">Continue with Discord</span>
                                         </div>
                                     </button>
-                                    <p className='mx-auto text-sm text-gray-600 hover:text-blue-600 transition duration-300'><Link href='/#'>Why cant I create an account?</Link></p>
+                                    <p className='mx-auto text-sm text-gray-600 hover:text-blue-600 transition duration-300'><Link href='/faq/#login'>Why cant I create an account?</Link></p>
                                 </div>
 
                                 <div className="mt-32 space-y-4 text-gray-600 text-center sm:-mb-8">

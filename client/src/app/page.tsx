@@ -1,7 +1,7 @@
 import Image from 'next/image'
 import Link from 'next/link';
 
-import Button from '@/components/common/button/button-lg';
+import Button from '@/components/common/button/button';
 import Carousel from '@/components/home/carousel';
 import Testimonial from '@/components/home/testimonial';
 

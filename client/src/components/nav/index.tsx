@@ -65,12 +65,12 @@ export default function NavBar () {
             link: '/dashboard',
             path: 'M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6'
         },
-        {
-            key: 'tokens',
-            name: 'Tokens',
-            link: '/tokens',
-            path: 'M13 10V3L4 14h7v7l9-11h-7z'
-        },
+        // {
+        //     key: 'tokens',
+        //     name: 'Tokens',
+        //     link: '/tokens',
+        //     path: 'M13 10V3L4 14h7v7l9-11h-7z'
+        // },
         {
             key: 'documentation',
             name: 'Documentation',
@@ -83,12 +83,12 @@ export default function NavBar () {
             link: '/faq',
             path: 'M4 7a3 3 0 0 1 3-3M5 19h4m0-3c0-4.1 4-4.9 4-9A6 6 0 1 0 1 7c0 4 4 5 4 9h4Z'
         },
-        {
-            key: 'settings',
-            name: 'Settings',
-            link: '/settings',
-            path: 'M7.75 4H19M7.75 4a2.25 2.25 0 0 1-4.5 0m4.5 0a2.25 2.25 0 0 0-4.5 0M1 4h2.25m13.5 6H19m-2.25 0a2.25 2.25 0 0 1-4.5 0m4.5 0a2.25 2.25 0 0 0-4.5 0M1 10h11.25m-4.5 6H19M7.75 16a2.25 2.25 0 0 1-4.5 0m4.5 0a2.25 2.25 0 0 0-4.5 0M1 16h2.25'
-        },
+        // {
+        //     key: 'settings',
+        //     name: 'Settings',
+        //     link: '/settings',
+        //     path: 'M7.75 4H19M7.75 4a2.25 2.25 0 0 1-4.5 0m4.5 0a2.25 2.25 0 0 0-4.5 0M1 4h2.25m13.5 6H19m-2.25 0a2.25 2.25 0 0 1-4.5 0m4.5 0a2.25 2.25 0 0 0-4.5 0M1 10h11.25m-4.5 6H19M7.75 16a2.25 2.25 0 0 1-4.5 0m4.5 0a2.25 2.25 0 0 0-4.5 0M1 16h2.25'
+        // },
     ];
 
     return(

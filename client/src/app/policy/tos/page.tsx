@@ -34,7 +34,7 @@ export default function Tos() {
                     </p>
                     
                     <p>
-                    Hostile will save certain pieces of information, for more information about privacy and cookies, please refer to our <Link className='underline hover:text-blue-600 transition' href="/privacy-and-cookie">Privacy and Cookie Policy</Link>.
+                    Hostile will save certain pieces of information, for more information about privacy and cookies, please refer to our <Link className='underline hover:text-blue-600 transition' href="/policy/privacy">Privacy and Cookie Policy</Link>.
                     </p>
 
                     <p className="mt-4">

@@ -1,8 +1,8 @@
 import Link from "next/link";
 import ButtonSm from "../button/button-sm";
-export default function CardButton({ title, desc, url, text }: {title: string, desc: string, url?: string, text?: string}) {
+export default function CardButton({ title, desc, url, text, id }: {title: string, desc: string, url?: string, text?: string, id?:string}) {
     return (
-        <div className="max-w-sm min-w-fit p-6 bg-white border text-text-primary border-gray-200 rounded-lg shadow flex flex-col justify-between">
+        <article id={id} className="max-w-sm min-w-fit p-6 bg-white border text-text-primary border-gray-200 rounded-lg shadow flex flex-col justify-between">
             <div className="p-2">
                 <div>
                     <h5 className="mb-2 text-2xl font-bold tracking-tight">{title}</h5>
@@ -15,6 +15,6 @@ export default function CardButton({ title, desc, url, text }: {title: string, d
                 : null 
                 }
             </div>
-        </div>
+        </article>
     )
 }

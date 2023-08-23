@@ -43,7 +43,8 @@ export default function Privacy() {
         
                 <h2 id='gpt' className="text-lg font-semibold mb-2">GPT3 Integration</h2>
                 <p className="mb-4">
-                All prompts to the bot will be passed to OpenAI's GPT-3.5 Turbo. Prompts will contain the username and message in the format "username: message". If persistence is enabled, the past 7 messages and responses will be stored in this format.
+                All prompts to the bot will be passed to OpenAI's GPT-3.5 Turbo. Prompts will contain the username and message in the format "username: message". 
+                If persistence is enabled, the past 7 messages and responses will be sent to GPT in this format.
                 </p>
 
                 <h2 className="text-lg font-semibold mb-2">Discord and OpenAI Privacy Policies</h2>
@@ -58,7 +59,7 @@ export default function Privacy() {
                 </p>
 
                 <p>
-                For our complete Terms of Service, please refer to our <Link className='underline hover:text-blue-600' href="/tos">Terms of Service</Link>.
+                For our complete Terms of Service, please refer to our <Link className='underline hover:text-blue-600' href="/policy/tos">Terms of Service</Link>.
                 </p>
             </article>
         </main>
