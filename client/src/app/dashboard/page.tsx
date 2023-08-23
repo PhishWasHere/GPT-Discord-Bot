@@ -11,10 +11,10 @@ import UsageChart from '@/components/chart';
 
 export default function Dashboard() {
   const userData = useAppSelector((state) => state.authReducer.value);
-  
+  if (!userData || userData.isAuth === false) return(<NotLoggedIn />);
+
   return (
     <> 
-    {userData.isAuth === false || !userData ? <NotLoggedIn /> : null}
       <main className='text-gray-900'>
         <UsageChart />
       </main>

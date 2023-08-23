@@ -1,7 +1,7 @@
 import Image from 'next/image'
 import Link from 'next/link';
 
-import Button from '@/components/common/button';
+import Button from '@/components/common/button/button-lg';
 import Carousel from '@/components/home/carousel';
 import Testimonial from '@/components/home/testimonial';
 
@@ -30,8 +30,8 @@ export default function Home() {
       <section className='text-black mt-8 xl:mt-16'>
         <div className='max-w-3xl mx-auto'>
           <div className='flex flex-col items-center justify-center'>
-            <h2 className='text-3xl font-bold text-center'>Explore Hostile GPT</h2>
-            <p className='text-xl text-center'>Hostile is a unique discord bot that is installed in {`<`}2,000,000 servers, and adds a sarcastic touch to your server.</p>
+            <h2 className='text-3xl font-bold text-center'>Explore Hostile</h2>
+            <p className='text-xl text-center'>Hostile is a unique discord bot that is installed in {`<`}2,000,000 servers, and adds a sarcastic touch to your server using OpenAI's GPT3.5 turbo.</p>
             <div className='mt-2'>
               <Button text='Explore the documentation' url='/'/>
             </div>

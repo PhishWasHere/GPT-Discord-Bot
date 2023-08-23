@@ -1,5 +1,5 @@
 import {
-    Chart as ChartJS,
+    Chart,
     CategoryScale,
     LinearScale,
     BarElement,
@@ -11,7 +11,7 @@ import { Bar } from 'react-chartjs-2';
 import { getGuildUsage, getUserUsage} from '@/utils/auth';
 import { useState } from 'react';
 
-ChartJS.register(
+Chart.register(
     CategoryScale,
     LinearScale,
     BarElement,
@@ -24,7 +24,7 @@ const options = {
     responsive: true,
     plugins: {
         legend: {
-        position: 'top' as const,
+        position: 'top' ,
         },
         title: {
         display: true,
