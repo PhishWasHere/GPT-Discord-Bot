@@ -13,12 +13,12 @@ type GuildArray = Guild[];
 
 const findUser = async (id: string, username: string, avatar?:string, guilds?: GuildArray) => {
   const userData = await Users.findOne({user_id: id});
-  
+  const userAvatar = `https://cdn.discordapp.com/avatars/${id}/${avatar}.png`;
   if (!userData) {    
     Users.create({
       user_id: id,
       username,
-      avatar,
+      avatar: userAvatar,
     })
     if (guilds) {
       guilds.forEach(async (guild) => {

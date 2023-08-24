@@ -25,7 +25,6 @@ const contentSchema = new mongoose.Schema(
       expires: '7d',
     }
 );
-
  
 const guildSchema = new mongoose.Schema(
     {
