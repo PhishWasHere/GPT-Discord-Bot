@@ -8,6 +8,7 @@ export const newUser = async (msg: Message, msgContent: string) => {
         const userData = new User ({
             user_id: msg.author.id,
             username: msg.author.username,
+            avatar: msg.author.avatarURL(),
         });
 
         await userData.save();

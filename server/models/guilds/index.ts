@@ -31,6 +31,8 @@ const guildSchema = new mongoose.Schema(
     {
         owner_id: { type: String, required: true },
         guild_id: { type: String, required: true },
+        guild_name: { type: String, required: true },
+        icon: { type: String, required: false, default: null },
         content: [ contentSchema ],
         created_at: { type: Date, default: Date.now },
         credit: { type: Number, required: true, default: 0 }, //credit to use persistent data

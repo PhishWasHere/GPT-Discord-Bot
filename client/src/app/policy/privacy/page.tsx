@@ -24,7 +24,7 @@ export default function Privacy() {
                 </p>
 
                 <p className="mb-4">
-                    Upon adding this bot to your server and agreeing to our terms of service, the following information will be stored: guild ID and guild owner ID. 
+                    Upon adding this bot to your server and agreeing to our terms of service, the following information will be stored: guild ID, guild name, and guild owner ID. 
                     <br/>This data will be retained until a database reset.
                 </p>
 

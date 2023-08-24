@@ -24,6 +24,7 @@ const userSchema = new mongoose.Schema(
     { 
         user_id: { type: String, required: true },
         username: { type: String, required: true },
+        avatar: { type: String, required: false, default: null },
         content: [contentSchema],
         created_at: { type: Date, default: Date.now },
         credit: { type: Number, required: true, default: 0 }, //credit to use persistent data

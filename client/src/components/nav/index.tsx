@@ -6,6 +6,7 @@ import getToken from '@/utils/auth';
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import Cookies from 'js-cookie';
+import Image from 'next/image';
 
 export default function NavBar () {
     const [userData, setUserData] = useState(null);
@@ -74,7 +75,7 @@ export default function NavBar () {
         {
             key: 'documentation',
             name: 'Documentation',
-            link: '/documentation',
+            link: '/docs',
             path: 'M1 17V2a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H3a2 2 0 0 0-2 2Zm0 0a2 2 0 0 0 2 2h12M5 15V1m8 18v-4'
         },
         {
@@ -96,13 +97,18 @@ export default function NavBar () {
             <section className="sm:hidden">
                 <div className="max-w-screen-xl flex sm:hidden flex-wrap items-center justify-between mx-auto p-4">
                     <Link href="/" className="flex items-center">
-                        <svg className="w-8 h-8 fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-label='logo'>
-                            <path d="M11 17a1 1 0 001.447.894l4-2A1 1 0 0017 15V9.236a1 1 0 00-1.447-.894l-4 2a1 1 0 00-.553.894V17zM15.211 6.276a1 1 0 000-1.788l-4.764-2.382a1 1 0 00-.894 0L4.789 4.488a1 1 0 000 1.788l4.764 2.382a1 1 0 00.894 0l4.764-2.382zM4.447 8.342A1 1 0 003 9.236V15a1 1 0 00.553.894l4 2A1 1 0 009 17v-5.764a1 1 0 00-.553-.894l-4-2z" />
-                        </svg>
                         {!userData ? (
+                            <>
+                                <svg className="w-8 h-8 fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-label='logo'>
+                                    <path d="M11 17a1 1 0 001.447.894l4-2A1 1 0 0017 15V9.236a1 1 0 00-1.447-.894l-4 2a1 1 0 00-.553.894V17zM15.211 6.276a1 1 0 000-1.788l-4.764-2.382a1 1 0 00-.894 0L4.789 4.488a1 1 0 000 1.788l4.764 2.382a1 1 0 00.894 0l4.764-2.382zM4.447 8.342A1 1 0 003 9.236V15a1 1 0 00.553.894l4 2A1 1 0 009 17v-5.764a1 1 0 00-.553-.894l-4-2z" />
+                                </svg>
                                 <span className="self-center text-2xl font-semibold whitespace-nowrap text-white">Hostile</span>
+                            </>
                         ) :(
+                            <>
+                                <Image width={40} height={40} src={userData.avatar} alt='avatar' className='rounded-full mr-3'/>
                                 <span className="self-center text-2xl font-semibold whitespace-nowrap text-white">{userData.username}</span>
+                            </>
                         )}
                     </Link>
 
@@ -147,12 +153,13 @@ export default function NavBar () {
             </section>
             
             <aside className='sm:flex hidden'>
-                <div id="sidebar" className='fixed top-0 left-0 z-40 w-44 h-screen transition-transform -translate-x-full sm:translate-x-0' aria-label="Sidebar">
-                    <section className='md:flex flex-col items-center w-48 h-screen overflow-hidden text-gray-100 bg-primary'>
+                <div id="sidebar" className='fixed top-0 left-0 z-40 w-56 h-screen transition-transform -translate-x-full sm:translate-x-0' aria-label="Sidebar">
+                    <section className='md:flex flex-col items-center  h-screen overflow-hidden text-gray-100 bg-primary'>
                         <section className="flex items-center w-full px-3 mt-3">
                             {userData ? (
                             <>
-                                <div className='w-8 h-8 fill-current'>
+                                <div className='flex w-8 h-8 fill-current'>
+                                    <Image width={50} height={50} src={userData.avatar} alt='avatar' className='rounded-full'/>
                                     <p className='ml-2 self-center text-xl font-semibold whitespace-nowrap text-white'><Link href='/'>{userData.username}</Link></p>
                                 </div>
                             </>

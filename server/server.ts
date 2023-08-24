@@ -50,7 +50,7 @@ db.once('open', async () => {
       console.log(`\x1b[35m> Ready!\x1b[0m on http://localhost:${port}`);
     });
 
-    // clientStart();
+    clientStart();
   } catch (err: any) {
     console.error(err.stack)
     process.exit(1)

@@ -26,7 +26,7 @@ export default function RootLayout({
             <ReduxProvider>
               <div className='min-h-screen bg-gradient-to-br from-sky-50 to-gray-200'>
                 <NavBar />
-                <div className='sm:ml-48'>
+                <div className='sm:ml-56'>
                   {children}
                 </div>
               </div>

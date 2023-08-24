@@ -11,13 +11,14 @@ type Guild = {
 type GuildArray = Guild[];
 
 
-const findUser = async (id: string, username: string, guilds?: GuildArray) => {
+const findUser = async (id: string, username: string, avatar?:string, guilds?: GuildArray) => {
   const userData = await Users.findOne({user_id: id});
   
   if (!userData) {    
     Users.create({
       user_id: id,
       username,
+      avatar,
     })
     if (guilds) {
       guilds.forEach(async (guild) => {
@@ -54,9 +55,10 @@ passport.use(new DiscordStrategy({
   scope: ['identify', 'guilds'],
   }, async (accessToken, refreshToken, profile, done) => { //setup refresh tokens
   const { id, username, discriminator, avatar, guilds } = profile;   
+  console.log('profile', profile);
   
   const user:JwtUser = {id};
-  await findUser(id, username, guilds);
+  await findUser(id, username, avatar!, guilds);
     
   return done(null, user, { id, username, discriminator, avatar, guilds });
 }));

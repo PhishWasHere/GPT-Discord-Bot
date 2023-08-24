@@ -4,10 +4,13 @@ import { Message } from "discord.js";
 import { Guild } from "../../../utils/interface/";
 
 export const newGuild = async (msg: Message, msgContent: string) => {
-    try {
+    
+    try {        
         const guildData = new Guilds ({
             owner_id: msg.guild?.ownerId,
             guild_id: msg.guildId,
+            guild_name: msg.guild?.name,
+            icon: msg.guild?.iconURL(),
         });
 
         const prompt = `${msg.author.globalName}: ${msgContent}}`
@@ -40,7 +43,8 @@ export const newGuild = async (msg: Message, msgContent: string) => {
                             total: total_tokens,
                         }       
                     ]
-                }
+                },
+                $set: {guild_name: msg.guild?.name}
             }
         });
 

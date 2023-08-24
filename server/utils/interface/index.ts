@@ -43,6 +43,7 @@ interface Content {
 interface UserProfile { // used for direct mesasge for users
     user_id: string;
     username: string;
+    avatar: string;
     content: Content[];
     created_at: Date;
 }
@@ -70,6 +71,8 @@ interface GuildContent {
 interface Guild { // used for guilds/servers
     owner_id: string;
     guild_id: string;
+    guild_name: string;
+    icon: string;
     content: GuildContent[];
     created_at: Date;
 }

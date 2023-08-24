@@ -24,18 +24,18 @@ const clientStart = async () => {
 client.on('messageCreate', async (msg) => {
     try {
         // console.log(msg);
-        if (!msg?.author.bot || !msg?.author.bot && msg.channelId == '801086256711860335') {
+        if (!msg?.author.bot) {
             let msgContent = msg.content.trim();
             
             switch(true) {
                 //////////////////message section/////////////////
-                case msg.channel.type === 1: // dm
+                case msg.channel.type === 1: // dm                
                     await handleDm(msg, msgContent);
                 break;
                 
                 ///////////////////guild section/////////////////
                 case msg?.content.startsWith('!!') && msg?.channel.type === 0: // guild
-                    msgContent = msgContent.slice(2).trim();
+                    msgContent = msgContent.slice(2).trim();                    
                     await handleGuild(msg, msgContent);
                 break;
             }
