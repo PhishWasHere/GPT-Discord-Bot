@@ -55,7 +55,6 @@ passport.use(new DiscordStrategy({
   scope: ['identify', 'guilds'],
   }, async (accessToken, refreshToken, profile, done) => { //setup refresh tokens
   const { id, username, discriminator, avatar, guilds } = profile;   
-  console.log('profile', profile);
   
   const user:JwtUser = {id};
   await findUser(id, username, avatar!, guilds);

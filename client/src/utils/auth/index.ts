@@ -14,6 +14,7 @@ function getToken() {
 
 export async function getUserData() {
   const token = getToken();
+
   const res = await axios.get('api/v1/userdata',{
     headers: {
       'Content-Type': 'application/json',

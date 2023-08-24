@@ -46,7 +46,8 @@ export default function NavBar () {
             const userData = await response.json();
             dispatch(setUser(userData)); // Dispatch the setUser action with user data
             setUserData(userData);
-
+            console.log(userData);
+            
           } catch (error) {
               console.error('An unexpected error happened occurred:', error);
           }
@@ -106,7 +107,11 @@ export default function NavBar () {
                             </>
                         ) :(
                             <>
-                                <Image width={40} height={40} src={userData.avatar} alt='avatar' className='rounded-full mr-3'/>
+                                {userData.avatar? (
+                                    <Image width={40} height={40} src={userData.avatar} alt='avatar' className='rounded-full'/>    
+                                ) : (
+                                    null
+                                )}
                                 <span className="self-center text-2xl font-semibold whitespace-nowrap text-white">{userData.username}</span>
                             </>
                         )}
@@ -159,7 +164,11 @@ export default function NavBar () {
                             {userData ? (
                             <>
                                 <div className='flex w-8 h-8 fill-current'>
-                                    <Image width={50} height={50} src={userData.avatar} alt='avatar' className='rounded-full'/>
+                                    {userData.avatar ? (
+                                        <Image width={50} height={50} src={userData.avatar} alt='avatar' className='rounded-full'/>    
+                                    ) : (
+                                        null
+                                    )}
                                     <p className='ml-2 self-center text-xl font-semibold whitespace-nowrap text-white'><Link href='/'>{userData.username}</Link></p>
                                 </div>
                             </>
