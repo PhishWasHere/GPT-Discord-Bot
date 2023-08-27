@@ -6,20 +6,25 @@ import {getUserData} from '@/utils/auth';
 import { useEffect, useState } from 'react';
 import NotLoggedIn from '@/components/isAuth_false';
 
-import UsageChart from '@/components/chart';
+import BarChart from '@/components/chart';
+
+const getData = (async () => {
+  const data = await getUserData();
+  
+  return data;
+});
 
 export default function Dashboard() {
-  // const userData = useAppSelector((state) => state.authReducer.value);
-  const userData = getUserData();
-  // console.log(userData);
-    getUserData();
-  // if (!userData || userData.isAuth === false) return(<NotLoggedIn />);
-  // console.log(userData);
+  const userAuth = useAppSelector((state) => state.authReducer.value);
+  
+  if (!userAuth || userAuth.isAuth === false) return(<NotLoggedIn />);
+  
+  const data = getData();
   
   return (
     <> 
       <main className='text-gray-900'>
-        <UsageChart />
+        <BarChart data={data} />
       </main>
     </>
   );

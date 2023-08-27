@@ -11,9 +11,8 @@ import DesktopNav from './desktop';
 export default function NavBar () {
     const [userData, setUserData] = useState(null);
     const dispatch = useDispatch<AppDispatch>();
-    const [showComponent, setShowComponent] = useState(false);
     const [isSmall, setIsSmall] = useState(false);
-
+    
     useEffect(() => { // Check if the screen is small
         const handleResize = () => {
             if (window.innerWidth < 640) {
@@ -26,10 +25,6 @@ export default function NavBar () {
         handleResize();
         return () => window.removeEventListener('resize', handleResize);
     }, []);
-
-    const handleShowComponent = () => { //toggle for the mobile menu
-        setShowComponent(!showComponent);
-    };
 
     const handleLogout= () =>{ //logout function
         Cookies.remove('token')
@@ -60,7 +55,6 @@ export default function NavBar () {
             const userData = await response.json();
             dispatch(setUser(userData)); // Dispatch the setUser action with user data
             setUserData(userData);
-            console.log(userData);
             
           } catch (error) {
               console.error('An unexpected error happened occurred:', error);
