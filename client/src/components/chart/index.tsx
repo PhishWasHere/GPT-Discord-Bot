@@ -21,16 +21,41 @@ ChartJS.register(
     Legend
 );
 
+type Token = {
+    total: number;
+}
+
+type UsageData = {
+    day: number;
+    dayName: string;
+    tokens: Token[];
+    count: number;
+}
+
+type ChartDataType = {
+    labels: string[];
+    datasets: Dataset[];
+}
+
+type Dataset = {
+    label: string;
+    data: number[];
+    backgroundColor: string;
+}
 
 export default function Chart() {
-    const [data, setData] = useState([]);
+    const [data, setData] = useState<UsageData[]>([]);
     const [loading, setLoading] = useState(true);
+    const [chartData, setChartData] = useState<ChartDataType>({
+        labels: [],
+        datasets: []
+    });
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await getUserUsage() as any;
-                const usageData = response.data; // Modify this line based on the structure of the response
+                const response = await getUserUsage();
+                const usageData: UsageData[] = response.data; // Modify this line based on the structure of the response
     
                 // Check if usageData is an array before proceeding
                 if (Array.isArray(usageData)) {
@@ -84,11 +109,6 @@ export default function Chart() {
 
         fetchData();
     }, []);
-
-    const [chartData, setChartData] = useState({
-        labels: [],
-        datasets: []
-    });
 
     const [chartOptions, setChartOptions] = useState({});
 
