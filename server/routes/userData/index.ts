@@ -14,6 +14,7 @@ router.get('/', async (req: Request, res) => {
       const id = (req.user as JwtPayload).id;
   
       const userData = await Users.findOne({user_id: id});
+      
       const {user_id, username, avatar } = userData!;
       const userGuild = userData?.guilds;
       
@@ -24,8 +25,8 @@ router.get('/', async (req: Request, res) => {
       let guilds: any = [];
       if (userGuild) {
         const guildPromise = userGuild.map(async (id) => { // map the array to a promise
-            const guild = await Guilds.findOne({ guild_id: id });
-            return guild?.id;
+            await Guilds.findOne({ guild_id: id });
+            return id;
       });
             guilds = await Promise.all(guildPromise); // wait for all the promises to resolve
       }

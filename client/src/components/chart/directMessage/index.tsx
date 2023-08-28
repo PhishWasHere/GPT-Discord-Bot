@@ -43,9 +43,9 @@ type Dataset = {
     backgroundColor: string;
 }
 
-export default function Chart() {
+export default function UserChart() {
     const [data, setData] = useState<UsageData[]>([]);
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState<boolean>(true);
     const [chartData, setChartData] = useState<ChartDataType>({
         labels: [],
         datasets: []
@@ -55,7 +55,7 @@ export default function Chart() {
         const fetchData = async () => {
             try {
                 const response = await getUserUsage();
-                const usageData: UsageData[] = response.data; // Modify this line based on the structure of the response
+                const usageData: UsageData[] = response.data;
     
                 // Check if usageData is an array before proceeding
                 if (Array.isArray(usageData)) {
@@ -113,13 +113,13 @@ export default function Chart() {
     const [chartOptions, setChartOptions] = useState({});
 
     return (
-        <>
-            <h2>Token Usage for the Past 7 Days</h2>
+        <div className="p-4">
+            <h2 className="text-xl font-semibold mb-4">Token Usage for the Past 7 Days</h2>
             {loading ? (
                 <div>Loading...</div>
             ) : (
                 <Bar data={chartData} options={chartOptions} />
             )}
-        </>
+        </div>
     );
 }

@@ -44,13 +44,13 @@ router.get('/users', async (req, res) => {
 });
 
 router.get('/guilds', async (req, res) => {
-    try {
+    try {        
         const id = req.headers.guild_id as string;        
-        
-        const guild = await Guilds.findOne ({ guild_id: id });
 
-        if(!guild) {
-            return res.status(200).send('No guild found');
+        const guild = await Guilds.findOne({ guild_id: id }, 'guild_name content');
+
+        if (!guild) {
+            return res.status(200).send({ guild_name: 'No guild found' });
         }
 
         const tokenMap = new Map();
@@ -74,11 +74,12 @@ router.get('/guilds', async (req, res) => {
     
         const tokenArr = [...tokenMap.values()];
         
-        res.status(200).json(tokenArr);
+        res.status(200).json({ guild_name: guild.guild_name, tokenArr });
     } catch (error) {
         console.error('Error fetching and processing data:', error);
         res.status(500).send('Internal Server Error');
     }
 });
+
 
 export default router;
