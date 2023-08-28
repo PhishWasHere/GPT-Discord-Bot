@@ -46,7 +46,6 @@ router.get('/users', async (req, res) => {
 router.get('/guilds', async (req, res) => {
     try {
         const id = req.headers.guild_id as string;        
-        console.log(id);
         
         const guild = await Guilds.findOne ({ guild_id: id });
 
@@ -74,7 +73,7 @@ router.get('/guilds', async (req, res) => {
         });
     
         const tokenArr = [...tokenMap.values()];
-
+        
         res.status(200).json(tokenArr);
     } catch (error) {
         console.error('Error fetching and processing data:', error);

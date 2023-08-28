@@ -9,7 +9,7 @@ const contentSchema = new mongoose.Schema(
             global_name: { type: String, required: true, default: 'init' },
             message: { type: String, required: true, default: 'init' },
             message_id: { type: String, required: true, default: 'init' },
-            created_timestamp: { type: Number, required: true, default: 0 },
+            created_timestamp: { type: Date, required: true, expires: '7d' },
         },
       ],
       gpt_response: { type: String, required: true, default: null },
@@ -20,10 +20,8 @@ const contentSchema = new mongoose.Schema(
             total: { type: Number, required: true },
         },
       ],
+      expires: { type: Date, default: Date.now, expires: '7d' },
     },
-    {
-      expires: '7d',
-    }
 );
  
 const guildSchema = new mongoose.Schema(

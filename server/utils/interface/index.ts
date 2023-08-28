@@ -35,7 +35,7 @@ interface Content {
     global_name: string;
     message: string;
     message_id: string;
-    created_timestamp: number;
+    created_timestamp: Date;
     gpt_response: string | null;
     tokens: Token[];
 }
@@ -59,7 +59,7 @@ interface Author {
     global_name: string;
     message: string;
     message_id: string;
-    created_timestamp: number;
+    created_timestamp: Date;
 }
 
 interface GuildContent {

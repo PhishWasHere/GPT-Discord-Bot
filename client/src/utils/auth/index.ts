@@ -40,7 +40,7 @@ export async function getUserUsage() {
   return res;
 }
 
-export async function getGuildUsage() {
+export async function getGuildUsage({ guild_id }: { guild_id: any } ) {
   const token = getToken();
 
   const decodedToken = jwtDecode(token!) as { [key: string]: string };
@@ -50,6 +50,7 @@ export async function getGuildUsage() {
       'Content-Type': 'application/json',
       authorization: token ? `Bearer ${token}` : '',
       user_id: decodedToken.user_id,
+      guild_id: guild_id,
     },
   });
   

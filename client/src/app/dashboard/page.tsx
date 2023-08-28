@@ -1,7 +1,7 @@
 'use client'
 import Link from 'next/link';
 import { useAppSelector } from '@/utils/redux/store';
-import {getUserData} from '@/utils/auth';
+import {getUserData, getGuildUsage} from '@/utils/auth';
 
 import { useEffect, useState } from 'react';
 import NotLoggedIn from '@/components/isAuth_false';
@@ -19,12 +19,10 @@ export default function Dashboard() {
   
   if (!userAuth || userAuth.isAuth === false) return(<NotLoggedIn />);
   
-  const data = getData();
-  
   return (
     <> 
       <main className='text-gray-900'>
-        <BarChart data={data} />
+        <BarChart/>
       </main>
     </>
   );

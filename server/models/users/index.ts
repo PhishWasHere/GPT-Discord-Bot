@@ -5,19 +5,17 @@ const contentSchema = new mongoose.Schema(
         global_name: { type: String, required: true },
         message: { type: String, required: true},
         message_id: { type: String, required: true },
-        created_timestamp: { type: Number, required: true },
+        created_timestamp: { type: Date, required: true },
         gpt_response: { type: String, required: true, default: null },
         tokens: [ 
-        {
-            prompt: { type: Number, required: true },
-            completion: { type: Number, required: true },
-            total: { type: Number, required: true },
-        },
+            {
+                prompt: { type: Number, required: true },
+                completion: { type: Number, required: true },
+                total: { type: Number, required: true },
+            },
         ],
+        expires: { type: Date, default: Date.now, expires: '7d' },
     },
-    {
-        expires: '7d', 
-    }
 );
 
 const userSchema = new mongoose.Schema(
@@ -30,21 +28,8 @@ const userSchema = new mongoose.Schema(
         credit: { type: Number, required: true, default: 0 }, //credit to use persistent data
         eula: { type: Boolean, required: true, default: false }, //eula agreement to use persistent data
         guilds: { type: Array, required: true, unique: true,  default: [] }, //guilds the user is in
-    },
-    {
-        toJSON: {
-            virtuals: true,
-        }
     }
 );
-
-userSchema.virtual('guildsData', {
-    ref: 'Guilds',
-    localField: 'guilds',
-    foreignField: 'guild_id',
-    justOne: false,
-});
-
 
 const Users = mongoose.model('Users', userSchema);
 
