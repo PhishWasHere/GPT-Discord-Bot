@@ -14,9 +14,11 @@ export default function Dashboard() {
   return (
     <> 
       <main className='text-gray-900'>
-        <section className='grid grid-cols-2'>
-        <UserChart/>
-        <GuildChart/>
+        <section className='container mx-auto'>
+          <UserChart/>
+        </section>
+        <section className='p-8'>
+          <GuildChart/>
         </section>
       </main>
     </>

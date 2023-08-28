@@ -80,13 +80,13 @@ export default function UserChart() {
                             },
                         ],
                     });
-    
+                    
                     setChartOptions({
                         responsive: true,
                         plugins: {
                             title: {
-                                display: true,
-                                text: 'Weekly Usage'
+                                display: false,
+                                text: `Weekly Usage In Direct Messages`
                             }
                         },
                         scales: {
@@ -114,11 +114,14 @@ export default function UserChart() {
 
     return (
         <div className="p-4">
-            <h2 className="text-xl font-semibold mb-4">Token Usage for the Past 7 Days</h2>
+            <h2 className="text-xl font-semibold mb-4"></h2>
             {loading ? (
                 <div>Loading...</div>
             ) : (
-                <Bar data={chartData} options={chartOptions} />
+                <div className="xl:m-14 lg:m-8">
+                    <h2 className="text-lg font-semibold mb-2 text-center">Weekly Usage In Direct Messages</h2>
+                    <Bar data={chartData} options={chartOptions} />
+                </div>
             )}
         </div>
     );
