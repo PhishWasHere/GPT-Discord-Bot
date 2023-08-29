@@ -6,9 +6,9 @@
   
   "scripts": {
     "dev": "nodemon server.ts",
-    "start": "ts-node /dist/server.js",
-    "lint": "next lint",
     "build": "tsc",
+    "start": "ts-node dist/server.js",
+    "lint": "next lint",
     "postinstall": "yarn build"
   },
   "dependencies": {
