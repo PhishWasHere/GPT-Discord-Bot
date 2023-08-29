@@ -7,8 +7,7 @@
       "start": "node server/server.ts",
       "dev": "concurrently \"cd server && yarn dev\" \"cd client && yarn dev\"",
       "install": "cd server && yarn && cd ../client && yarn",
-      "build": "cd client && yarn build",
-      "postinstall" : "yarn seed"
+      "build": "cd client && yarn build"
     },
     "keywords": [],
     "author": "",
