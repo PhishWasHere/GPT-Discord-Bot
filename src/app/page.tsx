@@ -3,6 +3,7 @@ import Image from 'next/image'
 import Link from 'next/link';
 import { useEffect } from 'react';
 import { useRouter } from 'next/router';
+import { usePathname } from 'next/navigation'
 
 import Cookies from 'js-cookie';
 
@@ -11,18 +12,17 @@ import Carousel from '@/components/home/carousel';
 import Testimonial from '@/components/home/testimonial';
 
 export default function Home() { 
-  const router = useRouter();
+  const path = usePathname();
 
   useEffect(() => {
-    const searchParams = new URLSearchParams(router.asPath);
-    const token = searchParams.get('token');
+    const token = path.split('?token=')[1];
     
     if (token) {
       Cookies.set('token', token);
     } 
     console.log(token);
     
-  }, [router.asPath]);
+  }, [path]);
 
   return (
     <>
