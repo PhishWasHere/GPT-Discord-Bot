@@ -1,11 +1,21 @@
 'use client';
 import Link from 'next/link';
+import axios from 'axios';
 
 export default function Login() {
     
-    const handleLogin = () => {
-        // Redirect user to the backend's OAuth route
-        window.location.href = '/api/v1/auth';
+    const handleLogin = async () => {
+        try {
+            const res = await axios.get('/api/v1/auth');
+            console.log(res.data);
+            
+            if (res.data.success) {
+                window.location.href = res.data.url;
+            }
+
+        } catch (err) {
+            console.log(err);
+        }
     };
 
     return(
