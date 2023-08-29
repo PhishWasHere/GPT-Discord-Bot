@@ -18,6 +18,7 @@ export default function Home() {
 
     if (token) {
       Cookies.set('token', token);
+      window.location.reload();
     } 
     
   }, []);
