@@ -3,9 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "main": "server.ts",
+  
   "scripts": {
     "dev": "nodemon server.ts",
-    "start": "node server.ts",
+    "start": "node dist/server.js",
     "lint": "next lint",
     "build": "tsc"
   },
