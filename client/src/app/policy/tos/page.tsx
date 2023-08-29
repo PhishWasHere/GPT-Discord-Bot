@@ -22,7 +22,7 @@ export default function Tos() {
 
                     
                     <p className="mb-4">
-                    You must fully understand and accept that the Hostile's sole purpose is to be a sarcastic and insulting chatbot. Responses may be offensive.
+                    You must fully understand and accept that the Hostile{`'`}s sole purpose is to be a sarcastic and insulting chatbot. Responses may be offensive.
                     </p>
                     
                     <p className="mb-4">

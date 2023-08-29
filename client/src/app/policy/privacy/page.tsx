@@ -32,7 +32,7 @@ export default function Privacy() {
                     When prompted within the Discord app, the following information will be stored for 7-30 days (for the purpose of persistence and for debug purposes):
                 </p>
                 <ul className="list-disc ml-6 mb-4">
-                    <li>If prompted in a guild: prompt author's user ID, username, global name, prompt message, message ID, GPT response, and token cost.</li>
+                    <li>If prompted in a guild: prompt author{`'`}s user ID, username, global name, prompt message, message ID, GPT response, and token cost.</li>
                     <li>If prompted in a direct message: global name, prompt message, message ID, GPT response, and token cost.</li>
                 </ul>
         
@@ -43,13 +43,13 @@ export default function Privacy() {
         
                 <h2 id='gpt' className="text-lg font-semibold mb-2">GPT3 Integration</h2>
                 <p className="mb-4">
-                All prompts to the bot will be passed to OpenAI's GPT-3.5 Turbo. Prompts will contain the username and message in the format "username: message". 
+                All prompts to the bot will be passed to OpenAI{`'`}s GPT-3.5 Turbo. Prompts will contain the username and message in the format {`"`}username: message{`"`}. 
                 If persistence is enabled, the past 7 messages and responses will be sent to GPT in this format.
                 </p>
 
                 <h2 className="text-lg font-semibold mb-2">Discord and OpenAI Privacy Policies</h2>
                 <p className="mb-4">
-                    It's important to review the privacy policies 
+                    It{`'`}s important to review the privacy policies 
                     of <Link className='underline hover:text-blue-600' href="https://discord.com/privacy" target="_blank" rel="noopener noreferrer">Discord</Link> and <Link className='underline hover:text-emerald-400' href="https://platform.openai.com/docs/privacy-policy" target="_blank" rel="noopener noreferrer">OpenAI</Link> as
                     well before using the Hostile bot.
                 </p>

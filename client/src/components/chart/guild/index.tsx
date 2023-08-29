@@ -81,56 +81,56 @@ export default function GuildChart() {
     const numGuilds = data.filter(guildData => guildData !== null).length;
     const isCentered = numGuilds < 2;
   
-    return (
-      <>
-        {loading ? (
-          <p>Loading...</p>
-        ) : (
-          <div className={` ${isCentered ? 'mx-auto' : 'grid xl:grid-cols-2 mx-auto grid-cols-1'} container p-4`}>
-            {data.map((guildData: GuildData | null, index: number) => (
-              <div key={index} className={`${isCentered ? 'mx-auto' : ''}`}>
-                {guildData === null ? (
-                  null
-                ) : (
-                  <div className="xl:m-3">
-                    <h2 className="text-lg font-semibold mb-2 text-center">{guildData.guild_name}</h2>
-                    <Bar
-                      data={{
-                        labels: guildData.tokenArr.map(item => item.day_Name),
-                        datasets: [
-                            {
-                                label: 'Total Tokens',
-                                data: guildData.tokenArr.map(item => (item.tokens.length > 0 ? item.tokens[0].total : 0)),
-                                backgroundColor: 'rgba(75, 192, 192, 0.6)',
-                            },
-                            {
-                                label: 'Count',
-                                data: guildData.tokenArr.map(item => item.count),
-                                backgroundColor: 'rgba(255, 99, 132, 0.6)',
-                            },
-                        ],
-                      }}
-                      options={{
-                        responsive: true,
-                        plugins: {
-                          title: {
-                            display: false,
-                            text: `Weekly Usage`,
+  return (
+    <>
+      {loading ? (
+        <p>Loading...</p>
+      ) : (
+        <div className={` ${isCentered ? 'mx-auto' : 'grid xl:grid-cols-2 mx-auto grid-cols-1'} container p-4`}>
+          {data.map((guildData: GuildData | null, index: number) => (
+            <div key={index} className={`${isCentered ? 'mx-auto' : ''}`}>
+              {guildData === null ? (
+                null
+              ) : (
+                <div className="xl:m-3">
+                  <h2 className="text-lg font-semibold mb-2 text-center">{guildData.guild_name}</h2>
+                  <Bar
+                    data={{
+                      labels: guildData.tokenArr.map(item => item.day_Name),
+                      datasets: [
+                          {
+                              label: 'Total Tokens',
+                              data: guildData.tokenArr.map(item => (item.tokens.length > 0 ? item.tokens[0].total : 0)),
+                              backgroundColor: 'rgba(75, 192, 192, 0.6)',
                           },
-                        },
-                        scales: {
-                          y: {
-                            beginAtZero: true,
+                          {
+                              label: 'Count',
+                              data: guildData.tokenArr.map(item => item.count),
+                              backgroundColor: 'rgba(255, 99, 132, 0.6)',
                           },
+                      ],
+                    }}
+                    options={{
+                      responsive: true,
+                      plugins: {
+                        title: {
+                          display: false,
+                          text: `Weekly Usage`,
                         },
-                      }}
-                    />
-                  </div>
-                )}
-              </div>
-            ))}
-          </div>
-        )}
-      </>
-    );
+                      },
+                      scales: {
+                        y: {
+                          beginAtZero: true,
+                        },
+                      },
+                    }}
+                  />
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+      )}
+    </>
+  );
 }
