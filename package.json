@@ -2,9 +2,9 @@
     "name": "bully-me-gpt",
     "version": "1.0.0",
     "description": "",
-    "main": "server/server.ts",
+    "main": "server/dist/server.js",
     "scripts": {
-      "start": "concurrently \"cd server && yarn start\" \"cd client && yarn start\"",
+      "start": "ts-node server/dist/server.js",
       "dev": "concurrently \"cd server && yarn dev\" \"cd client && yarn dev\"",
       "install": "cd server && yarn && cd ../client && yarn",
       "build": "concurrently \"cd server && yarn build\" \"cd client && yarn build\""
