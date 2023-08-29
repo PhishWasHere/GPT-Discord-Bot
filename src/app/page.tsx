@@ -1,9 +1,7 @@
 'use client';
 import Image from 'next/image'
 import Link from 'next/link';
-import { useEffect } from 'react';
-import { useRouter } from 'next/router';
-import { usePathname } from 'next/navigation'
+import { useEffect, useState } from 'react';
 
 import Cookies from 'js-cookie';
 
@@ -12,14 +10,17 @@ import Carousel from '@/components/home/carousel';
 import Testimonial from '@/components/home/testimonial';
 
 export default function Home() { 
+  const [reloadTriggered, setReloadTriggered] = useState(false);
+
   useEffect(() => {    
     const urlParams = new URLSearchParams(window.location.search);
     const token = urlParams.get('token'); 
 
-    if (token) {
+    if (token && !reloadTriggered) {
       Cookies.set('token', token);
+      setReloadTriggered(true);
       window.location.reload();
-    } 
+    }
     
   }, []);
 
