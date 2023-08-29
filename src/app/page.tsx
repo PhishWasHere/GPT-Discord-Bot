@@ -12,17 +12,15 @@ import Carousel from '@/components/home/carousel';
 import Testimonial from '@/components/home/testimonial';
 
 export default function Home() { 
-  const path = usePathname();
+  useEffect(() => {    
+    const urlParams = new URLSearchParams(window.location.search);
+    const token = urlParams.get('token'); 
 
-  useEffect(() => {
-    const token = path.split('?token=')[1];
-    
     if (token) {
       Cookies.set('token', token);
     } 
-    console.log(token);
     
-  }, [path]);
+  }, []);
 
   return (
     <>
