@@ -8,5 +8,4 @@
       "strict": true
     },
     "exclude": ["node_modules"],
-    "include": ["./src/**/*"]
 }
