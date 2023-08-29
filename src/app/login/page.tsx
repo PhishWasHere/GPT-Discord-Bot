@@ -9,22 +9,6 @@ export default function Login() {
     const handleLogin = async () => {
         // Redirect user to the backend's OAuth route
         window.location.href = '/api/v1/auth';
-        try {
-                const res = await axios.get('/api/v1/auth');
-                if (res.status !== 200) {
-                    return;
-                }
-                const { data } = res;
-                console.log(data);
-
-                cookies.set('token', data.token, {
-                    expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 7),
-                    path: '/',
-                });
-                  
-        } catch (err) {
-            console.log(err);
-        }
     };
 
     return(

@@ -1,12 +1,26 @@
+'use client';
 import Image from 'next/image'
 import Link from 'next/link';
+import { useEffect } from 'react';
+import { useRouter } from 'next/router';
 
 import Button from '@/components/common/button/button';
 import Carousel from '@/components/home/carousel';
 import Testimonial from '@/components/home/testimonial';
 
 export default function Home() { 
+  const router = useRouter();
+
+  useEffect(() => {
+    // Extract token from the URL query parameters
+    const token = router.query.token;
+
+    if (token) {
+      localStorage.setItem('token', token as string);
+    }
+  }, [router]);
   
+
   return (
     <>
     <main className="grow">
