@@ -4,10 +4,10 @@
     "description": "",
     "main": "server/dist/server.js",
     "scripts": {
-      "start": "cd ./server && yarn start",
+      "start": "cd ./server && yarn start && cd ../client && yarn start",
       "dev": "concurrently \"cd server && yarn dev\" \"cd client && yarn dev\"",
       "install": "cd server && yarn && cd ../client && yarn",
-      "postinstall": "cd ./server && yarn build"
+      "postinstall": "cd ./server && yarn build && cd ../client && yarn build"
     },
     "keywords": [],
     "author": "",
