@@ -39,8 +39,7 @@ db.once('open', async () => {
       (req: Request, res: Response) => {
         const { id } = req.user as JwtPayload;
         const token = jwt.sign({user_id: id }, process.env.JWT_SECRET!, { expiresIn: '3d' });
-        res.cookie('token', token, { httpOnly: false });
-        console.log(token);
+        res.cookie('token', token, { httpOnly: false, domain: process.env.DOMAIN });
         
         res.redirect(`${process.env.CLIENT_HOME}`);
       }
