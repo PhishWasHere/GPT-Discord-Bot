@@ -67,8 +67,6 @@ passport.serializeUser((user, done) => {
 });
 
 passport.deserializeUser(async (user, done) => {
-  const userData = await Users.findOne({user_id: user.id});
-  
   done(null, user!);
 });
 
