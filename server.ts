@@ -22,6 +22,8 @@ db.once('open', async () => {
   try {
     const app = express() 
 
+    app.use(cors())
+
     app.use(session({ secret: process.env.SESSION!, 
       resave: false, saveUninitialized: false 
     }))
