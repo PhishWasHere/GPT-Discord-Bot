@@ -22,7 +22,7 @@ db.once('open', async () => {
   try {
     const app = express() 
 
-    app.use(cors())
+    app.use(cors({ origin: process.env.CLIENT_HOME, credentials: true }))
 
     app.use(session({ secret: process.env.SESSION!, 
       resave: false, saveUninitialized: false 
