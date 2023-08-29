@@ -1,31 +1,19 @@
 {
-  "name": "bully-me-gpt",
-  "version": "0.1.0",
-  "private": true,
-  "main": "server.ts",
-  "scripts": {
-    "dev": "nodemon src/server.ts",
-    "start": "node server.ts",
-    "lint": "next lint",
-    "build": "tsc"
-  },
-  "dependencies": {
-    "@types/body-parser": "^1.19.2",
-    "@types/cors": "^2.8.13",
-    "@types/express": "^4.17.17",
-    "@types/node": "^20.4.8",
-    "autoprefixer": "10.4.14",
-    "body-parser": "^1.20.2",
-    "cors": "^2.8.5",
-    "discord-interactions": "^3.4.0",
-    "discord.js": "^14.12.1",
-    "dotenv": "^16.3.1",
-    "eslint": "8.46.0",
-    "eslint-config-next": "13.4.12",
-    "express": "^4.18.2",
-    "mongoose": "^7.0.2",
-    "openai": "^3.3.0",
-    "ts-node": "^10.9.1",
-    "typescript": "^5.1.6"
+    "name": "bully-me-gpt",
+    "version": "1.0.0",
+    "description": "",
+    "main": "server/dist/server.js",
+    "scripts": {
+      "start": "concurrently \"cd server && yarn start\" \"cd client && yarn start\"",
+      "dev": "concurrently \"cd server && yarn dev\" \"cd client && yarn dev\"",
+      "install": "cd server && yarn && cd ../client && yarn",
+      "postinstall": "cd ./server && yarn build && cd ../client && yarn build"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "MIT",
+    "dependencies": {
+      "concurrently": "^5.1.0"
+    }
   }
-}
+  
