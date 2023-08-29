@@ -7,7 +7,7 @@
       "start": "cd ./server && yarn start",
       "dev": "concurrently \"cd server && yarn dev\" \"cd client && yarn dev\"",
       "install": "cd server && yarn && cd ../client && yarn",
-      "build": "cd ./server && yarn build"
+      "postinstall": "cd ./server && yarn build"
     },
     "keywords": [],
     "author": "",
