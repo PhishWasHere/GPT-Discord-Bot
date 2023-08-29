@@ -4,13 +4,14 @@
     "description": "",
     "main": "server/dist/server.js",
     "scripts": {
-      "start": "node server/dist/server.js",
+      "start": "cd ./server && yarn start",
       "dev": "concurrently \"cd server && yarn dev\" \"cd client && yarn dev\"",
-      "install": "cd server && yarn && cd ../client && yarn"
+      "install": "cd server && yarn && cd ../client && yarn",
+      "build": "cd ./server && yarn build"
     },
     "keywords": [],
     "author": "",
-    "license": "ISC",
+    "license": "MIT",
     "devDependencies": {
       "concurrently": "^5.1.0"
     }
