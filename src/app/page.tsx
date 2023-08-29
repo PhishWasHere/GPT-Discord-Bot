@@ -11,17 +11,19 @@ import Carousel from '@/components/home/carousel';
 import Testimonial from '@/components/home/testimonial';
 
 export default function Home() { 
-  const pathname = usePathname();
-  const searchParams = new URLSearchParams(pathname);
-  const token = searchParams.get('token');
+  const router = useRouter();
+
   useEffect(() => {
-  
+    const searchParams = new URLSearchParams(router.asPath);
+    const token = searchParams.get('token');
+    
     if (token) {
       Cookies.set('token', token);
     } 
+    console.log(token);
     
-  }, []);
-  
+  }, [router.asPath]);
+
   return (
     <>
     <main className="grow">
