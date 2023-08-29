@@ -7,8 +7,7 @@
     "dev": "nodemon server.ts",
     "build": "tsc",
     "start": "node dist/server.js",
-    "lint": "next lint",
-    "postinstall": "yarn build"
+    "lint": "next lint"
   },
   "dependencies": {
     "@types/body-parser": "^1.19.2",
