@@ -1,15 +1,27 @@
+'use client';
 import Image from 'next/image'
 import Link from 'next/link';
 import { useEffect } from 'react';
-import { useRouter } from 'next/router';
+import { usePathname } from 'next/navigation'
+
+import Cookies from 'js-cookie';
 
 import Button from '@/components/common/button/button';
 import Carousel from '@/components/home/carousel';
 import Testimonial from '@/components/home/testimonial';
 
 export default function Home() { 
-
-
+  const pathname = usePathname();
+  const searchParams = new URLSearchParams(pathname);
+  const token = searchParams.get('token');
+  useEffect(() => {
+  
+    if (token) {
+      Cookies.set('token', token);
+    } 
+    
+  }, []);
+  
   return (
     <>
     <main className="grow">
