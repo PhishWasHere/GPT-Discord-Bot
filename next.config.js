@@ -4,7 +4,7 @@ const nextConfig = {
         return [
             {
                 source: '/api/v1/:path*',
-                destination: `${process.env.URL}/api/v1/:path*`,
+                destination: `https://gbqgujildfv-666bfe4fe0e8.herokuapp.com/api/v1/:path*`,
             }
         ]
     },
