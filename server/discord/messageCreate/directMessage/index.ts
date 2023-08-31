@@ -2,6 +2,7 @@ import {chatCompletion} from '../../../config/gpt/';
 import { Users, Content } from '../../../models/';
 import { Message } from 'discord.js';
 import { UserData } from '../../../utils/types';
+import itemCounter from '../../../utils/itemCount';
 
 export const newUser = async (msg: Message, msgContent: any) => {
     try {
@@ -47,12 +48,6 @@ export const newUser = async (msg: Message, msgContent: any) => {
 
 export const existingUser = async (msg: Message, msgContent: string, userData: UserData) => {
     try {
-        const userData = await Users.findOne({ user_id: msg.author.id }).populate('content');
-
-        if(!userData) {
-            return msg.reply('No user found');
-        }
-
         const messages = userData.content
         .slice(Math.max(userData.content.length - 7, 0))
         .map((message: any) => message.message); // gets last 10 messages from user
@@ -103,6 +98,8 @@ export const existingUser = async (msg: Message, msgContent: string, userData: U
             {$addToSet: {content: contentData._id},
         });
         
+        await itemCounter({user_id: userData._id});
+
         return gptRes;
 
     } catch (err) {

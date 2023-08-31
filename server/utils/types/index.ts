@@ -42,6 +42,7 @@ interface Content {
 }
 
 type UserData = {
+    _id: Types.ObjectId;
     user_id: string;
     username: string;
     avatar?: string | null;
@@ -67,7 +68,7 @@ type UserContent = {
     expires?: Date;
 }
 
-type UserMessage = {
+type UserMessage = { // not using atm sort out later
     user: string;
     global_name: string;
     message: string;
@@ -92,11 +93,11 @@ interface Author {
     created_timestamp: Date;
 }
 
-interface GuildContent {
-    author: Author[];
-    gpt_response: string | null;
-    tokens: Token[];
-}
+// interface GuildContent {
+//     author: Author[];
+//     gpt_response: string | null;
+//     tokens: Token[];
+// }
 
 interface Guild { // used for guilds/servers
     owner_id: string;
@@ -107,7 +108,33 @@ interface Guild { // used for guilds/servers
     created_at: Date;
 }
 
-export { Author, GuildContent, Guild };
+type GuildData = {
+    _id: Types.ObjectId;
+    owner_id: string;
+    guild_id: string;
+    guild_name: string;
+    icon: string;
+    created_at: Date;
+    credit: number;
+    eula: boolean;
+    content: Types.ObjectId[];
+}
+
+type GuildContent = {
+    guild: Types.ObjectId;
+    author: {
+        user_id: string;
+        username: string;
+        global_name: string;
+        message: string;
+        message_id: string;
+        created_timestamp: Date;
+    }[];
+    gpt_response: string | null;
+    tokens: Token[];
+}
+
+export { Author, GuildContent, GuildData };
 //////////////////////////////////////////////////////
 //////////////////////JWT////////////////////////////
 

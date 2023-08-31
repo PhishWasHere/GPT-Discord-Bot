@@ -1,10 +1,10 @@
 import { chatCompletion } from "../../../config/gpt";
-import Guilds from '../../../models/guilds/';
+import { Guilds, Guild_Content } from "../../../models";
 import { Message } from "discord.js";
-import { Guild } from "../../../utils/types";
+import { GuildData } from "../../../utils/types";
+import itemCounter from "../../../utils/itemCount";
 
 export const newGuild = async (msg: Message, msgContent: string) => {
-    
     try {        
         const guildData = new Guilds ({
             owner_id: msg.guild?.ownerId,
@@ -21,31 +21,31 @@ export const newGuild = async (msg: Message, msgContent: string) => {
         const {prompt_tokens, completion_tokens, total_tokens} =  completion.data.usage;
         const gptRes = completion.data.choices[0].message.content;
 
-        await Guilds.findOneAndUpdate( // if guild exists, update it
-            {guild_id: msg.guildId}, 
-                {$push: {content: {
-                    author:
-                        [
-                            {
-                                user_id: msg.author.id,
-                                username: msg.author.username,
-                                global_name: msg.author.globalName,
-                                message: msgContent,
-                                message_id: msg.id, 
-                                created_timestamp: msg.createdTimestamp,
-                            },
-                        ],
-                    gpt_response: gptRes,
-                    tokens: [ 
-                        {          
-                            prompt: prompt_tokens,
-                            completion: completion_tokens,
-                            total: total_tokens,
-                        }       
-                    ]
+        const contentData = await Guild_Content.create({
+            guild: guildData._id,
+            author: [
+                {
+                    user_id: msg.author.id,
+                    username: msg.author.username,
+                    global_name: msg.author.globalName,
+                    message: msgContent,
+                    message_id: msg.id,
+                    created_timestamp: new Date(), // Use the appropriate date here
                 },
-                $set: {guild_name: msg.guild?.name}
-            }
+            ],
+            gpt_response: gptRes,
+            tokens: [
+                {
+                    prompt: prompt_tokens,
+                    completion: completion_tokens,
+                    total: total_tokens,
+                },
+            ],
+        });
+            
+        await Guilds.findOneAndUpdate(
+            { guild_id: guildData.guild_id },
+            {$addToSet: {content: contentData._id},
         });
 
         return gptRes;
@@ -55,19 +55,19 @@ export const newGuild = async (msg: Message, msgContent: string) => {
     }
 };
 
-export const existingGuild = async (msg: Message, msgContent: string, guildData: Guild) => {
+export const existingGuild = async (msg: Message, msgContent: string, guildData: GuildData) => {
     try {
-        const messages = guildData.content
+        const messages = guildData.content        
             .slice(Math.max(guildData.content.length - 7, 0))
-            .map((message) => message.author[0].message);
+            .map((message: any) => message.author[0].message);
 
         const user = guildData.content
             .slice(Math.max(guildData.content.length - 7, 0))
-            .map((message) => message.author[0].global_name);
+            .map((message: any) => message.author[0].global_name);
 
         const gpt_Responses = guildData.content
             .slice(Math.max(guildData.content.length - 7, 0))
-            .map((message) => message.gpt_response);
+            .map((message: any) => message.gpt_response);
 
         const userPrompts = messages.map((message, i) => { // create prompts array
             return {
@@ -89,33 +89,36 @@ export const existingGuild = async (msg: Message, msgContent: string, guildData:
         const {prompt_tokens, completion_tokens, total_tokens} =  completion.data.usage;
         const gptRes = completion.data.choices[0].message.content;
 
-        await Guilds.findOneAndUpdate( // if guild exists, update it
-            {guild_id: msg.guildId}, 
-            {$push: {content: {
-            author:
-                [
+        const contentData = await Guild_Content.create({
+            guild: guildData._id,
+            author: [
                 {
                     user_id: msg.author.id,
                     username: msg.author.username,
                     global_name: msg.author.globalName,
                     message: msgContent,
-                    message_id: msg.id, 
-                    created_timestamp: msg.createdTimestamp,
-                },
-                ],
-                gpt_response: gptRes,
-                tokens: [ 
+                    message_id: msg.id,
+                    created_timestamp: new Date(), 
+                }
+            ],
+            gpt_response: gptRes,
+            tokens: [
                 {
                     prompt: prompt_tokens,
                     completion: completion_tokens,
                     total: total_tokens,
-                }
-            ]
-            }
-            }
+                },
+            ],
+        });
+
+        await Guilds.findOneAndUpdate( // if guild exists, update it
+            {guild_id: msg.guildId}, 
+            {$addToSet: {content: contentData._id},
         },
         {new: true});
         
+        await itemCounter({guild_id: guildData._id});
+
         return gptRes;
     } catch (err) {
         console.error(err);

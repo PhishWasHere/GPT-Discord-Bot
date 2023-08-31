@@ -43,43 +43,43 @@ const router = express.Router();
 //     }
 // });
 
-router.get('/guilds', async (req, res) => {
-    try {        
-        const id = req.headers.guild_id as string;        
+// router.get('/guilds', async (req, res) => {
+//     try {        
+//         const id = req.headers.guild_id as string;        
 
-        const guild = await Guilds.findOne({ guild_id: id }, 'guild_name content');
+//         const guild = await Guilds.findOne({ guild_id: id }, 'guild_name content');
 
-        if (!guild) {
-            return res.status(200).send({ guild_name: 'No guild found' });
-        }
+//         if (!guild) {
+//             return res.status(200).send({ guild_name: 'No guild found' });
+//         }
 
-        const tokenMap = new Map();
+//         const tokenMap = new Map();
 
-        guild.content.forEach(content => {
-            const date = dayjs(content.author[0].created_timestamp);
-            const day = date.day();
-            const dayName = date.format('dddd');
+//         guild.content.forEach(content => {
+//             const date = dayjs(content.author[0].created_timestamp);
+//             const day = date.day();
+//             const dayName = date.format('dddd');
     
-            const tokens = content.tokens;
-            const totalTokens = tokens.reduce((acc, token) => acc + token.total, 0);
+//             const tokens = content.tokens;
+//             const totalTokens = tokens.reduce((acc, token) => acc + token.total, 0);
     
-            if (tokenMap.has(day)) {
-                const existingEntry = tokenMap.get(day);
-                existingEntry.tokens[0].total += totalTokens;
-                existingEntry.count += 1; 
-            } else {
-                tokenMap.set(day, { day, dayName, tokens: [{ total: totalTokens }], count: 1 });
-            }
-        });
+//             if (tokenMap.has(day)) {
+//                 const existingEntry = tokenMap.get(day);
+//                 existingEntry.tokens[0].total += totalTokens;
+//                 existingEntry.count += 1; 
+//             } else {
+//                 tokenMap.set(day, { day, dayName, tokens: [{ total: totalTokens }], count: 1 });
+//             }
+//         });
     
-        const tokenArr = [...tokenMap.values()];
+//         const tokenArr = [...tokenMap.values()];
         
-        res.status(200).json({ guild_name: guild.guild_name, tokenArr });
-    } catch (error) {
-        console.error('Error fetching and processing data:', error);
-        res.status(500).send('Internal Server Error');
-    }
-});
+//         res.status(200).json({ guild_name: guild.guild_name, tokenArr });
+//     } catch (error) {
+//         console.error('Error fetching and processing data:', error);
+//         res.status(500).send('Internal Server Error');
+//     }
+// });
 
 
 export default router;

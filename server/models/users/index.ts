@@ -20,6 +20,7 @@ userSchema.virtual('contents', {
     justOne: false 
 });
 
+
 const Users = mongoose.model('Users', userSchema);
  
 export default Users;
