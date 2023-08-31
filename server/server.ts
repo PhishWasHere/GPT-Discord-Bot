@@ -40,7 +40,7 @@ db.once('open', async () => {
         const { id } = req.user as JwtPayload;
         const token = jwt.sign({user_id: id }, process.env.JWT_SECRET!, { expiresIn: '3d' });
         res.cookie('token', token, { httpOnly: false });     
-        res.redirect(`${process.env.CLIENT_HOME}`);
+        res.redirect(`http://localhost:3000/`);
       }
     );
     
@@ -50,7 +50,7 @@ db.once('open', async () => {
       console.log(`\x1b[35m> Ready!\x1b[0m on http://localhost:${port}`);
     });
 
-    clientStart();
+    // clientStart();
   } catch (err: any) {
     console.error(err.stack)
     process.exit(1)
