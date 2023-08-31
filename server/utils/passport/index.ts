@@ -46,7 +46,7 @@ const findUser = async (id: string, username: string, avatar?:string, guilds?: G
   return userData;
 }
 
-import { JwtUser } from '../interface';
+import { JwtUser } from '../types';
 
 passport.use(new DiscordStrategy({
   clientID: process.env.CLIENT_ID!,

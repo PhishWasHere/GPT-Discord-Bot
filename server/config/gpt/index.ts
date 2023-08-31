@@ -1,6 +1,6 @@
 import { Configuration, OpenAIApi } from 'openai';
 import { interLeave } from '../../utils/interLeave';
-import { MessageRole, Prompt, UserPrompt, UserRes } from '../../utils/interface';
+import { MessageRole, Prompt, UserPrompt, UserRes } from '../../utils/types';
 
 const configuration = new Configuration({
     apiKey: process.env.OPENAI_SK,
@@ -28,7 +28,7 @@ export const chatCompletion = async (content: string, prompts?: UserPrompt[], re
         
         if (prompts && responses){ //if prompts exist, add them to initPrompt
             const mergedPrompts = await interLeave(prompts, responses);
-            await resetInitPrompt(); 
+            await resetInitPrompt();            
             initPrompt.push(...mergedPrompts);
         }
         

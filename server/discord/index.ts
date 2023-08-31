@@ -34,10 +34,10 @@ client.on('messageCreate', async (msg) => {
                 break;
                 
                 ///////////////////guild section/////////////////
-                case msg?.content.startsWith('!!') && msg?.channel.type === 0: // guild
-                    msgContent = msgContent.slice(2).trim();                    
-                    await handleGuild(msg, msgContent);
-                break;
+                // case msg?.content.startsWith('!!') && msg?.channel.type === 0: // guild
+                //     msgContent = msgContent.slice(2).trim();                    
+                //     await handleGuild(msg, msgContent);
+                // break;
             }
         };
     } catch (err) {

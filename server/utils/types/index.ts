@@ -1,3 +1,4 @@
+import { Schema, Types } from 'mongoose';
 
 ////////////////GPT/////////////////////
 enum MessageRole{ // used for gpt config
@@ -40,15 +41,44 @@ interface Content {
     tokens: Token[];
 }
 
-interface UserProfile { // used for direct mesasge for users
+type UserData = {
     user_id: string;
     username: string;
-    avatar: string;
-    content: Content[];
+    avatar?: string | null;
     created_at: Date;
+    credit: number;
+    eula: boolean;
+    guilds: string[];
+    content: Types.ObjectId[];
 }
 
-export { Token, Content, UserProfile };
+type UserContent = {
+    user: Types.ObjectId; 
+    global_name: string;
+    message: string;
+    message_id: string;
+    created_timestamp: Date;
+    gpt_response: string | null;
+    tokens: {
+      prompt: number;
+      completion: number;
+      total: number;
+    }[];
+    expires?: Date;
+}
+
+type UserMessage = {
+    user: string;
+    global_name: string;
+    message: string;
+    message_id: string;
+    created_timestamp: Date;
+    gpt_response: string | null;
+    tokens: Token[];
+    expires?: Date;
+}
+
+export { Token, Content, UserData, UserContent, UserMessage };
 //////////////////////////////////////////////////////
 
 //////////////////Guilds/////////////////////

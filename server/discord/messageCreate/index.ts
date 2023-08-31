@@ -9,16 +9,16 @@ export const handleDm = async (msg: Message, msgContent: string) => {
 
     if (!userData) {
         const gptRes = await newUser(msg, msgContent);
-        msg.reply(gptRes);
+        msg.reply(`Dev response: ${gptRes}`);
     } else {
         const gptRes = await existingUser(msg, msgContent, userData);
-        msg.reply(gptRes);
+        msg.reply(`Dev response: ${gptRes}`);;
     }
 };
 
 export const handleGuild = async (msg: Message, msgContent: string) => {
     const guildData = await Guilds.findOne({ guild_id: msg.guildId });
-
+    
     if (!guildData) {
         const gptRes = await newGuild(msg, msgContent);
         msg.reply(gptRes);

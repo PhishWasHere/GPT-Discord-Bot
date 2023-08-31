@@ -1,7 +1,7 @@
 import { chatCompletion } from "../../../config/gpt";
 import Guilds from '../../../models/guilds/';
 import { Message } from "discord.js";
-import { Guild } from "../../../utils/interface/";
+import { Guild } from "../../../utils/types";
 
 export const newGuild = async (msg: Message, msgContent: string) => {
     
