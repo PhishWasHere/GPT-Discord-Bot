@@ -28,7 +28,7 @@ type Token = {
 type TokenArrItem = {
     count: number;
     day: number;
-    day_Name: string;
+    dayName: string;
     tokens: Token[];
 };
   
@@ -96,18 +96,18 @@ export default function GuildChart() {
                   <h2 className="text-lg font-semibold mb-2 text-center">{guildData.guild_name}</h2>
                   <Bar
                     data={{
-                      labels: guildData.tokenArr.map(item => item.day_Name),
+                      labels: guildData.tokenArr.map(item => item.dayName), // Corrected property name
                       datasets: [
-                          {
-                              label: 'Total Tokens',
-                              data: guildData.tokenArr.map(item => (item.tokens.length > 0 ? item.tokens[0].total : 0)),
-                              backgroundColor: 'rgba(75, 192, 192, 0.6)',
-                          },
-                          {
-                              label: 'Count',
-                              data: guildData.tokenArr.map(item => item.count),
-                              backgroundColor: 'rgba(255, 99, 132, 0.6)',
-                          },
+                        {
+                          label: 'Total Tokens',
+                          data: guildData.tokenArr.map(item => (item.tokens.length > 0 ? item.tokens[0].total : 0)),
+                          backgroundColor: 'rgba(75, 192, 192, 0.6)',
+                        },
+                        {
+                          label: 'Count',
+                          data: guildData.tokenArr.map(item => item.count), // Using the correct property name
+                          backgroundColor: 'rgba(255, 99, 132, 0.6)',
+                        },
                       ],
                     }}
                     options={{
