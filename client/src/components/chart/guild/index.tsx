@@ -28,7 +28,7 @@ type Token = {
 type TokenArrItem = {
     count: number;
     day: number;
-    day_Name: string;
+    dayName: string;
     tokens: Token[];
 };
   
