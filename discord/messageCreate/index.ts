@@ -13,12 +13,12 @@ export const handleDm = async (msg: Message, msgContent: string) => {
 
     if (!userData) {
         const gptRes = await newUser(msg, msgContent);
-        if (!gptRes || gptRes.content.startsWith('!ypeError'))return error(msg);
+        if (gptRes === undefined|| gptRes.content?.startsWith('!ypeError'))return error(msg);
 
         msg.reply(gptRes);
     } else {
         const gptRes = await existingUser(msg, msgContent, userData);
-        if (!gptRes || gptRes.content.startsWith('!ypeError'))return error(msg);
+        if (gptRes === undefined|| gptRes.content?.startsWith('!ypeError'))return error(msg);
 
         msg.reply(gptRes);
     }
@@ -29,12 +29,12 @@ export const handleGuild = async (msg: Message, msgContent: string) => {
 
     if (!guildData) {
         const gptRes = await newGuild(msg, msgContent);
-        if (!gptRes || gptRes.content.startsWith('!ypeError'))return error(msg);
+        if (gptRes === undefined|| gptRes.content?.startsWith('!ypeError'))return error(msg);
 
         msg.reply(gptRes);
     } else {
         const gptRes = await existingGuild(msg, msgContent, guildData);        
-        if (!gptRes || gptRes.content.startsWith('!ypeError'))return error(msg);
+        if (gptRes === undefined|| gptRes.content?.startsWith('!ypeError'))return error(msg);
 
         msg.reply(gptRes);
     }
