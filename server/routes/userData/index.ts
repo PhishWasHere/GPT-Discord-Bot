@@ -1,11 +1,11 @@
-import express, {Request} from 'express';
+import express, {Request, Response} from 'express';
 import  { JwtPayload } from 'jsonwebtoken';
-import Users from  '../../models/users';
-import Guilds from '../../models/guilds';
+import { Users, Guilds } from '../../models';
+import { GuildData } from '../../utils/types';
 
 const router = express.Router();
 
-router.get('/', async (req: Request, res) => {
+router.get('/', async (req: Request, res: Response) => {
     // Check if the user is authenticated, and if so, send the user data    
     try {
       if(!req.user) {
@@ -22,7 +22,7 @@ router.get('/', async (req: Request, res) => {
         return res.status(200).send('No user found');
       }
        
-      let guilds: any = [];
+      let guilds: GuildData[] = [];
       if (userGuild) {
         const guildPromise = userGuild.map(async (id) => { // map the array to a promise
             await Guilds.findOne({ guild_id: id });
