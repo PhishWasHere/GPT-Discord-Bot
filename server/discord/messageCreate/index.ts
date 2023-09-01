@@ -19,7 +19,7 @@ export const handleDm = async (msg: Message, msgContent: string) => {
 export const handleGuild = async (msg: Message, msgContent: string) => {
     const guildData = await Guilds.findOne({ guild_id: msg.guildId }).populate('content');
     
-    if (msg.guildId !== '790841166357594133') {
+    if (msg.guildId !== '790841166357594133') { // dev purposes only
         console.log('not the right guild');
         return
     }

@@ -4,7 +4,7 @@ import { Types } from 'mongoose';
 export default async function itemCounter ({user_id, guild_id}  : 
     {user_id?: Types.ObjectId, guild_id?: Types.ObjectId}) {
     try {
-        const maxCount = 2;
+        const maxCount = process.env.MAX_COUNT ? parseInt(process.env.MAX_COUNT) : 10;
         
         if (user_id) {
             const count = await Content.countDocuments({ user: user_id });

@@ -1,8 +1,9 @@
 import { chatCompletion } from "../../../config/gpt";
 import { Guilds, Guild_Content } from "../../../models";
 import { Message } from "discord.js";
-import { GuildData } from "../../../utils/types";
+import { GuildData, GuildContent } from "../../../utils/types";
 import itemCounter from "../../../utils/itemCount";
+
 
 export const newGuild = async (msg: Message, msgContent: string) => {
     try {        
@@ -57,16 +58,18 @@ export const newGuild = async (msg: Message, msgContent: string) => {
 
 export const existingGuild = async (msg: Message, msgContent: string, guildData: GuildData) => {
     try {
+        const maxCount = process.env.MAX_COUNT ? parseInt(process.env.MAX_COUNT) : 10;
+
         const messages = guildData.content        
-            .slice(Math.max(guildData.content.length - 7, 0))
+            .slice(Math.max(guildData.content.length - maxCount, 0))
             .map((message: any) => message.author[0].message);
 
         const user = guildData.content
-            .slice(Math.max(guildData.content.length - 7, 0))
+            .slice(Math.max(guildData.content.length - maxCount, 0))
             .map((message: any) => message.author[0].global_name);
 
         const gpt_Responses = guildData.content
-            .slice(Math.max(guildData.content.length - 7, 0))
+            .slice(Math.max(guildData.content.length - maxCount, 0))
             .map((message: any) => message.gpt_response);
 
         const userPrompts = messages.map((message, i) => { // create prompts array

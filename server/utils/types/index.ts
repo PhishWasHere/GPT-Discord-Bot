@@ -1,5 +1,11 @@
-import { Schema, Types } from 'mongoose';
-
+import { Types } from 'mongoose';
+/////////////Common////////////////////
+interface Token {
+    prompt: number;
+    completion: number;
+    total: number;
+}
+export { Token };
 ////////////////GPT/////////////////////
 enum MessageRole{ // used for gpt config
     System = 'system',
@@ -26,20 +32,6 @@ export { MessageRole, Prompt, UserPrompt, UserRes };
 //////////////////////////////////////////
 
 //////////////////DirectMessages/////////////////////
-interface Token {
-    prompt: number;
-    completion: number;
-    total: number;
-}
-
-interface Content {
-    global_name: string;
-    message: string;
-    message_id: string;
-    created_timestamp: Date;
-    gpt_response: string | null;
-    tokens: Token[];
-}
 
 type UserData = {
     _id: Types.ObjectId;
@@ -50,7 +42,7 @@ type UserData = {
     credit: number;
     eula: boolean;
     guilds: string[];
-    content: Types.ObjectId[];
+    content: Types.ObjectId[] | UserContent[];
 }
 
 type UserContent = {
@@ -60,11 +52,7 @@ type UserContent = {
     message_id: string;
     created_timestamp: Date;
     gpt_response: string | null;
-    tokens: {
-      prompt: number;
-      completion: number;
-      total: number;
-    }[];
+    tokens: Token[];
     expires?: Date;
 }
 
@@ -79,7 +67,7 @@ type UserMessage = { // not using atm sort out later
     expires?: Date;
 }
 
-export { Token, Content, UserData, UserContent, UserMessage };
+export { UserData, UserContent, UserMessage };
 //////////////////////////////////////////////////////
 
 //////////////////Guilds/////////////////////
@@ -91,21 +79,6 @@ interface Author {
     message: string;
     message_id: string;
     created_timestamp: Date;
-}
-
-// interface GuildContent {
-//     author: Author[];
-//     gpt_response: string | null;
-//     tokens: Token[];
-// }
-
-interface Guild { // used for guilds/servers
-    owner_id: string;
-    guild_id: string;
-    guild_name: string;
-    icon: string;
-    content: GuildContent[];
-    created_at: Date;
 }
 
 type GuildData = {
@@ -136,6 +109,38 @@ type GuildContent = {
 
 export { Author, GuildContent, GuildData };
 //////////////////////////////////////////////////////
+
+//////////////////UsageRoutes/////////////////////
+type UserDataType = {
+    _id: Types.ObjectId;
+    user_id: string;
+    username: string;
+    avatar?: string | null;
+    created_at: Date;
+    credit: number;
+    eula: boolean;
+    guilds: string[];
+    content: UserContent[];
+}
+
+type GuildDataType = {
+    _id: Types.ObjectId;
+    owner_id: string;
+    guild_id: string;
+    guild_name: string;
+    icon: string;
+    created_at: Date;
+    credit: number;
+    eula: boolean;
+    content: GuildContent[];
+}
+
+
+type ExistingEntyyType = {
+    tokens: Token[];
+    count: number;
+}
+export { UserDataType, ExistingEntyyType, GuildDataType };
 //////////////////////JWT////////////////////////////
 
 type JwtUser = {

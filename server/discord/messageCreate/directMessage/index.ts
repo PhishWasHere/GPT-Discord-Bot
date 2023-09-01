@@ -48,15 +48,17 @@ export const newUser = async (msg: Message, msgContent: any) => {
 
 export const existingUser = async (msg: Message, msgContent: string, userData: UserData) => {
     try {
+        const maxCount = process.env.MAX_COUNT ? parseInt(process.env.MAX_COUNT) : 10;
+
         const messages = userData.content
-        .slice(Math.max(userData.content.length - 7, 0))
+        .slice(Math.max(userData.content.length - maxCount, 0))
         .map((message: any) => message.message); // gets last 10 messages from user
        
         const user = userData.content
             .map((message: any) => message.global_name); 
                 
         const gpt_Responses = userData.content
-            .slice(Math.max(userData.content.length - 7, 0))
+            .slice(Math.max(userData.content.length - maxCount, 0))
             .map((message: any) => message.gpt_response);// get last 10 responses from user
 
         const prompts = messages.map((message) => { // create prompts array

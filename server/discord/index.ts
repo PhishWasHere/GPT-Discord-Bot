@@ -29,9 +29,9 @@ client.on('messageCreate', async (msg) => {
             
             switch(true) {
                 //////////////////message section/////////////////
-                // case msg.channel.type === 1: // dm                
-                //     await handleDm(msg, msgContent);
-                // break;
+                case msg.channel.type === 1: // dm                
+                    await handleDm(msg, msgContent);
+                break;
                 
                 ///////////////////guild section/////////////////
                 case msg?.content.startsWith('!!') && msg?.channel.type === 0: // guild
