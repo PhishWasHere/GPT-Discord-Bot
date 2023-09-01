@@ -3,7 +3,6 @@ import 'dotenv/config';
 import express, { Request, Response, NextFunction } from 'express';
 import session from 'express-session';
 import {passport} from './utils/passport';
-import { Strategy as DiscordStrategy } from 'passport-discord';
 import jwt, { JwtPayload } from 'jsonwebtoken';
 import cors from 'cors';
 import bodyParser from 'body-parser';
@@ -40,7 +39,7 @@ db.once('open', async () => {
       passport.authenticate('discord', { failureRedirect: '/login' }),
       (req: Request, res: Response) => {
         const { id } = req.user as JwtPayload;
-        const token = jwt.sign({user_id: id }, process.env.JWT_SECRET!, { expiresIn: '3d' });
+        const token = jwt.sign({user_id: id }, process.env.JWT_SECRET!, { expiresIn: '8h' });
         res.cookie('token', token, { httpOnly: false, domain: process.env.DOMAIN, secure: true });
         res.redirect(`${process.env.CLIENT_CALLBACK}?token=${token}`);
       }

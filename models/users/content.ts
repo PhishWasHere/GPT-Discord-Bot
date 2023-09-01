@@ -15,7 +15,6 @@ const contentSchema = new mongoose.Schema(
                 total: { type: Number, required: true },
             },
         ],
-        expires: { type: Date, default: Date.now, expires: '7d' },
     },
 );
 
