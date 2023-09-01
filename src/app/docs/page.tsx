@@ -35,7 +35,7 @@ export default function Doc () {
             <h1 className="text-4xl font-semibold mt-4 xl:mt-8 text-primary">Documentation</h1>
             <section className="flex flex-col gap-4 mt-8 xl:mt-16">
                 {arr.map((i) => (
-                    <div key={i.key} className="flex justify-start">
+                    <div key={i.key} id={i.key} className="flex justify-start">
                         <CardButton title={i.question} desc={i.answer} url={i.url} text={i.text} id={i.key}/>
                     </div>
                 ))}

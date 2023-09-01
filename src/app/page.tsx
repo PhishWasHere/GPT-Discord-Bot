@@ -19,7 +19,7 @@ export default function Home() {
 
         <div className='max-w-3xl mx-auto mt-2'>
           <div className=' max-w-xs mx-auto sm:max-w-none sm:flex sm:justify-center'>
-          <Link href='#'>
+          <Link href='/docs/#setup'>
             <Button text='Get Started'/>
           </Link>
           </div>
