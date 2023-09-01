@@ -46,12 +46,12 @@ const findUser = async (id: string, username: string, avatar?:string, guilds?: G
   return userData;
 }
 
-import { JwtUser } from '../interface';
+import { JwtUser } from '../types';
 
 passport.use(new DiscordStrategy({
   clientID: process.env.CLIENT_ID!,
   clientSecret: process.env.CLIENT_SECRET!,
-  callbackURL: process.env.CLIENT_REDIRECT || 'http://localhost:8080/api/v1/auth',
+  callbackURL: 'http://localhost:8080/api/v1/auth',
   scope: ['identify', 'guilds'],
   }, async (accessToken, refreshToken, profile, done) => { //setup refresh tokens
   const { id, username, discriminator, avatar, guilds } = profile;   

@@ -1,6 +1,6 @@
 import { Configuration, OpenAIApi } from 'openai';
 import { interLeave } from '../../utils/interLeave';
-import { MessageRole, Prompt, UserPrompt, UserRes } from '../../utils/interface';
+import { MessageRole, Prompt, UserPrompt, UserRes } from '../../utils/types';
 
 const configuration = new Configuration({
     apiKey: process.env.OPENAI_SK,
