@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import Image from 'next/image'
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
 
 type UserProps = {
     username?: string;
@@ -20,15 +20,34 @@ type NavProps = {
     handleLogout?: any;
 }
 
-const MobileNav: React.FC<NavProps> = ( {sideOptions, userData, handleLogout} ) => {
-    const [showComponent, setShowComponent] = useState(false);
 
-    const handleShowComponent = () => { //toggle for the mobile menu
-        setShowComponent(!showComponent);
+const MobileNav: React.FC<NavProps> = ( {sideOptions, userData, handleLogout} ) => {
+    const [showDropdown, setShowDropdown] = useState(false);
+    const dropdownRef = useRef(null);
+
+    useEffect(() => {
+        // Function to close the dropdown
+        const closeDropdown = () => {
+          if (showDropdown) {
+            setShowDropdown(false);
+          }
+        };
+    
+        // Add a click event listener to the document
+        document.addEventListener('click', closeDropdown);
+    
+        // Remove the event listener when the component unmounts
+        return () => {
+          document.removeEventListener('click', closeDropdown);
+        };
+    }, [showDropdown]);
+
+    const handleShowDropdown = () => { //toggle for the mobile menu
+        setShowDropdown(!showDropdown);
     };
 
     return (
-        <section className="sm:hidden">
+        <section className="sm:hidden" ref={dropdownRef}>
             <div className="max-w-screen-xl flex sm:hidden flex-wrap items-center justify-between mx-auto p-4">
                 <Link href="/" className="flex items-center">
                     {!userData ? (
@@ -50,45 +69,62 @@ const MobileNav: React.FC<NavProps> = ( {sideOptions, userData, handleLogout} ) 
                     )}
                 </Link>
 
-                <button onClick={() => handleShowComponent()} className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg sm:hidden" aria-controls="navbar-dropdown">
+                <button
+                    onClick={handleShowDropdown}
+                    className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg sm:hidden"
+                    aria-controls="navbar-dropdown"
+                >
                     <span className="sr-only">Open main menu</span>
-                    <svg className="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 17 14">
-                        <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M1 1h15M1 7h15M1 13h15"/>
+                    <svg
+                    className={`w-5 h-5 ${showDropdown ? "animate-wiggle" : ""}`}
+                    aria-hidden="true"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 17 14"
+                    >
+                    <path
+                        stroke="currentColor"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="M1 1h15M1 7h15M1 13h15"
+                    />
                     </svg>
                 </button>
-                
-                <div className={`w-full md:block md:w-auto ${showComponent ? '' : 'hidden' }`} id="navbar-dropdown">
-                    <ul className="flex flex-col font-medium p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
-                        {sideOptions.map((i) => (
-                            <Link href={i.link} key={i.key} className='border-2 shadow-sm my-0.5 rounded-lg'>
-                                <p className="block py-2 pl-3 pr-4 text-text-secondary">{i.name}</p>
-                            </Link>
-                        ))}
-                        
-                        {!userData ? (
-                            <>
-                                <Link href="/login">
-                                    <li className="flex border-2 shadow-sm my-0.5 rounded-lg">
-                                        <p className="block py-2 pl-3 pr-4 text-text-secondary" >Login</p>
-                                    </li>
+                {showDropdown && 
+                    <div className='w-full md:block md:w-auto' id="navbar-dropdown">
+                        <ul className="flex flex-col font-medium p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
+                            {sideOptions.map((i) => (
+                                <Link href={i.link} key={i.key} className='border-2 shadow-sm my-0.5 rounded-lg'>
+                                    <p className="block py-2 pl-3 pr-4 text-text-secondary">{i.name}</p>
                                 </Link>
-                            </>
-                            ) : (
-                            <>
-                                <li className='border-2 shadow-sm my-0.5 rounded-lg'>
-                                    <button onClick={() => handleLogout()}>
-                                        <p className="block py-2 pl-3 pr-4 text-text-secondary" >Logout</p>
-                                    </button>
-                                </li>
-                            </>
-                        )}
-                        <li className='flex justify-center'>
-                            <Link href='/policy' className='flex text-gray-400 text-sm mt-3 text-center hover:text-blue-600'>Terms & policies </Link>
-                        </li>
-                    </ul>
-                </div>
+                            ))}
+                            
+                            {!userData ? (
+                                <>
+                                    <Link href="/login">
+                                        <li className="flex border-2 shadow-sm my-0.5 rounded-lg">
+                                            <p className="block py-2 pl-3 pr-4 text-text-secondary" >Login</p>
+                                        </li>
+                                    </Link>
+                                </>
+                                ) : (
+                                <>
+                                    <li className='border-2 shadow-sm my-0.5 rounded-lg'>
+                                        <button onClick={() => handleLogout()}>
+                                            <p className="block py-2 pl-3 pr-4 text-text-secondary" >Logout</p>
+                                        </button>
+                                    </li>
+                                </>
+                            )}
+                            <li className='flex justify-center'>
+                                <Link href='/policy' className='flex text-gray-400 text-sm mt-3 text-center hover:text-blue-600'>Terms & Policies </Link>
+                            </li>
+                        </ul>
+                    </div>
+                }
             </div>
-        </section>    
+        </section>  
     )
 }
 

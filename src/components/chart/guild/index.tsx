@@ -76,6 +76,10 @@ export default function GuildChart() {
       };
   
       fetchData();
+
+      return () => {
+        setData([]);
+      }
     }, []);
     
     const numGuilds = data.filter(guildData => guildData !== null).length;

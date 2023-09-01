@@ -14,7 +14,7 @@ export default function Page () {
         }
         
         window.location.href = '/'
-      }, []);
+    }, []);
     
     return(
         <>

@@ -1,6 +1,7 @@
 import Link from 'next/link';
 
 export default function Tos() {
+
     return(
         <>
             <main className="min-h-screen border py-8">

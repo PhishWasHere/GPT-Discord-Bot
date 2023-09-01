@@ -15,9 +15,9 @@ export default function Faq() {
         {
             key: "how-to-use",
             question: "How do I use Hostile?",
-            answer: "Invite Hostile to your server and type `/help` to get started, or send it a direct message and type `/help`. Checkout the documentation for more information.",
-            url: "/docs/",
-            text: "Documentation"
+            answer: "Invite Hostile to your server and stary any message with '!!' to get started, or you can send a direct message to Hostile to start a conversation.",
+            url: "https://discord.com/api/oauth2/authorize?client_id=1135166612299862056&permissions=139586821184&scope=bot",
+            text: "Invite To Server"
         },
         {
             key: "updates",
@@ -27,8 +27,8 @@ export default function Faq() {
         {
             key: "hosting",
             question: "Will the bot be hosted 24/7?",
-            answer: "For now yes, but this is a side project and I cant guarantee that it will be hosted 24/7 in the future. If there is a demand I will keep it updated and hosted. If you want to host it yourself, you can do so by following the instructions on the GitHub repository.",
-            url: "a",
+            answer: "For now yes, but this is a side project and I cant guarantee that it will be hosted 24/7 in the future. If you want to host it yourself, you can do so by following the instructions on the GitHub repository.",
+            url: "https://github.com/PhishWasHere/GPT-Discord-Bot/tree/api",
             title: "Github Repository"
         },
         {

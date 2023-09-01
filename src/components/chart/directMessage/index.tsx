@@ -108,6 +108,16 @@ export default function UserChart() {
         };
 
         fetchData();
+
+        return () => {
+            setData([]);
+            setLoading(true);
+            setChartData({
+                labels: [],
+                datasets: []
+            });
+            setChartOptions({});
+        };
     }, []);
 
     const [chartOptions, setChartOptions] = useState({});

@@ -18,10 +18,10 @@ export default function Home() {
         </div>
 
         <div className='max-w-3xl mx-auto mt-2'>
-          <div className='max-w-xs mx-auto sm:max-w-none sm:flex sm:justify-center'>
+          <div className=' max-w-xs mx-auto sm:max-w-none sm:flex sm:justify-center'>
           <Link href='#'>
             <Button text='Get Started'/>
-            </Link>
+          </Link>
           </div>
         </div>
       </section>
@@ -36,7 +36,7 @@ export default function Home() {
             <h2 className='text-3xl font-bold text-center'>Explore Hostile</h2>
             <p className='text-xl text-center'>Hostile is a unique discord bot that is installed in {`<`}2,000,000 servers, and adds a sarcastic touch to your server using OpenAI{`'`}s GPT3.5 turbo.</p>
             <div className='mt-2'>
-              <Link href='#'>
+              <Link href='https://discord.com/api/oauth2/authorize?client_id=1135166612299862056&permissions=139586821184&scope=bot'>
                 < Button text='Add Hostile to your server'/>
               </Link>
               <Link href='/docs'>

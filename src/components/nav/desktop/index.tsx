@@ -61,7 +61,7 @@ const DesktopNav: React.FC<NavProps> = ( {sideOptions, userData, handleLogout} )
 
                     <div className="sticky w-full mt-auto">
                         <ul  className='flex justify-center'>
-                            <Link href='/policy' className='text-gray-400 text-sm mb-2 text-center hover:text-white'>Terms & policies</Link>
+                            <Link href='/policy' className='text-gray-400 text-sm mb-2 text-center hover:text-white'>Terms & Policies</Link>
                         </ul>
                         {!userData ? (
                             <Link href='/login' className="flex items-center justify-center w-full h-16 mt-auto bg-gray-800 hover:bg-gray-700 hover:text-gray-300">
