@@ -46,6 +46,8 @@ type Dataset = {
 export default function UserChart() {
     const [data, setData] = useState<UsageData[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
+        const [credit, setCredit] = useState<string>('0');
+
     const [chartData, setChartData] = useState<ChartDataType>({
         labels: [],
         datasets: []
@@ -56,7 +58,9 @@ export default function UserChart() {
             try {
                 const response = await getUserUsage();
                 const usageData: UsageData[] = response.data;
-    
+
+                setCredit(response.data.credit.toString());                
+
                 // Check if usageData is an array before proceeding
                 if (Array.isArray(usageData)) {
                     setData(usageData);
@@ -129,7 +133,8 @@ export default function UserChart() {
                 <div>Loading...</div>
             ) : (
                 <div className="xl:m-14 lg:m-8">
-                    <h2 className="text-lg font-semibold mb-2 text-center">Weekly Usage In Direct Messages</h2>
+                    <h2 className="text-lg font-semibold mb-2 text-center">Direct Messages</h2>
+                    <h3>Credit{`'`}s remaining: {credit!}</h3>
                     <Bar data={chartData} options={chartOptions} />
                 </div>
             )}
