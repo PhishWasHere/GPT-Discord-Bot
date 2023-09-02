@@ -46,7 +46,7 @@ type Dataset = {
 export default function UserChart() {
     const [data, setData] = useState<UsageData[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
-        const [credit, setCredit] = useState<string>('0');
+    const [credit, setCredit] = useState<string>('0');
 
     const [chartData, setChartData] = useState<ChartDataType>({
         labels: [],
@@ -57,7 +57,7 @@ export default function UserChart() {
         const fetchData = async () => {
             try {
                 const response = await getUserUsage();
-                const usageData: UsageData[] = response.data;
+                const usageData: UsageData[] = response.data.tokenArr;
 
                 setCredit(response.data.credit.toString());                
 
