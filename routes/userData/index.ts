@@ -15,12 +15,12 @@ router.get('/', async (req: Request, res) => {
   
       const userData = await Users.findOne({user_id: id});
       
-      const {user_id, username, avatar } = userData!;
-      const userGuild = userData?.guilds;
-      
       if (!userData) {
         return res.status(200).send('No user found');
       }
+      
+      const {user_id, username, avatar } = userData!;
+      const userGuild = userData?.guilds;
        
       let guilds: any = [];
       if (userGuild) {
