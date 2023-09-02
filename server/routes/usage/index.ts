@@ -3,10 +3,12 @@ import { Users, Guilds } from '../../models/index';
 import { UserDataType, GuildDataType } from '../../utils/types';
 import mapGenerator from '../../utils/mapGenerator';
 import  { JwtPayload } from 'jsonwebtoken';
+import { getGuildCredit } from '../../utils/getCredit';
+
 
 const router = express.Router();
 
-const tokenMerge = async (userData: any, guildData: any) => {
+const tokenMerge = async (userData: any, guildData: any) => { //work on this later
     try {
         const mergedMap = new Map();
 
@@ -39,38 +41,32 @@ const tokenMerge = async (userData: any, guildData: any) => {
 router.get('/', async (req: Request, res: Response) => {
     try {
         const id = (req.user as JwtPayload).id;
-
-        const user: UserDataType | null = await Users.findOne({ user_id: id }).populate('content');
-
-        if(!user) {
+        const userData = await Users.findOne({user_id: id}).populate('content');
+      
+        if (!userData) {
             return res.status(200).send('No user found');
+        } 
+        const { credit } = userData!;
+        const userGuild = userData?.guilds;
+
+        let guilds= [];
+        if (userGuild) {
+          const guildPromise = userGuild.map(async (id) => { // map the array to a promise
+              await Guilds.findOne({ guild_id: id });
+              return id;
+          });
+            guilds = await Promise.all(guildPromise); // wait for all the promises to resolve
         }
-
-        const userTokenArr = await mapGenerator(user.content);
-
-        const userGuildData = user.guilds;
-        let userGuild;
-
-        let guildTokenArr: any[] = [];
+  
+        const {guildCredit, usedGuildCredit} = await getGuildCredit(guilds);
         
-        for (const i of userGuildData) {
-            const guild: GuildDataType | null = await Guilds.findOne({ guild_id: i }).populate('content');
-            userGuild = guild;
-
-            if (guild) {
-                const tokenMap = await mapGenerator(guild.content);
-                guildTokenArr.push(tokenMap);
-            }
-        }
-
-    //    const merge = await tokenMerge(userTokenArr, guildTokenArr);
-
-        return res.status(200).json({ user, userGuild});
+        const totalCredit = credit + guildCredit!;
+        
+        return res.status(200).json({totalCredit});
     } catch (error) {
         console.error('Error fetching and processing data:', error);
     }
 });
-
 
 router.get('/users', async (req: Request, res: Response) => {
     try {
@@ -109,6 +105,5 @@ router.get('/guilds', async (req: Request, res: Response) => {
         res.status(500).send('Internal Server Error');
     }
 });
-
 
 export default router;

@@ -1,7 +1,6 @@
 import express, {Request, Response} from 'express';
 import  { JwtPayload } from 'jsonwebtoken';
 import { Users, Guilds } from '../../models';
-import { GuildData } from '../../utils/types';
 
 const router = express.Router();
 
@@ -15,14 +14,14 @@ router.get('/', async (req: Request, res: Response) => {
   
       const userData = await Users.findOne({user_id: id});
       
-      const {user_id, username, avatar } = userData!;
-      const userGuild = userData?.guilds;
-      
       if (!userData) {
         return res.status(200).send('No user found');
       }
+
+      const {user_id, username, avatar } = userData!;
+      const userGuild = userData?.guilds;
        
-      let guilds: GuildData[] = [];
+      let guilds: any = [];
       if (userGuild) {
         const guildPromise = userGuild.map(async (id) => { // map the array to a promise
             await Guilds.findOne({ guild_id: id });
@@ -36,5 +35,10 @@ router.get('/', async (req: Request, res: Response) => {
       console.error('err', err);
     }
 });
+
+// get all guilds from user
+  //get token count
+    // add token count to total
+      // do same for used tokens
 
 export default router;
