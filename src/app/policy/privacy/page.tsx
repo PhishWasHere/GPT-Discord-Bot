@@ -10,14 +10,29 @@ export default function Privacy() {
             content: 'Cookies are used to manage login sessions and track login status. They will have a time-to-live (TTL) of 3 days.'
         },
         {
-            id: 'data',
-            title: 'Data Collection',
-            content: 'Upon login or agreement of our terms of service, the following data will be stored: user ID, username, and guilds where you have owner status. This data will be retained until a database reset.'
-        },
-        {
             id: 'login',
             title: 'Login and Authentication',
             content: 'Login is performed using Discord OAuth. We do not collect or have access to user emails or passwords.'
+        },
+        {
+            id: 'login-data',
+            title: 'Login Data Collection',
+            content: 'Upon login or agreement of our terms of service, the following data will be stored: user ID, username, and guilds where you have owner status. This data will be retained until a database reset.'
+        },
+        {
+            id: 'server-data',
+            title: 'Server Data Collection',
+            content: 'Upon adding the bot to a server, the following data will be stored: server ID, server name, and server owner ID. This data will be retained until a database reset.'
+        },
+        {
+            id: 'message-data',
+            title: 'Message Data Collection',
+            content: 'Upon sending a message to the bot, the following data will be stored: message ID, message content, and message author ID. This data will be retained until a database reset.'
+        },
+        {
+            id: 'data-usage',
+            title: 'Data Usage',
+            content: 'Data collected will be used to provide the bot with persistent data to maintain context, and to improve the bot. Data will not be sold or shared with third parties.'
         },
         {
             id: 'gpt',
