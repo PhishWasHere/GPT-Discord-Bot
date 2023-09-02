@@ -51,7 +51,7 @@ import { JwtUser } from '../types';
 passport.use(new DiscordStrategy({
   clientID: process.env.CLIENT_ID!,
   clientSecret: process.env.CLIENT_SECRET!,
-  callbackURL: process.env.CLIENT_REDIRECT! || 'http://localhost:3000/api/v1',
+  callbackURL: process.env.CLIENT_REDIRECT! || 'http://localhost:8080/api/v1',
   scope: ['identify', 'guilds'],
   }, async (accessToken, refreshToken, profile, done) => { //setup refresh tokens
   const { id, username, discriminator, avatar, guilds } = profile;   
