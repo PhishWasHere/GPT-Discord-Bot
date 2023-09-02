@@ -1,10 +1,76 @@
 import express, {Request, Response} from 'express';
 import { Users, Guilds } from '../../models/index';
-import { UserDataType, GuildDataType, ExistingEntyyType } from '../../utils/types';
-import dayjs from 'dayjs';
+import { UserDataType, GuildDataType } from '../../utils/types';
+import mapGenerator from '../../utils/mapGenerator';
 import  { JwtPayload } from 'jsonwebtoken';
 
 const router = express.Router();
+
+const tokenMerge = async (userData: any, guildData: any) => {
+    try {
+        const mergedMap = new Map();
+
+        const merge = (data: any) => {
+            for (const entry of data) {
+                const { day, dayName, tokens, count } = entry;
+
+                if (!mergedMap.has(day)) {
+                    // If the day doesn't exist in the map, add it
+                    mergedMap.set(day, { day, dayName, tokens, count });
+                } else {
+                    // If the day exists, update the total and count
+                    const existingDay = mergedMap.get(day);
+                    existingDay.tokens[0].total += tokens[0].total;
+                    existingDay.count += count;
+                }
+            }
+        };
+
+        merge(userData.userTokenArr);
+        merge(guildData.guildTokenArr);
+
+        const mergedArr = Array.from(mergedMap.values());
+        return mergedArr;
+    } catch (err) {
+        console.error(err);
+    }
+};
+
+router.get('/', async (req: Request, res: Response) => {
+    try {
+        const id = (req.user as JwtPayload).id;
+
+        const user: UserDataType | null = await Users.findOne({ user_id: id }).populate('content');
+
+        if(!user) {
+            return res.status(200).send('No user found');
+        }
+
+        const userTokenArr = await mapGenerator(user.content);
+
+        const userGuildData = user.guilds;
+        let userGuild;
+
+        let guildTokenArr: any[] = [];
+        
+        for (const i of userGuildData) {
+            const guild: GuildDataType | null = await Guilds.findOne({ guild_id: i }).populate('content');
+            userGuild = guild;
+
+            if (guild) {
+                const tokenMap = await mapGenerator(guild.content);
+                guildTokenArr.push(tokenMap);
+            }
+        }
+
+    //    const merge = await tokenMerge(userTokenArr, guildTokenArr);
+
+        return res.status(200).json({ user, userGuild});
+    } catch (error) {
+        console.error('Error fetching and processing data:', error);
+    }
+});
+
 
 router.get('/users', async (req: Request, res: Response) => {
     try {
@@ -15,28 +81,10 @@ router.get('/users', async (req: Request, res: Response) => {
         if(!user) {
             return res.status(200).send('No user found');
         }
-        const tokenMap = new Map(); // create a map to store the data
+
+        const tokenArr = await mapGenerator(user.content);
         
-        user.content.forEach((content) => {
-            const date = dayjs(content.created_timestamp); // get the date from the content
-            const day = date.day(); // get the day of the week
-            const dayName = date.format('dddd'); // get the name of the day of the week
-    
-            const tokens = content.tokens;
-            const totalTokens = tokens.reduce((acc, token) => acc + token.total, 0); // get the total tokens for the day
-    
-            if (tokenMap.has(day)) {
-                const existingEntry = tokenMap.get(day) as ExistingEntyyType; // get the existing entry
-                existingEntry.tokens[0].total += totalTokens; // add the total tokens to the existing entry
-                existingEntry.count += 1; // increment the count
-            } else {
-                tokenMap.set(day, { day, dayName, tokens: [{ total: totalTokens }], count: 1 }); // create a new entry
-            }
-        });
-        
-        const tokenArr = [...tokenMap.values()]; // convert the map to an array
-        
-        res.status(200).json( tokenArr );
+        res.status(200).json({ credit: user.credit, tokenArr });
     } catch (error) {
         console.error('Error fetching and processing data:', error);
         res.status(500).send('Internal Server Error');
@@ -47,35 +95,15 @@ router.get('/guilds', async (req: Request, res: Response) => {
     try {        
         const id = req.headers.guild_id as string;        
 
-        const guild: GuildDataType | null = await Guilds.findOne({ guild_id: id }). populate('content');
+        const guild: GuildDataType | null = await Guilds.findOne({ guild_id: id }).populate('content');
 
         if (!guild) {
             return res.status(200).send({ guild_name: 'No guild found' });
         }
 
-        const tokenMap = new Map();
-
-        guild.content.forEach(content => {
-            // return guild.content
-            const date = dayjs(content.author[0].created_timestamp);
-            const day = date.day();
-            const dayName = date.format('dddd');
-    
-            const tokens = content.tokens;
-            const totalTokens = tokens.reduce((acc, token) => acc + token.total, 0);
-    
-            if (tokenMap.has(day)) {
-                const existingEntry = tokenMap.get(day);
-                existingEntry.tokens[0].total += totalTokens;
-                existingEntry.count += 1; 
-            } else {
-                tokenMap.set(day, { day, dayName, tokens: [{ total: totalTokens }], count: 1 });
-            }
-        });
-    
-        const tokenArr = [...tokenMap.values()];
+        const tokenArr = await mapGenerator(guild.content);
         
-        res.status(200).json({ guild_name: guild.guild_name, tokenArr });
+        res.status(200).json({credit: guild.credit, guild_name: guild.guild_name, tokenArr });
     } catch (error) {
         console.error('Error fetching and processing data:', error);
         res.status(500).send('Internal Server Error');

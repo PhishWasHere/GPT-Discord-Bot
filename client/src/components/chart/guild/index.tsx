@@ -39,6 +39,7 @@ type GuildData = {
   
 export default function GuildChart() {
     const [data, setData] = useState<GuildData[]>([]);
+    const [credit, setCredit] = useState<string>('0');
     const [loading, setLoading] = useState<boolean>(true);
   
     useEffect(() => {
@@ -46,11 +47,12 @@ export default function GuildChart() {
         try {
           const userData = await getUserData();
           const guild_id = userData.data.guilds.map((guild: string) => guild);
-            
+          
           const usageDataPromise = guild_id.map(async (guild: string) => {
             
-            const response = await getGuildUsage({ guild_id: guild });  
-            console.log(response.data);
+            const response = await getGuildUsage({ guild_id: guild });
+
+            setCredit(response.data.credit)
             
             if (response.data.guild_name === "No guild found"){
                 return null;
@@ -95,6 +97,7 @@ export default function GuildChart() {
               ) : (
                 <div className="xl:m-3">
                   <h2 className="text-lg font-semibold mb-2 text-center">{guildData.guild_name}</h2>
+                  <h3>Credit{`'`}s remaining: {credit!}</h3>
                   <Bar
                     data={{
                       labels: guildData.tokenArr.map(item => item.dayName), // Corrected property name

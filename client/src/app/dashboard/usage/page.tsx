@@ -6,8 +6,6 @@ import NotLoggedIn from '@/components/isAuth_false';
 import UserChart from '@/components/chart/directMessage';
 import GuildChart from '@/components/chart/guild';
 
-import CardButton from '@/components/common/card-button';
-
 export default function Page() {
   const userAuth = useAppSelector((state) => state.authReducer.value);
 
@@ -16,7 +14,6 @@ export default function Page() {
   return (
     <> 
       <main className='text-gray-900'>
-        <CardButton title='server' desc='desc' text='btn'/>
         <section className='container mx-auto'>
           <UserChart/>
         </section>

@@ -117,6 +117,7 @@ type UserDataType = {
     username: string;
     avatar?: string | null;
     created_at: Date;
+    created_timestamp: Date;
     credit: number;
     eula: boolean;
     guilds: string[];
@@ -130,17 +131,38 @@ type GuildDataType = {
     guild_name: string;
     icon: string;
     created_at: Date;
+    created_timestamp: Date;
     credit: number;
     eula: boolean;
     content: GuildContent[];
 }
 
-
-type ExistingEntyyType = {
+type ExistingEntryType = {
     tokens: Token[];
     count: number;
 }
-export { UserDataType, ExistingEntyyType, GuildDataType };
+
+type TokenMapType = {
+    guild: Types.ObjectId;
+    author: {
+        user_id: string;
+        username: string;
+        global_name: string;
+        message: string;
+        message_id: string;
+        created_timestamp: Date;
+    }[];
+
+    global_name: string;
+    message: string;
+    message_id: string;
+    created_timestamp: Date;
+    gpt_response: string | null;
+    tokens: Token[];
+    expires?: Date;
+}
+
+export { UserDataType, ExistingEntryType, GuildDataType, TokenMapType };
 //////////////////////JWT////////////////////////////
 
 type JwtUser = {
