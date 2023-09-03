@@ -2,6 +2,7 @@
 import { useState, useEffect } from "react";
 import { Bar } from "react-chartjs-2";
 import { getUserUsage } from "@/utils/auth";
+import Loading from "@/components/common/loading";
 import {
     Chart as ChartJS,
     LinearScale,
@@ -72,12 +73,12 @@ export default function UserChart() {
                         labels: labels,
                         datasets: [
                             {
-                                label: 'Total Tokens',
+                                label: 'Credits Used',
                                 data: totalTokens,
                                 backgroundColor: 'rgba(75, 192, 192, 0.6)',
                             },
                             {
-                                label: 'Count',
+                                label: 'Usage Count',
                                 data: countValues,
                                 backgroundColor: 'rgba(255, 99, 132, 0.6)',
                             },
@@ -86,12 +87,6 @@ export default function UserChart() {
                     
                     setChartOptions({
                         responsive: true,
-                        plugins: {
-                            title: {
-                                display: false,
-                                text: `Weekly Usage In Direct Messages`
-                            }
-                        },
                         scales: {
                             y: {
                                 beginAtZero: true
@@ -116,17 +111,17 @@ export default function UserChart() {
     const [chartOptions, setChartOptions] = useState({});
 
     return (
-        <div className="p-4">
+        <section className="">
             <h2 className="text-xl font-semibold mb-4"></h2>
             {loading ? (
-                <div>Loading...</div>
+                <Loading />
             ) : (
-                <div className="xl:m-14 lg:m-8">
+                <div className="lg:mx-10 bg-white p-3 rounded-xl shadow-xl">
                     <h2 className="text-lg font-semibold mb-2 text-center">Direct Messages</h2>
                     <h3>Credit{`'`}s remaining: {credit!}</h3>
                     <Bar data={chartData} options={chartOptions} />
                 </div>
             )}
-        </div>
+        </section>
     );
 }

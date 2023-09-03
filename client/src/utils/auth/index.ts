@@ -73,5 +73,37 @@ export async function getGuildUsage({ guild_id }: { guild_id: any } ) {
   return res;
 }
 
+export async function toggleUserPersistence() {
+  const token = getToken();
+
+  const decodedToken = jwtDecode(token!) as { [key: string]: string };
+
+  const res = await axios.post('api/v1/userdata/users',{
+    headers: {
+      'Content-Type': 'application/json', 
+      authorization: token ? `Bearer ${token}` : '',
+      user_id: decodedToken.user_id,
+    },
+  });
+
+  return res;
+}
+
+
+export async function toggleGuildPersistence({ guild_id }: { guild_id: string } ) {
+  const token = getToken();
+
+  const decodedToken = jwtDecode(token!) as { [key: string]: string };
+
+  const res = await axios.post('api/v1/userdata/users',{
+    headers: {
+      'Content-Type': 'application/json', 
+      authorization: token ? `Bearer ${token}` : '',
+      guild_id: {guild_id},
+    },
+  });
+
+  return res;
+}
 
 export default getToken;

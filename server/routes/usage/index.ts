@@ -75,7 +75,7 @@ router.get('/users', async (req: Request, res: Response) => {
 
 router.get('/guilds', async (req: Request, res: Response) => {
     try {        
-        const id = req.headers.guild_id as string;        
+        const id = req.headers.guild_id as string;
 
         const guild: GuildDataType | null = await Guilds.findOne({ guild_id: id }).populate('content');
 
