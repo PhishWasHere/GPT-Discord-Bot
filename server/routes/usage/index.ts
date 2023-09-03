@@ -3,7 +3,7 @@ import { Users, Guilds } from '../../models/index';
 import { UserDataType, GuildDataType } from '../../utils/types';
 import mapGenerator from '../../utils/mapGenerator';
 import  { JwtPayload } from 'jsonwebtoken';
-import { getGuildCredit } from '../../utils/getCredit';
+import { getCredit } from '../../utils/getCredit';
 
 
 const router = express.Router();
@@ -41,28 +41,14 @@ const tokenMerge = async (userData: any, guildData: any) => { //work on this lat
 router.get('/', async (req: Request, res: Response) => {
     try {
         const id = (req.user as JwtPayload).id;
-        const userData = await Users.findOne({user_id: id}).populate('content');
-      
-        if (!userData) {
-            return res.status(200).send('No user found');
-        } 
-        const { credit } = userData!;
-        const userGuild = userData?.guilds;
 
-        let guilds= [];
-        if (userGuild) {
-          const guildPromise = userGuild.map(async (id) => { // map the array to a promise
-              await Guilds.findOne({ guild_id: id });
-              return id;
-          });
-            guilds = await Promise.all(guildPromise); // wait for all the promises to resolve
+        if (!id) {
+            return res.status(200).send('No user found');
         }
-  
-        const {guildCredit, usedGuildCredit} = await getGuildCredit(guilds);
-        
-        const totalCredit = credit + guildCredit!;
-        
-        return res.status(200).json({totalCredit});
+
+        const {totalCredit, totalUsedCredit} = await getCredit(id);
+
+        return res.status(200).json({totalCredit, totalUsedCredit});
     } catch (error) {
         console.error('Error fetching and processing data:', error);
     }
