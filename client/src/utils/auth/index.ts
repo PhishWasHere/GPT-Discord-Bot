@@ -40,6 +40,22 @@ export async function getUserUsage() {
   return res;
 }
 
+export async function getCredit() {
+  const token = getToken();
+
+  const decodedToken = jwtDecode(token!) as { [key: string]: string };
+
+  const res = await axios.get('api/v1/usage',{
+    headers: {
+      'Content-Type': 'application/json',
+      authorization: token ? `Bearer ${token}` : '',
+      user_id: decodedToken.user_id,
+    },
+  });
+ 
+  return res;
+}
+
 export async function getGuildUsage({ guild_id }: { guild_id: any } ) {
   const token = getToken();
 

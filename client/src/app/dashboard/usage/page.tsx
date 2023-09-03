@@ -3,8 +3,8 @@ import { useAppSelector } from '@/utils/redux/store';
 
 import NotLoggedIn from '@/components/isAuth_false';
 
-import UserChart from '@/components/chart/directMessage';
-import GuildChart from '@/components/chart/guild';
+import UserChart from '@/components/dashboard/chart/userChart';
+import GuildChart from '@/components/dashboard/chart/guildChart';
 
 export default function Page() {
   const userAuth = useAppSelector((state) => state.authReducer.value);
