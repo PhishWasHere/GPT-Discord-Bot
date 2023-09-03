@@ -3,8 +3,25 @@ import { Users, Guilds } from '../../models/index';
 import { UserDataType, GuildDataType } from '../../utils/types';
 import mapGenerator from '../../utils/mapGenerator';
 import  { JwtPayload } from 'jsonwebtoken';
+import { getCredit } from '../../utils/getCredit';
 
 const router = express.Router();
+
+router.get('/', async (req: Request, res: Response) => {
+    try {
+        const id = (req.user as JwtPayload).id;
+
+        if (!id) {
+            return res.status(200).send('No user found');
+        }
+
+        const {totalCredit, totalUsedCredit} = await getCredit(id);
+
+        return res.status(200).json({totalCredit, totalUsedCredit});
+    } catch (error) {
+        console.error('Error fetching and processing data:', error);
+    }
+});
 
 router.get('/users', async (req: Request, res: Response) => {
     try {
@@ -43,7 +60,5 @@ router.get('/guilds', async (req: Request, res: Response) => {
         res.status(500).send('Internal Server Error');
     }
 });
-
-
 
 export default router;
