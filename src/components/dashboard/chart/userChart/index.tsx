@@ -2,6 +2,7 @@
 import { useState, useEffect } from "react";
 import { Bar } from "react-chartjs-2";
 import { getUserUsage } from "@/utils/auth";
+import Loading from "@/components/common/loading";
 import {
     Chart as ChartJS,
     LinearScale,
@@ -130,7 +131,7 @@ export default function UserChart() {
         <div className="p-4">
             <h2 className="text-xl font-semibold mb-4"></h2>
             {loading ? (
-                <div>Loading...</div>
+                <Loading/>
             ) : (
                 <div className="xl:m-14 lg:m-8">
                     <h2 className="text-lg font-semibold mb-2 text-center">Direct Messages</h2>

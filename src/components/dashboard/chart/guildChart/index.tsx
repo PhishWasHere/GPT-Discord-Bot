@@ -2,6 +2,7 @@
 import { useState, useEffect } from "react";
 import { Bar } from "react-chartjs-2";
 import { getGuildUsage, getUserData } from "@/utils/auth";
+import Loading from "@/components/common/loading";
 import {
     Chart as ChartJS,
     LinearScale,
@@ -91,7 +92,7 @@ export default function GuildChart() {
   return (
     <>
       {loading ? (
-        <p>Loading...</p>
+        <Loading/>
       ) : (
         <div className={` ${isCentered ? 'mx-auto' : 'grid xl:grid-cols-2 mx-auto grid-cols-1'} container p-4`}>
           {data.map((guildData: GuildData | null, index: number) => (
