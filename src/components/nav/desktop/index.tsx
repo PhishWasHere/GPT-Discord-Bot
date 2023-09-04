@@ -33,7 +33,7 @@ const DesktopNav: React.FC<NavProps> = ( {sideOptions, userData, handleLogout} )
                                 ) : (
                                     null
                                 )}
-                                <p className='ml-2 self-center text-xl font-semibold whitespace-nowrap text-white'><Link href='/'>{userData.username}</Link></p>
+                                <p className='ml-2 self-center text-xl whitespace-nowrap text-white'><Link href='/'>{userData.username}</Link></p>
                             </div>
                         </>
                         ) : (

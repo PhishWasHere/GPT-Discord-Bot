@@ -64,7 +64,7 @@ const MobileNav: React.FC<NavProps> = ( {sideOptions, userData, handleLogout} ) 
                             ) : (
                                 null
                             )}
-                            <span className="self-center text-2xl font-semibold whitespace-nowrap text-white">{userData.username}</span>
+                            <span className="self-center text-2xl whitespace-nowrap text-white">{userData.username}</span>
                         </>
                     )}
                 </Link>
