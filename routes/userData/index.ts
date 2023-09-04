@@ -31,7 +31,7 @@ router.get('/', async (req: Request, res: Response) => {
 
     if (userGuild) {
       const guildPromise = userGuild.map(async (id) => {
-        const guild = await Guilds.findOne({ guild_id: id });
+        const guild = await Guilds.findOne({ guild_id: id }).populate('guilds');
         if (!guild) {
           return { guild_id: id, guild_name: null, icon: null };
         }
