@@ -2,7 +2,7 @@
 
 import { useEffect } from "react";
 import Cookies from 'js-cookie';
-
+import Loading from "@/components/common/loading";
 
 export default function Page () {
     useEffect(() => {    
@@ -18,7 +18,7 @@ export default function Page () {
     
     return(
         <>
-            loading...
+            <Loading />
         </>
     )
 }
