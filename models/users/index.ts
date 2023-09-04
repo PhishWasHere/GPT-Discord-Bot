@@ -22,4 +22,4 @@ userSchema.virtual('contents', {
 
 const Users = mongoose.model('Users', userSchema);
  
-export default Users; 
+export default Users;

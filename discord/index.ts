@@ -50,4 +50,3 @@ client.once('ready', c => {
     console.log(`\x1b[35m> Ready!\x1b[0m Logged in as ${c.user.tag}`);
 });
 export {client, clientStart};
-

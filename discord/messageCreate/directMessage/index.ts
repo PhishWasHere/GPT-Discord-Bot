@@ -68,14 +68,14 @@ export const existingUser = async (msg: Message, msgContent: string, userData: U
             };
         });
 
-        const responses = gpt_Responses.map((response) => { // create responses array
+        const responses = gpt_Responses.map((response) => {
             return {
                 role: 'assistant',
                 content: response
             };
         });        
         
-        const completion = await chatCompletion(msgContent, prompts, responses); // send to gpt
+        const completion = await chatCompletion(msgContent, prompts, responses); // send prompts and responses to gpt
         const {prompt_tokens, completion_tokens, total_tokens} =  completion.data.usage;
         const gptRes = completion.data.choices[0].message.content; // get gpt response
 
@@ -103,7 +103,10 @@ export const existingUser = async (msg: Message, msgContent: string, userData: U
         await itemCounter({user_id: userData._id}); // item counter removes excess items from db
 
         return gptRes;
+
     } catch (err) {
-        // console.error(err);
+        console.error(err);
     }
 }
+
+// function cannot remove more than 1 item, so cant lower maxCount without db reset

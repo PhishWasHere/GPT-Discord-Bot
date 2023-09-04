@@ -1,5 +1,5 @@
 import { Guilds, Users } from '../../models';
-import { GuildDataType, UserDataType, UserContent, GuildContent} from '../types';
+import { GuildDataType, UserDataType } from '../types';
 
 // function to get the total credit and total used credit
 
@@ -45,14 +45,14 @@ export const getCredit = async (id: string) => {
             guilds = await Promise.all(guildPromise); // wait for all the promises to resolve
         } 
         
-        const usedCredit = userData?.content.map((content: UserContent | GuildContent) => { // get the used token count
-            return content.tokens.map((token) => token.total);
+        const usedCredit = userData?.content.map((content: any) => { // get the used token count
+            return content.tokens.map((token: any) => token.total);
         }).flat().reduce((acc: number, curr: number) => acc + curr, 0); // sum the used token count
 
         const {guildCredit, usedGuildCredit} = await getGuildCredit(guilds);
 
         const totalCredit = credit! + guildCredit!;
-        const totalUsedCredit = usedCredit! + usedGuildCredit!;
+        const totalUsedCredit = usedCredit + usedGuildCredit!;
 
         return { totalCredit, totalUsedCredit };
     } catch (err) {
@@ -60,5 +60,3 @@ export const getCredit = async (id: string) => {
        return { totalCredit: undefined, totalUsedCredit: undefined};
     }
 };
-
-

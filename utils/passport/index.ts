@@ -10,7 +10,6 @@ type Guild = {
 
 type GuildArray = Guild[];
 
-
 const findUser = async (id: string, username: string, avatar?:string, guilds?: GuildArray) => {
   const userData = await Users.findOne({user_id: id});
   const userAvatar = `https://cdn.discordapp.com/avatars/${id}/${avatar}.png`;
@@ -51,7 +50,7 @@ import { JwtUser } from '../types';
 passport.use(new DiscordStrategy({
   clientID: process.env.CLIENT_ID!,
   clientSecret: process.env.CLIENT_SECRET!,
-  callbackURL: process.env.CLIENT_REDIRECT! || 'http://localhost:8080/api/v1',
+  callbackURL: 'http://localhost:8080/api/v1/auth',
   scope: ['identify', 'guilds'],
   }, async (accessToken, refreshToken, profile, done) => { //setup refresh tokens
   const { id, username, discriminator, avatar, guilds } = profile;   
@@ -69,6 +68,5 @@ passport.serializeUser((user, done) => {
 passport.deserializeUser(async (user, done) => {
   done(null, user!);
 });
-
 
 export { passport };

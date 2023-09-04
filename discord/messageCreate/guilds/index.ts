@@ -30,7 +30,7 @@ export const newGuild = async (msg: Message, msgContent: string) => {
                     global_name: msg.author.globalName,
                     message: msgContent,
                     message_id: msg.id,
-                    created_timestamp: new Date(),
+                    created_timestamp: new Date(), // Use the appropriate date here
                 },
             ],
             gpt_response: gptRes,
@@ -59,16 +59,16 @@ export const existingGuild = async (msg: Message, msgContent: string, guildData:
     try {
         const maxCount = process.env.MAX_COUNT ? parseInt(process.env.MAX_COUNT) : 10;
 
-        const messages = guildData.content
-            .slice(Math.max(guildData.content.length - maxCount, 0)) // get last 10 messages from guild
+        const messages = guildData.content        
+            .slice(Math.max(guildData.content.length - maxCount, 0))
             .map((message: any) => message.author[0].message);
 
         const user = guildData.content
-            .slice(Math.max(guildData.content.length - maxCount, 0)) // get last 10 users from guild
+            .slice(Math.max(guildData.content.length - maxCount, 0))
             .map((message: any) => message.author[0].global_name);
 
         const gpt_Responses = guildData.content
-            .slice(Math.max(guildData.content.length - maxCount, 0)) // get last 10 responses from guild
+            .slice(Math.max(guildData.content.length - maxCount, 0))
             .map((message: any) => message.gpt_response);
 
         const userPrompts = messages.map((message, i) => { // create prompts array
@@ -119,11 +119,10 @@ export const existingGuild = async (msg: Message, msgContent: string, guildData:
         },
         {new: true});
         
-        await itemCounter({guild_id: guildData._id}); // item counter removes excess items from db
+        await itemCounter({guild_id: guildData._id});
 
         return gptRes;
     } catch (err) {
         console.error(err);
-        return err;
     }
 };
