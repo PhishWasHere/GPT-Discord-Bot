@@ -12,22 +12,26 @@ import Button from '@/components/common/button/button';
 
 export default function Page() {
   const userAuth = useAppSelector((state) => state.authReducer.value);
+  const [showServers, setShowServers] = useState(false);
   
   if (!userAuth || userAuth.isAuth === false) return(<NotLoggedIn />);
   
   return (
     <> 
-      <main className='text-gray-900'>
-        <ServerList/>
-        <div className='mt-6'>
+      <main className='text-gray-900'> 
+        
+        <section className='mt-6'>
           <Credit/>
-        </div>
-        <div className='flex justify-center mt-2'>
-          <Button text='Persistence settings' url='/dashboard/persistence'/>
-        </div>
+        </section>
+
+        <section className='flex justify-center my-3'>
+          <ServerList/> 
+        </section>
+
         <section className='container mx-auto'>
           <UserChart/>
         </section>
+
         <section className='p-8'>
           <GuildChart/>
         </section>

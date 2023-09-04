@@ -4,8 +4,8 @@ import { Guilds } from '../../../models';
 const router = express.Router();
 
 router.post('/', async (req: Request, res: Response) => {
-    try {
-        const id = req.headers.guild_id as string;        
+    try {        
+        const id = req.body.guild_id as string;        
 
         const guild = await Guilds.findOne({ guild_id: id })
 
@@ -16,7 +16,7 @@ router.post('/', async (req: Request, res: Response) => {
         guild.eula = !guild.eula;
         await guild.save();
 
-        res.status(200).send('EULA accepted');
+        res.status(200).send('Persistence toggled');
 
     } catch (err) {
         console.error(err);

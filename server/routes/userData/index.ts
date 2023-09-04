@@ -24,7 +24,7 @@ router.get('/', async (req: Request, res: Response) => {
       return res.status(200).send('No user found'); 
     }
 
-    const {user_id, username, avatar } = userData!;
+    const {user_id, username, avatar, eula } = userData!;
     const userGuild = userData?.guilds;
       
     let guildData: any []= [];
@@ -40,16 +40,10 @@ router.get('/', async (req: Request, res: Response) => {
       guildData = await Promise.all(guildPromise);
     }    
     
-    res.status(200).json({ user_id, username, avatar, guildData });
+    res.status(200).json({ user_id, username, avatar, eula, guildData });
   } catch (err) {
     console.error('err', err);
   }
 });
-
-
-// get all guilds from user
-  //get token count
-    // add token count to total
-      // do same for used tokens
 
 export default router;

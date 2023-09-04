@@ -18,7 +18,7 @@ router.post('/', async (req: Request, res: Response) => {
 
         await userData.save();
 
-        res.status(200).send('EULA accepted');
+        res.status(200).send('Persistence toggled');
 
     } catch (err) {
         console.error(err);

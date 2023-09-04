@@ -4,7 +4,7 @@ import * as userData from './userData'
 const router = express.Router();
 
 router.use('/usage', usage.default);
-router.use('/userData', userData.default);
+router.use('/userdata', userData.default);
 
 router.get('/', (req, res) => {
   res.json({ message: 'what are you looking for?' });
