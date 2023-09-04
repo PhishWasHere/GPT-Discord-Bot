@@ -28,7 +28,7 @@ export const handleDm = async (msg: Message, msgContent: string) => {
 export const handleGuild = async (msg: Message, msgContent: string) => {
     const guildData = await Guilds.findOne({ guild_id: msg.guildId }).populate('content');
 
-    if (!guildData) {
+    if (!guildData || guildData.eula === false) {
         const gptRes = await newGuild(msg, msgContent);
         if (gptRes === undefined|| gptRes.content?.startsWith('!ypeError'))return error(msg);
 

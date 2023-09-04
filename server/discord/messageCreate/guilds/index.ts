@@ -1,7 +1,7 @@
 import { chatCompletion } from "../../../config/gpt";
 import { Guilds, Guild_Content } from "../../../models";
 import { Message } from "discord.js";
-import { GuildData, GuildContent } from "../../../utils/types";
+import { GuildData } from "../../../utils/types";
 import itemCounter from "../../../utils/itemCount";
 
 
