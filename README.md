@@ -17,7 +17,7 @@
 
   This is a Discord bot powered by GPT3.5 turbo.
 
-  If you would like to try the bot, use this download [link](https://discord.com/api/oauth2/authorize?client_id=1135166612299862056&permissions=139586821184&scope=bot).
+  If you would like to try the bot, you will need to install it locally as it is currently not available for public download.
   
   (this bot is still in early development so keep in mind you might encounter bugs. This bot also has persistant data to maintain context in a conversation. Please read the [privacy policy](https://hostile-beta-fd821710a9f8.herokuapp.com/policy/privacy) for more info)
 
