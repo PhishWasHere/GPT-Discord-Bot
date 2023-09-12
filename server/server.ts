@@ -3,9 +3,7 @@ import 'dotenv/config';
 import express, { Request, Response, NextFunction } from 'express';
 import session from 'express-session';
 import {passport} from './utils/passport';
-import { Strategy as DiscordStrategy } from 'passport-discord';
 import jwt, { JwtPayload } from 'jsonwebtoken';
-import cors from 'cors';
 import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
 
@@ -17,6 +15,7 @@ import {clientStart} from './discord';
 import routes from './routes';
 
 import {authToken} from './utils/jwt';
+
 db.once('open', async () => {
   console.log(`\x1b[35m> Ready!\x1b[0m Connected to MongoDB`);
   try {
@@ -50,7 +49,7 @@ db.once('open', async () => {
       console.log(`\x1b[35m> Ready!\x1b[0m on http://localhost:${port}`);
     });
 
-    // clientStart();
+    clientStart();
   } catch (err: any) {
     console.error(err.stack)
     process.exit(1)

@@ -10,6 +10,7 @@ export default function ServerList() {
     const initState = guild_data ? guild_data.map((guild) => ({ guild_id: guild.guild_id, eula: guild.eula })) : [];
     
     const [isChecked, setIsChecked] = useState(initState);
+    const [state, setState] = useState(false);
     
     const getEulaStatus = (guild_id: string) => {
         if(guild_data) {
@@ -38,7 +39,7 @@ export default function ServerList() {
                         </div>
                         <div className='grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 w-full max-w-screen-xl'>
                             {guild_data.map((i: any) => (
-                                <section key={i.guild_name} className='flex m-0.5 min-w-[24rem] h-20 items-center p-4 border border-gray-300 rounded-lg shadow-md bg-white'>
+                                <section key={i.guild_name} className='flex m-0.5 min-w-[20rem] h-20 items-center p-4 border border-gray-300 rounded-lg shadow-md bg-white'>
                                     <div className="w-12 h-12 flex items-center justify-center bg-blue-500 text-white rounded-full mr-4">
                                         {i.icon ? (
                                             <Image width={100} height={100} src={i.icon} alt={i.name} className="text-2xl rounded-full relative"/>
@@ -50,9 +51,11 @@ export default function ServerList() {
                                     <div className="flex-grow text-xl font-semibold text-gray-800">
                                         {i.guild_name}
                                     </div>
-
+                                    
                                     <div id='toggle 'className="relative">
-                                        <label className='autoSaverSwitch relative inline-flex cursor-pointer select-none items-center'>
+                                        <label className='flex cursor-pointer select-none items-center'>
+                                        <div className='relative'>
+
                                             <input
                                             type='checkbox'
                                             name='autoSaver'
@@ -71,6 +74,7 @@ export default function ServerList() {
                                                     }`}
                                                 ></span>
                                             </span>
+                                        </div>
                                         </label>
                                     </div>
                                 </section>

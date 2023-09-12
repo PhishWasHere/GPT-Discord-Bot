@@ -1,5 +1,4 @@
 import mongoose from 'mongoose';
-
  
 const guildSchema = new mongoose.Schema(
     {
@@ -20,7 +19,6 @@ guildSchema.virtual('contents', {
     foreignField: 'guild',
     justOne: false
 });
-
 
 const Guilds = mongoose.model('Guilds', guildSchema);
 

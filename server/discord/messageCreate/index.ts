@@ -1,19 +1,18 @@
 import { newGuild, existingGuild } from "./guilds";
 import { newUser, existingUser } from "./directMessage";
-import Users from "../../models/users";
-import Guilds from "../../models/guilds";
+import { Guilds, Users } from "../../models";
 import { Message } from "discord.js";
+import { GuildData } from "../../utils/types";
 
 const error = (msg: Message) => {
     msg.reply(`internal server error.`);
 };
 
-
 export const handleDm = async (msg: Message, msgContent: string) => {
     const userData = await Users.findOne({ user_id: msg.author.id }).populate('content');
 
     if (!userData) {
-        const gptRes = await newUser(msg, msgContent);        
+        const gptRes = await newUser(msg, msgContent);
         if (gptRes === undefined|| gptRes.content?.startsWith('!ypeError'))return error(msg);
 
         msg.reply(gptRes);
@@ -26,10 +25,10 @@ export const handleDm = async (msg: Message, msgContent: string) => {
 };
 
 export const handleGuild = async (msg: Message, msgContent: string) => {
-    const guildData = await Guilds.findOne({ guild_id: msg.guildId }).populate('content');
+    const guildData: GuildData | null = await Guilds.findOne({ guild_id: msg.guildId }).populate('content');
 
     if (!guildData || guildData.eula === false) {
-        const gptRes = await newGuild(msg, msgContent);
+        const gptRes = await newGuild(msg, msgContent, true);
         if (gptRes === undefined|| gptRes.content?.startsWith('!ypeError'))return error(msg);
 
         msg.reply(gptRes);

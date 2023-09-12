@@ -1,6 +1,6 @@
 'use client'
 import { useAppSelector } from '@/utils/redux/store';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 import NotLoggedIn from '@/components/isAuth_false';
 

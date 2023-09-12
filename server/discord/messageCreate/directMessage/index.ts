@@ -4,7 +4,7 @@ import { Message } from 'discord.js';
 import { UserData } from '../../../utils/types';
 import itemCounter from '../../../utils/itemCount';
 
-export const newUser = async (msg: Message, msgContent: any) => {
+export const newUser = async (msg: Message, msgContent: string, ) => {
     try {
         const userData = new Users({
             user_id: msg.author.id,

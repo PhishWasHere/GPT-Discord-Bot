@@ -86,7 +86,7 @@ type GuildData = {
     owner_id: string;
     guild_id: string;
     guild_name: string;
-    icon: string;
+    icon: string | null;
     created_at: Date;
     credit: number;
     eula: boolean;

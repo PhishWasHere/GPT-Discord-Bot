@@ -4,8 +4,7 @@ import { Message } from "discord.js";
 import { GuildData } from "../../../utils/types";
 import itemCounter from "../../../utils/itemCount";
 
-
-export const newGuild = async (msg: Message, msgContent: string) => {
+export const newGuild = async (msg: Message, msgContent: string, save?: boolean) => {
     try {        
         const guildData = new Guilds ({
             owner_id: msg.guild?.ownerId,
@@ -21,6 +20,8 @@ export const newGuild = async (msg: Message, msgContent: string) => {
         const completion = await chatCompletion(prompt);
         const {prompt_tokens, completion_tokens, total_tokens} =  completion.data.usage;
         const gptRes = completion.data.choices[0].message.content;
+
+        if (save === true) return gptRes; // if save is true, return gptRes without saving to db
 
         const contentData = await Guild_Content.create({
             guild: guildData._id,

@@ -60,5 +60,3 @@ export const getCredit = async (id: string) => {
        return { totalCredit: undefined, totalUsedCredit: undefined};
     }
 };
-
-
