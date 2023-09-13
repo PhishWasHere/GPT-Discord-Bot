@@ -1,5 +1,6 @@
 {
     "compilerOptions": {
+      "typeRoots": ["./node_modules/@types", ".utils/types"],
       "module": "NodeNext",
       "moduleResolution": "NodeNext",
       "target": "ES2020",

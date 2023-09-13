@@ -1,4 +1,5 @@
 import { Types } from 'mongoose';
+
 /////////////Common////////////////////
 interface Token {
     prompt: number;
