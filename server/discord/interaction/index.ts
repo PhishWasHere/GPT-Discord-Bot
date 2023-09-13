@@ -2,24 +2,12 @@ import { SlashCommandBuilder, ClientApplication } from "discord.js";
 
 export const cmdArr = [
     {
-        name: 'test',
-        description: 'Test command!',
+        name: 'Play',
+        description: 'Play a thing',
         options: [
             {
-                name: 'option1',
-                description: 'Test',
-                type: 3,
-                required: true
-            }
-        ]
-    },
-    {
-        name: 'play',
-        description: 'Play a thing!',
-        options: [
-            {
-                name: 'url',
-                description: 'youtube url',
+                name: 'Title',
+                description: 'Youtube url or title',
                 type: 3,
                 required: true
             }
@@ -27,17 +15,16 @@ export const cmdArr = [
     }
 ]
 
-
-export function CmdBuilder(app: ClientApplication) {
+export async function cmdBuilder(app: ClientApplication) {
     try {        
         cmdArr.forEach(async (cmd) => {
-            const cmdBuilder = new SlashCommandBuilder()
+            const builder = new SlashCommandBuilder()
               .setName(cmd.name)
               .setDescription(cmd.description);
         
             if (cmd.options) {
               cmd.options.forEach((option) => {
-                cmdBuilder.addStringOption((opt) =>
+                builder.addStringOption((opt) =>
                   opt
                     .setName(option.name)
                     .setDescription(option.description)
@@ -45,8 +32,8 @@ export function CmdBuilder(app: ClientApplication) {
                 );
               });
             }
-        
-            await app.commands.create(cmdBuilder.toJSON());
+            await app.commands.create(builder.toJSON());
+
             console.log(`\x1b[34m> Created command\x1b[0m ${cmd.name}`);
         });
 
