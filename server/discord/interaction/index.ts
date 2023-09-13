@@ -17,12 +17,12 @@ export const cmdArr = [
 
 export async function cmdBuilder(app: ClientApplication) {
     try {        
-        cmdArr.forEach(async (cmd) => {
+        cmdArr.forEach(async (cmd) => { // for each command in cmdArr, create a command
             const builder = new SlashCommandBuilder()
               .setName(cmd.name)
               .setDescription(cmd.description);
         
-            if (cmd.options) {
+            if (cmd.options) { // if command has options, add them
               cmd.options.forEach((option) => {
                 builder.addStringOption((opt) =>
                   opt
