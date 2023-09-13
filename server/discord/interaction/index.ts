@@ -12,7 +12,11 @@ export const cmdArr = [
                 required: true
             }
         ]
-    }
+    },
+    {
+        name: 'stop',
+        description: 'Stop playing',
+    },
 ]
 
 export async function cmdBuilder(app: ClientApplication) {

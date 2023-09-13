@@ -41,9 +41,16 @@ client.on('interactionCreate', async (interaction) => {
 
     const { commandName, options } = interaction;
 
-    if (commandName === 'play') {
-        play(interaction, distube);
+    switch (commandName) {
+        case 'play':
+            play(interaction, distube);
+        break;
+
+        case 'stop':
+            distube.stop(interaction);
+        break;
     }
+
 })
 
 // client.on('messageCreate', async (msg) => {
