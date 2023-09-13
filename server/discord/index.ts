@@ -4,7 +4,7 @@ import { Player, useMainPlayer } from 'discord-player'
 import { handleDm, handleGuild } from './messageCreate';
 import { cmdBuilder } from './interaction';
 import DisTube from 'distube';
-import { play } from './interaction/music';
+import { play, stop } from './interaction/music';
 
 const client = new Client({
     intents: [
@@ -47,7 +47,7 @@ client.on('interactionCreate', async (interaction) => {
         break;
 
         case 'stop':
-            distube.stop(interaction);
+            stop(interaction, distube);
         break;
     }
 

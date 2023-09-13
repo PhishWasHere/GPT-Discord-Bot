@@ -3,14 +3,6 @@ import DisTube from 'distube';
 
 export const play = (async (interaction: CommandInteraction, distube: DisTube) => {
     try {
-
-        interaction.reply({
-            embeds: [
-                new EmbedBuilder() // loading embed
-                    .setTitle(`Loading...`)
-            ],
-        });
-
         const input = interaction.options.get('title')?.value?.toString().trim(); // gets url or title
             
         if (!input) {
@@ -28,7 +20,7 @@ export const play = (async (interaction: CommandInteraction, distube: DisTube) =
         const channel = member.voice.channel; // gets voice channel, need to do it this way since no voice state in interaction :<
         
         if (!channel) {
-            interaction.editReply({
+            interaction.reply({
                 embeds: [
                     new EmbedBuilder()
                         .setTitle(`You must be in a voice channel to use this command.`)
@@ -40,6 +32,13 @@ export const play = (async (interaction: CommandInteraction, distube: DisTube) =
         
         distube.play(channel, input, {
             metadata: interaction,
+        });
+
+        interaction.reply({
+            embeds: [
+                new EmbedBuilder()
+                    .setTitle(`Loading...`)
+            ],
         });
 
         return distube.on('playSong', (queue, song) => {
@@ -54,13 +53,27 @@ export const play = (async (interaction: CommandInteraction, distube: DisTube) =
         });
 
     } catch (err) {
-        console.error(err);
-        interaction.editReply({
-            embeds: [
-                new EmbedBuilder()
-                    .setTitle(`Internal Server Error`)
-                    .setColor('#a8323a')
-            ],
+        throw console.error(err);
+    }
+});
+
+export const stop = (async (interaction: any, distube: DisTube) => {
+    try {
+        const queue = distube.getQueue(interaction);
+        if (!queue || !queue.playing) {
+            return interaction.reply({
+                ephemeral: true,
+                content: `Nothing is playing!`
+            });
+        }
+
+        await distube.stop(interaction);
+
+        interaction.reply({
+            ephemeral: true,
+            content: `Stopped!`
         });
+    } catch (err) {
+        throw console.error(err);
     }
 });

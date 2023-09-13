@@ -42,6 +42,6 @@ export async function cmdBuilder(app: ClientApplication) {
         });
 
     } catch (err) {
-        console.error(`\x1b[31m> Server error: \x1b[0m>`, err);
+        console.error(`\x1b[31m> Server error: \x1b[0m`, err);
     }
 }
