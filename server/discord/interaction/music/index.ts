@@ -11,7 +11,7 @@ export const play = (async (interaction: CommandInteraction, distube: DisTube) =
             ],
         });
 
-        const input = interaction.options.get('Title')?.value?.toString().trim(); // gets url or title
+        const input = interaction.options.get('title')?.value?.toString().trim(); // gets url or title
             
         if (!input) {
             interaction.reply({

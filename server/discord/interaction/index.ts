@@ -2,11 +2,11 @@ import { SlashCommandBuilder, ClientApplication } from "discord.js";
 
 export const cmdArr = [
     {
-        name: 'Play',
+        name: 'play',
         description: 'Play a thing',
         options: [
             {
-                name: 'Title',
+                name: 'title',
                 description: 'Youtube url or title',
                 type: 3,
                 required: true

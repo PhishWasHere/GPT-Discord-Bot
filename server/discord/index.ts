@@ -41,7 +41,7 @@ client.on('interactionCreate', async (interaction) => {
 
     const { commandName, options } = interaction;
 
-    if (commandName === 'Play') {
+    if (commandName === 'play') {
         play(interaction, distube);
     }
 })
